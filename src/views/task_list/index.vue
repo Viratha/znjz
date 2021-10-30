@@ -29,18 +29,20 @@
             :row-class-name="tableRowClassName"
           >
             <el-table-column
-              prop="date"
-              label="日期"
+              prop="name"
+              label="任务id"
               width="180"
             />
+            <!-- username -->
             <el-table-column
               prop="name"
               label="姓名"
               width="180"
             />
             <el-table-column
-              prop="address"
-              label="地址"
+              prop="date"
+              label="日期"
+              width="180"
             />
           </el-table>
 
@@ -114,15 +116,33 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
 
 export default {
   name: 'Dashboard',
+
   computed: {
     ...mapGetters([
       'name'
     ])
   },
+  created() {
+    // const t = this
+    task_list_finished().then(response => {
+      console.log(response.list)
+      // this.list = response.data.items
+    }).catch((err) => {
+      console.log(err)
+    })
+    task_list_unfinished().then(response => {
+      console.log(response.list)
+      // this.list = response.data.items
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
   methods: {
+
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
         return 'warning-row'
@@ -134,6 +154,7 @@ export default {
   },
   data() {
     return {
+
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',

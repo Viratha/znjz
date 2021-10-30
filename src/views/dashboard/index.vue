@@ -1,3 +1,4 @@
+/* eslint-disable vue/require-v-for-key */
 <template>
   <!-- <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
@@ -17,38 +18,6 @@
     <!-- posts section starts  -->
 
     <section id="posts" class="container">
-
-      <div class="posts-container">
-
-        <div class="post">
-          <div class="task_all">
-            <div class="task_image">
-              <img src="./images/task2.jpg" alt="" class="image">
-            </div>
-            <div class="task">
-              <p class="title">任务1</p>
-              <p class="text">做出一个能用的任务发布页面beta1版本</p>
-            </div>
-
-          </div>
-          <div class="button_task">
-            <el-button>详情</el-button>
-            <el-button>提交文件</el-button>
-            <el-button icon="el-icon-delete" circle />
-          </div>
-
-          <div class="date">
-            <i class="far fa-clock" />
-            <span>2021-10-10</span>
-          </div>
-          <a href="#" class="user">
-            <i class="far fa-user" />
-            <span>by 牛掰娘</span>
-          </a>
-        </div>
-
-      </div>
-
       <div class="sidebar">
 
         <div class="box">
@@ -59,6 +28,45 @@
             <a href="#">鸿蒙</a>
 
           </div>
+        </div>
+
+      </div>
+      <el-button
+        type="primary"
+        plain
+        icon="el-icon-plus"
+        size="mini"
+        style="width:100px;height:50px"
+        @click="handleAdd"
+      >新增任务</el-button>
+      <div v-for="(item) in list" class="posts-container">
+
+        <!-- <p v-for="(item) in list">{{ item }}</p> -->
+        <div class="post">
+          <div class="task_all">
+            <div class="task_image">
+              <img src="./images/task2.jpg" alt="" class="image">
+            </div>
+            <div class="task">
+              <p class="title">{{ item.name }}</p>
+              <p class="text">{{ item.detail }}</p>
+            </div>
+
+          </div>
+          <div class="button_task">
+            <!-- <el-button>详情</el-button> -->
+            <el-button @click="handleup(item)">提交文件</el-button>
+            <el-button icon="el-icon-delete" circle @click="handleDelete(item)" />
+          </div>
+
+          <div class="date">
+            <i class="far fa-clock" />
+            <span>{{ item.updated }}</span>
+          </div>
+          <!-- <a href="#" class="user">
+            <i class="far fa-user" />
+            <span>by 牛掰娘</span>
+          </a> -->
         </div>
 
       </div>
@@ -87,6 +95,55 @@
     </section>
 
     <!-- footer section ends -->
+    <!-- 添加对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="500px" height="500px" append-to-body>
+      <el-form ref="form" :model="adddata" label-width="80px">
+
+        <el-form-item label="任务名字" prop="name">
+          <el-input v-model="adddata.name" type="text" placeholder="请输入任务名字" />
+        </el-form-item>
+
+        <el-form-item label="任务详情" prop="detail">
+          <el-input v-model="adddata.detail" type="text" placeholder="请输入任务详情" />
+        </el-form-item>
+
+        <el-form-item label="任务持续时长" prop="time" label-width="100px">
+          <el-input v-model="adddata.time" type="text" placeholder="单位min（从此刻开始计算）" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="submitForm">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+    </el-dialog>
+    <!-- limit 限制单次上传文件的数量，超过这个数量的文件无法上传
+drag 允许拖拽上传
+action 上传文件的url地址，我这里是根据开发环境还是生产环境动态选择的地址
+accept 接受的文件类型，这里控制的是在打开资源器时，显示的可选的文件类型，比如我这里是.der和.cer格式的文件，那么打开资源管理器之后，非der和cer的文件将不会显示
+data 上传时可携带的参数，这里后台用map接收
+before-upload 上传之前的钩子，可以用来做一些校验
+on-success 上传成功之后的钩子，可以用来清除表单校验和文件列表
+on-error 上传失败之后的钩子
+auto-upload 选择文件之后是否立即上传 -->
+    <el-dialog :title="上传文件" :visible.sync="open2" width="400px" height="500px" append-to-body>
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        action="http://47.93.33.180:8081/sys/file/upload"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="fileList"
+        :auto-upload="false"
+      >
+        <el-button slot="trigger" style="margin-left: 10px;width:90px;height:25px" size="small" type="primary" width="40px">选取文件</el-button>
+        <el-button style="margin-left: 10px;width:90px;height:25px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+      </el-upload>
+
+      <div slot="footer" class="dialog-footer">
+        <!-- <el-button @click="submitForm">确 定</el-button> -->
+        <el-button @click="cancel2">取 消</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -95,15 +152,238 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
+      fileList3: [],
+      fileData: '',
+      open: false,
+      adddata: {
+        name: null,
+        detail: null,
+        time: null
+      },
+      list: [
+        {
+          id: 1,
+          created: '2021-10-21T17:01:28',
+          updated: '2021-10-05T18:08:53',
+          statu: 1,
+          name: '测试任务1',
+          detail: '任务描述',
+          time: 2,
+          flag: '0',
+          deadline: '2021-10-05T18:10:53',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 2,
+          created: '2021-10-21T17:06:40',
+          updated: '2021-10-05T18:08:53',
+          statu: 1,
+          name: '测试任务2',
+          detail: '任务描述',
+          time: 2,
+          flag: '0',
+          deadline: '2021-10-05T18:10:53',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 34,
+          created: '2021-10-30T13:52:07',
+          updated: '2021-10-30T13:52:07',
+          statu: 0,
+          name: '测试任务1044',
+          detail: '任务描述',
+          time: 1,
+          flag: '0',
+          deadline: '2021-10-30T13:53:07',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 34,
+          created: '2021-10-30T13:52:07',
+          updated: '2021-10-30T13:52:07',
+          statu: 0,
+          name: '测试任务1044',
+          detail: '任务描述',
+          time: 1,
+          flag: '0',
+          deadline: '2021-10-30T13:53:07',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 34,
+          created: '2021-10-30T13:52:07',
+          updated: '2021-10-30T13:52:07',
+          statu: 0,
+          name: '测试任务1044',
+          detail: '任务描述',
+          time: 1,
+          flag: '0',
+          deadline: '2021-10-30T13:53:07',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 34,
+          created: '2021-10-30T13:52:07',
+          updated: '2021-10-30T13:52:07',
+          statu: 0,
+          name: '测试任务1044',
+          detail: '任务描述',
+          time: 1,
+          flag: '0',
+          deadline: '2021-10-30T13:53:07',
+          deleted: false,
+          isFinished: null
+        },
+        {
+          id: 34,
+          created: '2021-10-30T13:52:07',
+          updated: '2021-10-30T13:52:07',
+          statu: 0,
+          name: '测试任务1044',
+          detail: '任务描述',
+          time: 1,
+          flag: '0',
+          deadline: '2021-10-30T13:53:07',
+          deleted: false,
+          isFinished: null
+        }
+
+      ]
+    }
+  },
   computed: {
     ...mapGetters([
       'name'
     ])
+  },
+  methods: {
+    UploadUrl() {
+      // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
+      return ''
+    },
+    fileChange(file, fileList) {
+      this.fileList.push(file.raw)
+      console.log(this.fileList)
+    },
+    handleCurrentChange() {},
+    handleSizeChange() {},
+    sendData() {
+      console.log('sadsad')
+    },
+
+    uploadFile(val) {
+      if (this.fileList.length === 0) {
+        this.$message.warning('请上传文件')
+      } else {
+        const form = new FormData()
+        // file和flag分别为后端要求上传的参数名，类似于post、get等请求中的参数
+        form.append('file', val.file)
+        form.append('flag', true)
+        this.fileList = []
+        this.$api
+          .post('/import/upload', form)
+          .then((res) => {
+            console.log(res)
+            if (res) {
+              console.log(res)
+              this.$message({
+                message: '上传成功',
+                type: 'success'
+              })
+            } else {
+              console.log(res)
+            }
+          })
+          .catch((res) => {
+            console.log(res)
+          })
+      }
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    // 文件限制钩子函数
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件,请刷新页面后重试。`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
+    /** 上传按钮操作 */
+    handleup(row) {
+      this.reset()
+      this.open2 = true
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      const t = this
+      const ids = row.id || this.ids
+      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', '警告', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(function() {
+        t.$api.face_manage_del(ids)
+      }).then(() => {
+        // t.open3()
+        // t.getList()
+      }).catch(() => {})
+    },
+    // 添加任务
+    submitForm() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          console.log('1')
+        }
+      })
+    },
+    submitfile() {
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          console.log('1')
+        }
+      })
+    },
+    // 表单重置
+    reset() {
+      this.adddata = {
+        name: null,
+        detail: null,
+        time: null
+      }
+      // this.resetForm('form')
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false
+      this.reset()
+    },
+    cancel2() {
+      this.open2 = false
+      this.reset()
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset()
+      this.open = true
+      this.title = '添加任务'
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.el-form-item{
+  margin:20px 0px 0px 0px
+}
 .button_task{
   float:right;
 }
@@ -196,7 +476,7 @@ section{
 
 .container{
     display: grid;
-    grid-template-columns: 2.5fr 1fr;
+    grid-template-columns: -0.5fr 1fr;
     gap:1.5rem;
     background:#eee;
 }

@@ -1,9 +1,10 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
+    <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">登录</h3>
       </div>
 
       <el-form-item prop="username">
@@ -40,8 +41,31 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
+      <div class="code">
+        <div class="codema">
+          <el-form-item prop="code">
+            <el-input
+              ref="username"
+              v-model="loginForm.code"
+              placeholder="验证码"
+              name="code"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+        </div>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+        <p class="pic">
+          <img id="image" src="./code.jpg" height="45" width="150" style="cursor:pointer" @click="imgclick()">
+
+        </p>
+      </div>
+
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+
+      <el-button style="margin-bottom:30px;float:right" @click="handleregister">注册</el-button>
+      <!-- <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button> -->
 
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
@@ -54,6 +78,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { code, login_new } from '@/api/task/login'
 
 export default {
   name: 'Login',
@@ -75,6 +100,12 @@ export default {
     return {
       loginForm: {
         username: 'admin',
+        password: '111111',
+        code: null,
+        token: null
+      },
+      loginForm_old: {
+        username: 'admin',
         password: '111111'
       },
       loginRules: {
@@ -94,7 +125,29 @@ export default {
       immediate: true
     }
   },
+  created() {
+    // const t = this
+    // code().then(response => {
+    //   // console.log(response.result.token)
+    //   t.loginForm.token = response.result.token
+    //   var obj = document.getElementById('image')
+    //   obj.src = response.result.captchaImg
+    //   // this.list = response.data.items
+    //   // this.listLoading = false
+    // })
+  },
   methods: {
+    imgclick() {
+      const t = this
+      code().then(response => {
+      // console.log(response.result.token)
+        t.loginForm.token = response.result.token
+        var obj = document.getElementById('image')
+        obj.src = response.result.captchaImg
+      // this.list = response.data.items
+      // this.listLoading = false
+      })
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -106,14 +159,62 @@ export default {
       })
     },
     handleLogin() {
+      const t = this
+      // code().then(response => {
+      //   t.loginForm.token = response.result.token
+      //   var obj = document.getElementById('image')
+      //   obj.src = response.result.captchaImg
+      // })
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          // this.loading = true
+          // this.$store.dispatch('user/login_new', this.loginForm).then(response => {
+          //   alert(response)
+          //   this.$router.push({ path: this.redirect || '/' })
+          //   this.loading = false
+          // }).catch(() => {
+          //   this.loading = false
+          // })
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
+          login_new(this.loginForm).then(response => {
+            // console.log(response.message)
+            if (response.message === '成功!') {
+              t.$message({
+                message: '登录成功',
+                type: 'success'
+              })
+              console.log(response.headers)
+
+              this.$store.dispatch('user/login', this.loginForm_old).then(() => {
+                this.$router.push({ path: '/' })
+              }).catch(() => {
+                console.log('error submit!!')
+              })
+
+              this.loading = false
+            } else {
+              this.$message.error(response.message)
+              this.loading = false
+            }
+            // this.list = response.data.items
+          }).catch((err) => {
+            console.log(err)
+            this.$message.error('登录失败')
             this.loading = false
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleregister() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.$store.dispatch('user/login', this.loginForm_old).then(() => {
+            this.$router.push({ path: '/register' })
           }).catch(() => {
-            this.loading = false
+            console.log('error submit!!')
           })
         } else {
           console.log('error submit!!')
@@ -137,6 +238,21 @@ $cursor: #fff;
   .login-container .el-input input {
     color: $cursor;
   }
+}
+.code{
+   margin: 0px 0px 0px 0px;
+
+}
+.codema{
+    margin: 0px 0px 20px 0px;
+    height: 20px;
+    width: 250px;
+    float: right;
+}
+ .pic {
+   margin: 0px 0px 20px 0px;
+      float: left;
+      text-align: center;
 }
 
 /* reset element-ui css */

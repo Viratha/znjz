@@ -31,8 +31,8 @@ router.beforeEach(async(to, from, next) => {
         next()
       } else {
         try {
-          // get user info
-          await store.dispatch('user/getInfo')
+          // get user info 改过了 不然会发两次请求
+          await store.dispatch('user/getInfo_old')
 
           next()
         } catch (error) {
