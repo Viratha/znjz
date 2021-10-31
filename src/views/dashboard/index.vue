@@ -149,6 +149,7 @@ auto-upload 选择文件之后是否立即上传 -->
 
 <script>
 import { mapGetters } from 'vuex'
+import { task_list, task_list_add, task_list_del, task_list_upload } from '@/api/task/task_list'
 
 export default {
   name: 'Dashboard',
@@ -264,7 +265,33 @@ export default {
       'name'
     ])
   },
+  created() {
+    var Author = localStorage.getItem('Authorization')
+    console.log('Author' + Author)
+
+    task_list(Author).then(response => {
+      // console.log(response.result.list)
+      // this.list = response.data.items
+      this.list = response.result.list
+      console.log(this.list)
+    }).catch((err) => {
+      console.log(err)
+    })
+  },
   methods: {
+    getList() {
+      var Author = localStorage.getItem('Authorization')
+      console.log('Author' + Author)
+
+      task_list(Author).then(response => {
+      // console.log(response.result.list)
+      // this.list = response.data.items
+        this.list = response.result.list
+        console.log(this.list)
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
     UploadUrl() {
       // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
       return ''
@@ -324,6 +351,8 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
+      var Author = localStorage.getItem('Authorization')
+      // console.log('Author' + Author)
       const t = this
       const ids = row.id || this.ids
       this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', '警告', {
@@ -331,17 +360,37 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(function() {
-        t.$api.face_manage_del(ids)
+        return task_list_del(Author, ids)
       }).then(() => {
-        // t.open3()
-        // t.getList()
+        t.$message({
+          message: '删除成功',
+          type: 'success'
+        })
+        t.getList()
       }).catch(() => {})
     },
     // 添加任务
     submitForm() {
+      const t = this
+      var Author = localStorage.getItem('Authorization')
+      console.log('Author' + Author)
+
       this.$refs.form.validate(valid => {
         if (valid) {
-          console.log('1')
+          task_list_add(Author, this.adddata.name, this.adddata.detail, this.adddata.time).then(response => {
+            // console.log(response.result.list)
+            // this.list = response.data.items
+            // this.list = response.result.list
+            t.$message({
+              message: '添加成功',
+              type: 'success'
+            })
+            this.open = false
+            t.getList()
+            console.log(response)
+          }).catch((err) => {
+            console.log(err)
+          })
         }
       })
     },

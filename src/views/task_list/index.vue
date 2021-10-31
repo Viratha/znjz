@@ -24,24 +24,29 @@
           <p class="title">已完成</p>
 
           <el-table
-            :data="tableData"
+            :data="finishitableData"
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
             <el-table-column
-              prop="name"
+              prop="id"
               label="任务id"
+              width="180"
+            />
+            <el-table-column
+              prop="name"
+              label="任务名称"
               width="180"
             />
             <!-- username -->
             <el-table-column
-              prop="name"
+              prop="username"
               label="姓名"
               width="180"
             />
             <el-table-column
-              prop="date"
-              label="日期"
+              prop="updated"
+              label="完成日期"
               width="180"
             />
           </el-table>
@@ -51,23 +56,30 @@
         <div class="post">
           <p class="title">未完成</p>
           <el-table
-            :data="tableData"
+            :data="unfinishitableData"
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
             <el-table-column
-              prop="date"
-              label="日期"
+              prop="id"
+              label="任务id"
               width="180"
             />
             <el-table-column
               prop="name"
+              label="任务名称"
+              width="180"
+            />
+            <!-- username -->
+            <el-table-column
+              prop="username"
               label="姓名"
               width="180"
             />
             <el-table-column
-              prop="address"
-              label="地址"
+              prop="updated"
+              label="完成日期"
+              width="180"
             />
           </el-table>
 
@@ -127,15 +139,22 @@ export default {
     ])
   },
   created() {
+    var Author = localStorage.getItem('Authorization')
+    console.log('Author' + Author)
+    // console.log('hehe' + Authorization)
     // const t = this
-    task_list_finished().then(response => {
-      console.log(response.list)
+    task_list_finished(Author).then(response => {
+      // console.log(response.result.list)
       // this.list = response.data.items
+      this.finishitableData = response.result.list
+      console.log(this.finishitableData)
     }).catch((err) => {
       console.log(err)
     })
-    task_list_unfinished().then(response => {
-      console.log(response.list)
+    task_list_unfinished(Author).then(response => {
+      // console.log(response.result.list)
+      this.unfinishitableData = response.result.list
+
       // this.list = response.data.items
     }).catch((err) => {
       console.log(err)
@@ -154,7 +173,8 @@ export default {
   },
   data() {
     return {
-
+      finishitableData: [],
+      unfinishitableData: [],
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',

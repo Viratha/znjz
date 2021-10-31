@@ -12,14 +12,44 @@ const service = axios.create({
   timeout: 5000 // request timeout
 })
 
+const service2 = axios.create({
+  // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: 'http://47.93.33.180:8081/', // url = base url + request url
+
+  // withCredentials: true, // send cookies when cross-domain requests
+  timeout: 5000 // request timeout
+})
+service2.interceptors.request.use(
+  config => {
+    // do something before request is sent
+    console.log(config.headers.Authorization)
+    // localStorage.setItem('Authorization', config.headers.Authorization)
+    localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
+
+    if (store.getters.token) {
+      // let each request carry token
+      // [''] is a custom headers key
+      // please modify it according to the actual situation
+      // config.headers['X-Token'] = getToken()
+    }
+    return config
+  },
+  error => {
+    // do something with request error
+    console.log(error) // for debug
+    return Promise.reject(error)
+  }
+)
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    console.log(config)
+    console.log(config.headers.Authorization)
+    localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
+
     if (store.getters.token) {
       // let each request carry token
-      // ['X-Token'] is a custom headers key
+      // [''] is a custom headers key
       // please modify it according to the actual situation
       // config.headers['X-Token'] = getToken()
     }
