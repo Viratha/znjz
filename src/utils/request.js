@@ -23,8 +23,8 @@ service2.interceptors.request.use(
   config => {
     // do something before request is sent
     console.log(config.headers.Authorization)
-    // localStorage.setItem('Authorization', config.headers.Authorization)
-    localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
+    localStorage.setItem('Authorization', config.headers.Authorization)
+    // localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
 
     if (store.getters.token) {
       // let each request carry token
@@ -45,7 +45,7 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
     console.log(config.headers.Authorization)
-    localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
+    // localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')
 
     if (store.getters.token) {
       // let each request carry token

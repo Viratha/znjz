@@ -54,13 +54,15 @@ export function task_list_detail(Author) {
 }
 
 // 上传文件接口 参数 文件 用户名 文件名 任务id
-export function task_list_upload(Author) {
+export function task_list_upload(Author, formData, tid, username) {
   return request({
-    url: '/sys/file/upload',
+    url: '/sys/file/upload?filename=tes&tid=' + tid + '&username=' + username,
     method: 'post',
+    data: formData,
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
-      'Authorization': Author
+      'Authorization': Author,
+      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarypgnnfMj7vzrDwtRZ'
     }
     // params
   })
@@ -69,7 +71,7 @@ export function task_list_upload(Author) {
 // 完成任务列表
 export function task_list_finished(Author) {
   return request({
-    url: '/sys/task/finished?id=1&page=1&limit=20',
+    url: '/sys/task/finished?page=1&limit=20',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
@@ -82,7 +84,7 @@ export function task_list_finished(Author) {
 // 未完成任务列表
 export function task_list_unfinished(Author) {
   return request({
-    url: '/sys/task/unfinished?id=1&page=1&limit=20',
+    url: '/sys/task/unfinished',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {

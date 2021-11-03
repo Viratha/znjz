@@ -99,14 +99,17 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111',
+        // username: 'admin',
+        // password: '111111',
+        username: null,
+        password: null,
         code: null,
         token: null
       },
       loginForm_old: {
         username: 'admin',
         password: '111111'
+
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -178,6 +181,8 @@ export default {
           this.loading = true
           login_new(this.loginForm).then(response => {
             // console.log(response.message)
+            localStorage.setItem('username', this.loginForm.username)
+
             if (response.message === '成功!') {
               t.$message({
                 message: '登录成功',

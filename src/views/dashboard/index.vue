@@ -50,6 +50,10 @@
             <div class="task">
               <p class="title">{{ item.name }}</p>
               <p class="text">{{ item.detail }}</p>
+              <p v-if="item.statu == 0" class="text">状态：已截止</p>
+              <p v-if="item.statu == 1" class="text">状态：未截止</p>
+
+              <p class="text">deadline：{{ item.deadline }}</p>
             </div>
 
           </div>
@@ -126,10 +130,10 @@ on-success 上传成功之后的钩子，可以用来清除表单校验和文件
 on-error 上传失败之后的钩子
 auto-upload 选择文件之后是否立即上传 -->
     <el-dialog :title="上传文件" :visible.sync="open2" width="400px" height="500px" append-to-body>
-      <el-upload
+      <!-- <el-upload
         ref="upload"
         class="upload-demo"
-        action="http://47.93.33.180:8081/sys/file/upload"
+        :action="UploadUrl()"
         :on-preview="handlePreview"
         :on-remove="handleRemove"
         :file-list="fileList"
@@ -137,6 +141,22 @@ auto-upload 选择文件之后是否立即上传 -->
       >
         <el-button slot="trigger" style="margin-left: 10px;width:90px;height:25px" size="small" type="primary" width="40px">选取文件</el-button>
         <el-button style="margin-left: 10px;width:90px;height:25px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
+      </el-upload> -->
+      <!-- :before-upload="beforeUploadFile"
+              accept=".xls,.xlsx"
+
+      -->
+      <el-upload
+
+        class="upload-demo"
+        action="UploadUrl()"
+        drag
+        :file-list="fileList"
+        :http-request="uploadFile"
+      >
+        <i class="el-icon-upload" />
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <!-- <div slot="tip" class="el-upload__tip">只能上传.xlsx、.xls文件了，大小不超过5M</div> -->
       </el-upload>
 
       <div slot="footer" class="dialog-footer">
@@ -150,12 +170,14 @@ auto-upload 选择文件之后是否立即上传 -->
 <script>
 import { mapGetters } from 'vuex'
 import { task_list, task_list_add, task_list_del, task_list_upload } from '@/api/task/task_list'
-
+// , task_list_upload
 export default {
   name: 'Dashboard',
   data() {
     return {
-      fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
+      tid: null,
+      // fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
+      fileList: [],
       fileList3: [],
       fileData: '',
       open: false,
@@ -279,6 +301,52 @@ export default {
     })
   },
   methods: {
+    UploadUrl() {
+      // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
+      return ''
+    },
+    // 上传前校验
+    // beforeUploadFile(file) {
+    //   	// 校验仅判断文件类型和文件大小，其他校验规则可以在此方法添加
+    //   const fileType = /\.[^\.]+$/.exec(file.name)[0]
+    //   const fileSize = file.size / 1024 / 1024
+    //   if (!['.xls', '.xlsx'].includes(fileType)) {
+    //     this.$message.error('请上传表格文件!')
+    //   }
+    //   if (fileSize > 50) {
+    //     this.$message.error('上传文件大小不能超过50MB!')
+    //   }
+    // },
+    // 上传文件
+    uploadFile(e) {
+      var tid = this.tid
+      console.log('tid:' + tid)
+      var Author = localStorage.getItem('Authorization')
+      var username = localStorage.getItem('username')
+      console.log('user:' + username)
+
+      console.log('Author' + Author)
+      const { file } = e
+      try {
+        const formData = new FormData()
+        formData.append('uploadFile', file)
+        console.log('---------上传文件---------')
+        console.log(formData)
+        // 对应的ajax请求不做赘述
+        task_list_upload(Author, formData, tid, username).then(response => {
+          // console.log(response.result.list)
+          // this.list = response.data.items
+          // this.list = response.result.list
+          // console.log(response.message)
+          if (response.message === '成功!') { alert('上传成功') }
+        }).catch((err) => {
+          console.log(err)
+        })
+        console.log('-------------------------')
+      } catch {
+        this.$message.error(e.message)
+      }
+    },
     getList() {
       var Author = localStorage.getItem('Authorization')
       console.log('Author' + Author)
@@ -292,60 +360,13 @@ export default {
         console.log(err)
       })
     },
-    UploadUrl() {
-      // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
-      return ''
-    },
-    fileChange(file, fileList) {
-      this.fileList.push(file.raw)
-      console.log(this.fileList)
-    },
-    handleCurrentChange() {},
-    handleSizeChange() {},
-    sendData() {
-      console.log('sadsad')
-    },
 
-    uploadFile(val) {
-      if (this.fileList.length === 0) {
-        this.$message.warning('请上传文件')
-      } else {
-        const form = new FormData()
-        // file和flag分别为后端要求上传的参数名，类似于post、get等请求中的参数
-        form.append('file', val.file)
-        form.append('flag', true)
-        this.fileList = []
-        this.$api
-          .post('/import/upload', form)
-          .then((res) => {
-            console.log(res)
-            if (res) {
-              console.log(res)
-              this.$message({
-                message: '上传成功',
-                type: 'success'
-              })
-            } else {
-              console.log(res)
-            }
-          })
-          .catch((res) => {
-            console.log(res)
-          })
-      }
-    },
-    handlePreview(file) {
-      console.log(file)
-    },
-    // 文件限制钩子函数
-    handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件,请刷新页面后重试。`)
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
-    },
     /** 上传按钮操作 */
     handleup(row) {
+      this.fileList = []
+      const ids = row.id || this.ids
+      this.tid = ids
+      console.log('tid ids:' + this.tid)
       this.reset()
       this.open2 = true
     },

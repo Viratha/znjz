@@ -76,11 +76,11 @@
               label="姓名"
               width="180"
             />
-            <el-table-column
-              prop="updated"
-              label="完成日期"
+            <!-- <el-table-column
+              prop="created"
+              label="创建日期"
               width="180"
-            />
+            /> -->
           </el-table>
 
         </div>
