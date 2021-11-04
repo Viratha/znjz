@@ -175,6 +175,10 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      // status 0 登录 1注册
+      status: 0,
+      Author: null,
+      taskname: null,
       tid: null,
       // fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
       fileList: [],
@@ -185,6 +189,11 @@ export default {
         name: null,
         detail: null,
         time: null
+      },
+      registerForm: {
+        username: null,
+        password: null,
+        Email: null
       },
       list: [
         {
@@ -289,13 +298,13 @@ export default {
   },
   created() {
     var Author = localStorage.getItem('Authorization')
-    console.log('Author' + Author)
-
+    // console.log('Author' + Author)
+    this.Author = Author
     task_list(Author).then(response => {
       // console.log(response.result.list)
       // this.list = response.data.items
       this.list = response.result.list
-      console.log(this.list)
+      // console.log(this.list)
     }).catch((err) => {
       console.log(err)
     })
@@ -320,8 +329,9 @@ export default {
     // 上传文件
     uploadFile(e) {
       var tid = this.tid
+      var taskname = this.taskname
       console.log('tid:' + tid)
-      var Author = localStorage.getItem('Authorization')
+      var Author = this.Author
       var username = localStorage.getItem('username')
       console.log('user:' + username)
 
@@ -333,7 +343,7 @@ export default {
         console.log('---------上传文件---------')
         console.log(formData)
         // 对应的ajax请求不做赘述
-        task_list_upload(Author, formData, tid, username).then(response => {
+        task_list_upload(Author, formData, tid, username, taskname).then(response => {
           // console.log(response.result.list)
           // this.list = response.data.items
           // this.list = response.result.list
@@ -348,7 +358,7 @@ export default {
       }
     },
     getList() {
-      var Author = localStorage.getItem('Authorization')
+      var Author = this.Author
       console.log('Author' + Author)
 
       task_list(Author).then(response => {
@@ -366,13 +376,15 @@ export default {
       this.fileList = []
       const ids = row.id || this.ids
       this.tid = ids
-      console.log('tid ids:' + this.tid)
+      this.taskname = row.name
+      // console.log('taskname:' + this.taskname)
+      // console.log('tid ids:' + this.tid)
       this.reset()
       this.open2 = true
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var Author = localStorage.getItem('Authorization')
+      var Author = this.Author
       // console.log('Author' + Author)
       const t = this
       const ids = row.id || this.ids
@@ -393,7 +405,7 @@ export default {
     // 添加任务
     submitForm() {
       const t = this
-      var Author = localStorage.getItem('Authorization')
+      var Author = this.Author
       console.log('Author' + Author)
 
       this.$refs.form.validate(valid => {

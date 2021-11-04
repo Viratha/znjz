@@ -6,6 +6,7 @@ export function task_list(Author) {
     url: '/sys/task/list?page=1&limit=30',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
+
     headers: {
       'Authorization': Author
     }
@@ -20,6 +21,7 @@ export function task_list_add(Author, name, detail, time) {
     method: 'post',
 
     baseURL: 'http://47.93.33.180:8081/',
+
     headers: {
       'Authorization': Author
     }
@@ -54,9 +56,9 @@ export function task_list_detail(Author) {
 }
 
 // 上传文件接口 参数 文件 用户名 文件名 任务id
-export function task_list_upload(Author, formData, tid, username) {
+export function task_list_upload(Author, formData, tid, username, taskname) {
   return request({
-    url: '/sys/file/upload?filename=tes&tid=' + tid + '&username=' + username,
+    url: '/sys/file/upload?filename=' + taskname + '&tid=' + tid + '&username=' + username,
     method: 'post',
     data: formData,
     baseURL: 'http://47.93.33.180:8081/',

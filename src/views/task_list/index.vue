@@ -132,7 +132,30 @@ import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
 
 export default {
   name: 'Dashboard',
-
+  data() {
+    return {
+      Author: null,
+      finishitableData: [],
+      unfinishitableData: [],
+      tableData: [{
+        date: '2016-05-02',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-04',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-01',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }, {
+        date: '2016-05-03',
+        name: '王小虎',
+        address: '上海市普陀区金沙江路 1518 弄'
+      }]
+    }
+  },
   computed: {
     ...mapGetters([
       'name'
@@ -140,14 +163,17 @@ export default {
   },
   created() {
     var Author = localStorage.getItem('Authorization')
-    console.log('Author' + Author)
+    // var reg = new RegExp('"', 'g')
+    // Author = Author.replace(reg, '')
+    // console.log('Author' + Author)
+    this.Author = Author
     // console.log('hehe' + Authorization)
     // const t = this
     task_list_finished(Author).then(response => {
       // console.log(response.result.list)
       // this.list = response.data.items
       this.finishitableData = response.result.list
-      console.log(this.finishitableData)
+      // console.log(this.finishitableData)
     }).catch((err) => {
       console.log(err)
     })
@@ -170,30 +196,8 @@ export default {
       }
       return ''
     }
-  },
-  data() {
-    return {
-      finishitableData: [],
-      unfinishitableData: [],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }]
-    }
   }
+
 }
 </script>
 

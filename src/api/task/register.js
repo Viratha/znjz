@@ -6,6 +6,7 @@ export function register(username, password, Email) {
     url: '/sys/user/register',
     method: 'post',
     baseURL: 'http://47.93.33.180:8081/',
+
     data: ({ // 这里是发送给后台的数据
       username: username,
       password: password,

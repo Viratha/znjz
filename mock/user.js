@@ -74,6 +74,7 @@ export default [
   {
     url: '/vue-admin-template/user/logout',
     type: 'post',
+    baseURL: process.env.VUE_APP_BASE_API,
     response: _ => {
       return {
         code: '200',

@@ -2,74 +2,138 @@
   <div class="login-container">
     <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
     <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
-
-      <div class="title-container">
-        <h3 class="title">登录</h3>
-      </div>
-
-      <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="Username"
-          name="username"
-          type="text"
-          tabindex="1"
-          auto-complete="on"
-        />
-      </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="Password"
-          name="password"
-          tabindex="2"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-      <div class="code">
-        <div class="codema">
-          <el-form-item prop="code">
-            <el-input
-              ref="username"
-              v-model="loginForm.code"
-              placeholder="验证码"
-              name="code"
-              type="text"
-              tabindex="1"
-              auto-complete="on"
-            />
-          </el-form-item>
+      <div v-if="status==0">
+        <div class="title-container">
+          <h3 class="title">登录</h3>
         </div>
 
-        <p class="pic">
-          <img id="image" src="./code.jpg" height="45" width="150" style="cursor:pointer" @click="imgclick()">
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="username"
+            v-model="loginForm.username"
+            placeholder="Username"
+            name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
 
-        </p>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="Password"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+            @keyup.enter.native="handleLogin"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+        <div class="code">
+          <div class="codema">
+            <el-form-item prop="code">
+              <el-input
+                ref="username"
+                v-model="loginForm.code"
+                placeholder="验证码"
+                name="code"
+                type="text"
+                tabindex="1"
+                auto-complete="on"
+              />
+            </el-form-item>
+          </div>
+
+          <p class="pic">
+            <img id="image" src="./code.jpg" height="45" width="150" style="cursor:pointer" @click="imgclick()">
+
+          </p>
+
+          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+          <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button>
+
+        </div>
+
       </div>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+      <div v-if="status==1">
+        <div class="title-container">
+          <h3 class="title">注册</h3>
+        </div>
 
-      <el-button style="margin-bottom:30px;float:right" @click="handleregister">注册</el-button>
+        <el-form-item prop="username">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="username"
+            v-model="registerForm.username"
+            placeholder="账号"
+            name="username"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="registerForm.password"
+            :type="passwordType"
+            placeholder="密码"
+            name="password"
+            tabindex="2"
+            auto-complete="on"
+            @keyup.enter.native="handleregister"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+
+        <el-form-item prop="Email">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input
+            ref="Email"
+            v-model="registerForm.Email"
+            placeholder="邮箱"
+            name="Email"
+            type="text"
+            tabindex="1"
+            auto-complete="on"
+          />
+        </el-form-item>
+
+        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button>
+        <el-button style="margin-bottom:30px;float:right" @click="Loginchange">登录</el-button>
+
+      </div>
+
       <!-- <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button> -->
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <!-- <span style="margin-right:20px;">username: admin</span>
+        <span> password: any</span> -->
+        <span> 多喝热水</span>
       </div>
 
     </el-form>
@@ -78,7 +142,8 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { code, login_new } from '@/api/task/login'
+import { code } from '@/api/task/login'
+import { register } from '@/api/task/register'
 
 export default {
   name: 'Login',
@@ -98,6 +163,13 @@ export default {
       }
     }
     return {
+      registerForm: {
+        username: null,
+        password: null,
+        Email: null
+      },
+      // status0为登录 1注册
+      status: 0,
       loginForm: {
         // username: 'admin',
         // password: '111111',
@@ -106,9 +178,17 @@ export default {
         code: null,
         token: null
       },
-      loginForm_old: {
+      loginForm_fa: {
+        // username: 'admin',
+        // password: '111111',
         username: 'admin',
-        password: '111111'
+        password: '111111',
+        code: 0,
+        token: 'aaaaa'
+      },
+      loginForm_old: {
+        username: 'admin2',
+        password: '1'
 
       },
       loginRules: {
@@ -129,6 +209,7 @@ export default {
     }
   },
   created() {
+
     // const t = this
     // code().then(response => {
     //   // console.log(response.result.token)
@@ -141,6 +222,9 @@ export default {
   },
   methods: {
     imgclick() {
+      // localStorage.setItem('countcount', 1)
+      // var countcount = localStorage.getItem('countcount')
+      // console.log('countcount：' + countcount)
       const t = this
       code().then(response => {
       // console.log(response.result.token)
@@ -162,7 +246,8 @@ export default {
       })
     },
     handleLogin() {
-      const t = this
+      localStorage.setItem('count', 1)
+      // const t = this
       // code().then(response => {
       //   t.loginForm.token = response.result.token
       //   var obj = document.getElementById('image')
@@ -178,54 +263,177 @@ export default {
           // }).catch(() => {
           //   this.loading = false
           // })
+
           this.loading = true
-          login_new(this.loginForm).then(response => {
-            // console.log(response.message)
-            localStorage.setItem('username', this.loginForm.username)
-
-            if (response.message === '成功!') {
-              t.$message({
-                message: '登录成功',
-                type: 'success'
-              })
-              console.log(response.headers)
-
-              this.$store.dispatch('user/login', this.loginForm_old).then(() => {
-                this.$router.push({ path: '/' })
-              }).catch(() => {
-                console.log('error submit!!')
-              })
-
-              this.loading = false
-            } else {
-              this.$message.error(response.message)
-              this.loading = false
-            }
-            // this.list = response.data.items
-          }).catch((err) => {
-            console.log(err)
-            this.$message.error('登录失败')
+          // console.log('this form' + JSON.stringify(this.loginForm))
+          this.$store.dispatch('user/login_new', this.loginForm).then(response => {
+            // this.$message.error(response.message)
+            // alert('response.message' + response)
+            // if (response.message === '成功!') {
+            this.$router.push({ path: this.redirect || '/' })
             this.loading = false
+            // }
+          }).catch(() => {
+            this.loading = false
+            // this.$router.push({ path: this.redirect || '/' })
+            // this.$message.error('登录失败')
           })
+
+          // this.loading = true
+          // login_new(this.loginForm).then(response => {
+          //   // console.log(response.message)
+          //   localStorage.setItem('username', this.loginForm.username)
+
+          //   if (response.message === '成功!') {
+          //     t.$message({
+          //       message: '登录成功',
+          //       type: 'success'
+          //     })
+          //     console.log(response.headers)
+
+          //     // this.$store.dispatch('user/login', this.loginForm_old).then(() => {
+          //     this.$store.dispatch('user/login', this.loginForm).then(() => {
+          //       this.$router.push({ path: '/' })
+          //     }).catch(() => {
+          //       console.log('error submit!!')
+          //     })
+
+          //     this.loading = false
+          //   } else {
+          //     this.$message.error(response.message)
+          //     this.loading = false
+          //   }
+          //   // this.list = response.data.items
+          // }).catch((err) => {
+          //   console.log(err)
+          //   this.$message.error('登录失败')
+          //   this.loading = false
+          // })
         } else {
           console.log('error submit!!')
           return false
         }
       })
     },
+    Loginchange() {
+      this.status = 0
+      this.loginForm.username = null
+      this.loginForm.password = null
+      this.loginForm.code = null
+    },
+    handleregisterchange() {
+      this.status = 1
+      this.registerForm.username = null
+      this.registerForm.password = null
+      this.registerForm.Email = null
+    },
     handleregister() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.$store.dispatch('user/login', this.loginForm_old).then(() => {
-            this.$router.push({ path: '/register' })
-          }).catch(() => {
-            console.log('error submit!!')
+      // this.$router.push({ path: '/register' })
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.$store.dispatch('user/login_new', this.loginForm_fa).then(response => {
+      //     // this.$store.dispatch().then(() => {
+      //       this.$router.push({ path: '/register' })
+      //     }).catch(() => {
+      //       console.log('error submit!!')
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
+      // ——————
+      // this.$refs.loginForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+      //     this.loginForm_old.code = this.loginForm.code
+      //     this.loginForm_old.token = this.loginForm.token
+      //     console.log('this form' + JSON.stringify(this.loginForm))
+      //     this.$store.dispatch('user/login_new', this.loginForm_old).then(response => {
+      //       // this.$message.error(response.message)
+      //       // alert('response.message' + response)
+      //       // if (response.message === '成功!') {
+      //       this.$router.push({ path: this.redirect || '/' })
+      //       this.loading = false
+      //       // }
+      //     }).catch(() => {
+      //       this.loading = false
+      //     })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
+      // ——————
+      const t = this
+      // console.log(this.registerForm.username)
+      // console.log(this.registerForm.password)
+      // console.log(this.registerForm.Email)
+      this.loading = true
+
+      register(t.registerForm.username, t.registerForm.password, t.registerForm.Email).then(response => {
+        // console.log(response.message)
+        if (response.message === '成功!') {
+          this.$message({
+            message: '注册成功',
+            type: 'success'
           })
+          // t.$router.push({ path: '/login' })
+          this.status = 0
+          this.loading = false
         } else {
-          console.log('error submit!!')
-          return false
+          this.$message.error(response.message)
+          this.loading = false
         }
+        // this.list = response.data.items
+      }).catch((err) => {
+        console.log(err)
+        this.$message.error('注册失败，已存在用户名')
+        this.loading = false
       })
+
+      // this.$store.dispatch('user/login', this.registerForm).then(() => {
+      //   this.$router.push({ path: this.redirect || '/login' })
+      //   this.loading = false
+      // }).catch(() => {
+      //   this.loading = false
+      // })
+      // this.$refs.registerForm.validate(valid => {
+      //   if (valid) {
+      //     this.loading = true
+
+      //     register(t.registerForm.username, t.registerForm.password, t.registerForm.Email).then(response => {
+      //       // console.log(response.message)
+      //       if (response.message === '成功!') {
+      //         this.$message({
+      //           message: '注册成功',
+      //           type: 'success'
+      //         })
+      //         // t.$router.push({ path: '/login' })
+      //         this.status = 0
+      //         this.loading = false
+      //       } else {
+      //         this.$message.error(response.message)
+      //         this.loading = false
+      //       }
+      //       // this.list = response.data.items
+      //     }).catch((err) => {
+      //       console.log(err)
+      //       this.$message.error('注册失败，已存在用户名')
+      //       this.loading = false
+      //     })
+
+      //     // this.$store.dispatch('user/login', this.registerForm).then(() => {
+      //     //   this.$router.push({ path: this.redirect || '/login' })
+      //     //   this.loading = false
+      //     // }).catch(() => {
+      //     //   this.loading = false
+      //     // })
+      //   } else {
+      //     console.log('error submit!!')
+      //     return false
+      //   }
+      // })
     }
   }
 }

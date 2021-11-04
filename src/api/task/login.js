@@ -5,6 +5,7 @@ export function login_new(params) {
     url: '/login',
     method: 'post',
     baseURL: 'http://47.93.33.180:8081/',
+
     params
   })
 }
@@ -15,6 +16,7 @@ export function code() {
     url: '/captcha',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/'
+
   })
 }
 
