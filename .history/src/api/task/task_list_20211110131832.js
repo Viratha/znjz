@@ -73,7 +73,7 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
 // 完成任务列表
 export function task_list_finished(Author) {
   return request({
-    url: '/sys/task/finished?page=1&limit=100',
+    url: '/sys/task/finished?page=1&limit=20',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
