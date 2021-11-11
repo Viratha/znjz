@@ -3,7 +3,7 @@ import request from '@/utils/request'
 // 获取任务列表
 export function task_list(Author) {
   return request({
-    url: '/sys/task/list?page=1&limit=100',
+    url: '/sys/task/list?page=1&limit=',
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
 

@@ -270,7 +270,7 @@ export default {
             // this.$message.error(response.message)
             // alert('response.message' + response)
             // if (response.message === '成功!') {
-            localStorage.setItem('username', this.loginForm.username)
+              localStorage.setItem('username', this.loginForm.username)
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
             // }
