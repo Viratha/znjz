@@ -267,17 +267,17 @@ export default {
           this.loading = true
           // console.log('this form' + JSON.stringify(this.loginForm))
           this.$store.dispatch('user/login_new', this.loginForm).then(response => {
-            // this.$message.error(response.message)
-            // alert('response.message' + response)
-            // if (response.message === '成功!') {
-            localStorage.setItem('username', this.loginForm.username)
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-            // }
+            this.$message.error(response.message)
+            alert('response.message' + response)
+            if (response.message === '成功!') {
+              localStorage.setItem('username', this.loginForm.username)
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
+            }
           }).catch(() => {
             this.loading = false
             // this.$router.push({ path: this.redirect || '/' })
-            // this.$message.error('登录失败')
+            this.$message.error('登录失败')
           })
 
           // this.loading = true

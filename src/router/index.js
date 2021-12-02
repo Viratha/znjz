@@ -64,10 +64,27 @@ export const constantRoutes = [
       name: 'task_list',
       component: () => import('@/views/task_list/index'),
       meta: { title: '任务情况', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/sign',
+    children: [{
+      path: 'sign',
+      name: 'Sign',
+      component: () => import('@/views/sign/index'),
+      meta: { title: '签到', icon: 'dashboard' }
     }
+    // ,
+    // {
+    //   path: 'sign_list',
+    //   name: 'sign_list',
+    //   component: () => import('@/views/sign_list/index'),
+    //   meta: { title: '签到情况', icon: 'dashboard' }
+    // }
     ]
   },
-
   // {
   //   path: '/example',
   //   component: Layout,

@@ -125,6 +125,13 @@ service.interceptors.response.use(
       // console.log('count响应++:' + count)
     }
 
+    // if (res.code === '-1') {
+    //   Message({
+    //     message: res.message || 'Error',
+    //     type: 'error'
+    //   })
+    // }
+
     // if the custom code is not 20000, it is judged as an error.
     if (res.code !== '200') {
       Message({
