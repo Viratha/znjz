@@ -81,7 +81,9 @@
       </div>
 
       <div class="credit">changed by <span>李</span> | 我恨甲方</div>
-
+      <div class="beian">
+        <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
+      </div>
     </section>
 
     <!-- footer section ends -->
@@ -592,6 +594,11 @@ section{
         flex-flow: column;
         text-align: center;
     }
+    .footer .beian a{
+        font-size: 12px;
+        text-decoration: none;
+        color: #bbb;
+}
 
 }
 

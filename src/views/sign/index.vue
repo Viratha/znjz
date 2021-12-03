@@ -1,11 +1,11 @@
 <template>
   <div class="sign">
     <el-row :gutter="20">
-      <el-col :span="6"><div class="grid-content bg-purple"><el-row>
+      <el-col :span="6"><div class="qiandao"><el-row>
         <el-button round @click="sign_in">签到</el-button>
 
       </el-row></div></el-col>
-      <el-col :span="6"><div class="grid-content bg-purple"><el-button round @click="sign_out">签退</el-button></div></el-col>
+      <el-col :span="6"><div class="qiantui"><el-button round @click="sign_out">签退</el-button></div></el-col>
     </el-row>
   </div>
 </template>
@@ -16,10 +16,10 @@ import { sign, signout } from '@/api/task/sign_list'
 
 export default {
   name: 'Sign',
-  data() {
+  data(Author, username) {
     return {
-      Author: null,
-      username: null
+      Author: Author,
+      username: username
     }
   },
   computed: {
@@ -33,12 +33,12 @@ export default {
   methods: {
     open2() {
       this.$message({
-        message: '恭喜你，这是一条成功消息',
+        message: '操作成功！',
         type: 'success'
       })
     },
     open4() {
-      this.$message.error('错了哦，这是一条错误消息')
+      this.$message.error('别点了，成功了')
     },
     sign_in() {
       var t = this
@@ -86,5 +86,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+      .sign {
 
+      }
+      .qiandao {
+
+      }
+      .qiantui{
+
+      }
 </style>

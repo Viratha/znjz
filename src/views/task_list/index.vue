@@ -116,9 +116,11 @@
         <a href="#" class="fab fa-twitter" />
         <a href="#" class="fab fa-instagram" />
         <a href="#" class="fab fa-linkedin" />
-      </div>
 
-      <div class="credit">changed by <span>李</span> | 我恨甲方</div>
+      </div>
+      <div class="beian">
+        <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
+      </div>
 
     </section>
 
@@ -589,6 +591,12 @@ section{
 
 .footer .follow a:hover{
     background:var(--orange);
+}
+
+    .footer .beian a{
+        font-size: 12px;
+        text-decoration: none;
+        color: #bbb;
 }
 
 /* media queries  */

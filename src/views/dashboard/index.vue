@@ -94,7 +94,7 @@
         <a href="#" class="fab fa-linkedin" />
       </div>
 
-      <div class="credit">changed by <span>李</span> | 我恨甲方</div>
+      <div class="beian"><a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a></div>
 
     </section>
 
@@ -820,16 +820,16 @@ section{
     justify-content: space-between;
 }
 
-.footer .credit{
-    text-transform: capitalize;
-    font-size: 2rem;
-    color:var(--black);
-    padding: 1rem 0;
-}
+// .footer .credit{
+//     text-transform: capitalize;
+//     font-size: 2rem;
+//     color:var(--black);
+//     padding: 1rem 0;
+// }
 
-.footer .credit span{
-    color:var(--orange);
-}
+// .footer .credit span{
+//     color:var(--orange);
+// }
 
 .footer .follow{
     padding: 1rem 0;
@@ -845,6 +845,13 @@ section{
     color:#fff;
     margin:0 .1rem;
     text-align: center;
+}
+
+.footer .beian a{
+  float: right;
+  font-size: 12px;
+  text-decoration: none;
+  color: #bbb;
 }
 
 .footer .follow a:hover{

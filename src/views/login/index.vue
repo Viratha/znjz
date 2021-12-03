@@ -134,6 +134,7 @@
         <!-- <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span> -->
         <span> 多喝热水</span>
+        <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
       </div>
 
     </el-form>
@@ -209,7 +210,6 @@ export default {
     }
   },
   created() {
-
     // const t = this
     // code().then(response => {
     //   // console.log(response.result.token)
@@ -219,7 +219,18 @@ export default {
     //   // this.list = response.data.items
     //   // this.listLoading = false
     // })
+
+    //   // 在页面加载时读取sessionStorage里的状态信息
+    //   if (sessionStorage.getItem('store')) {
+    //     this.$store.replaceState(Object.assign({}, this.$store.state, JSON.parse(sessionStorage.getItem('store'))))
+    //   }
+
+  //   // 在页面刷新时将vuex里的信息保存到sessionStorage里
+  //   window.addEventListener('beforeunload', () => {
+  //     sessionStorage.setItem('store', JSON.stringify(this.$store.state))
+  //   })
   },
+
   methods: {
     imgclick() {
       // localStorage.setItem('countcount', 1)
@@ -267,49 +278,18 @@ export default {
           this.loading = true
           // console.log('this form' + JSON.stringify(this.loginForm))
           this.$store.dispatch('user/login_new', this.loginForm).then(response => {
-            this.$message.error(response.message)
-            alert('response.message' + response)
-            if (response.message === '成功!') {
-              localStorage.setItem('username', this.loginForm.username)
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            }
+            // alert('response code' + response.code)
+            // if (response.code === 200) {
+            // this.$message.success(response.message)
+            localStorage.setItem('username', this.loginForm.username)
+            this.$router.push({ path: this.redirect || '/' })
+            this.loading = false
+            // }
           }).catch(() => {
             this.loading = false
             // this.$router.push({ path: this.redirect || '/' })
-            this.$message.error('登录失败')
+            // this.$message.error('登录失败')
           })
-
-          // this.loading = true
-          // login_new(this.loginForm).then(response => {
-          //   // console.log(response.message)
-          //   localStorage.setItem('username', this.loginForm.username)
-
-          //   if (response.message === '成功!') {
-          //     t.$message({
-          //       message: '登录成功',
-          //       type: 'success'
-          //     })
-          //     console.log(response.headers)
-
-          //     // this.$store.dispatch('user/login', this.loginForm_old).then(() => {
-          //     this.$store.dispatch('user/login', this.loginForm).then(() => {
-          //       this.$router.push({ path: '/' })
-          //     }).catch(() => {
-          //       console.log('error submit!!')
-          //     })
-
-          //     this.loading = false
-          //   } else {
-          //     this.$message.error(response.message)
-          //     this.loading = false
-          //   }
-          //   // this.list = response.data.items
-          // }).catch((err) => {
-          //   console.log(err)
-          //   this.$message.error('登录失败')
-          //   this.loading = false
-          // })
         } else {
           console.log('error submit!!')
           return false
