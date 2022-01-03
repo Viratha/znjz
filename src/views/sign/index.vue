@@ -41,7 +41,20 @@
           <el-table-column
             prop="time"
             label="已签到时间"
+            width="300px"
           />
+          <el-table-column
+            prop="statu"
+            label="签到状态"
+            :formatter="stateFormat"
+          >
+            <template slot-scope="scope">
+              <!-- scope.row 包含表格里当前行的所有数据 -->
+              <span v-if="scope.row.statu === 1" style="color : green">上班中</span>
+              <span v-if="scope.row.statu === 0" style="color : red">下班辽</span>
+
+            </template>
+          </el-table-column>
         </el-table>
       </div>
 
@@ -53,7 +66,7 @@
           :data="signData"
           border
           stripe
-          height="1200px"
+          height="1300px"
           style="width: 100%"
           :row-class-name="tableRowClassName"
         >
@@ -76,9 +89,6 @@
           />
         </el-table>
       </div>
-    <!-- <template slot-scope="scope">
-      <el-switch v-model="scope.row.mg_state" @change="userstateChange(scope.row.username)" />
-    </template> -->
 
     </div>
   </div></template>
@@ -94,9 +104,7 @@ export default {
     return {
       Author: Author,
       username: username,
-
       signData: []
-
     }
   },
   computed: {
@@ -125,7 +133,13 @@ export default {
     })
   },
   methods: {
-
+    stateFormat(row, column) {
+      if (row.state === 1) {
+        return '上班'
+      } else {
+        return '下班'
+      }
+    },
     open2() {
       this.$message({
         message: '操作成功！',
@@ -143,14 +157,11 @@ export default {
       this.username = username
       sign(Author, username).then(response => {
         console.log(response.result)
-        //   this.unfinishitableData = response.result.list
         if (response.result === true) {
           t.open2()
         } else {
           t.open4()
         }
-
-      // this.list = response.data.items
       }).catch((err) => {
         console.log(err)
       })
@@ -203,4 +214,6 @@ export default {
         margin-left: 30px;
         color: #909399;
       }
+
 </style>
+

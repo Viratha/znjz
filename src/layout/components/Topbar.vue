@@ -1,6 +1,6 @@
 <template>
   <div class="top-nav">
-    <div class="log">智能基座-Beta1</div>
+    <div class="log">智能基座-Beta2</div>
     <el-menu
       :active-text-color="variables.menuActiveText"
       :default-active="activeMenu"
