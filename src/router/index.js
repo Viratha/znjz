@@ -66,6 +66,7 @@ export const constantRoutes = [
       meta: { title: '任务情况', icon: 'dashboard' }
     }]
   },
+
   {
     path: '/',
     component: Layout,
@@ -75,16 +76,9 @@ export const constantRoutes = [
       name: 'Sign',
       component: () => import('@/views/sign/index'),
       meta: { title: '签到', icon: 'dashboard' }
-    }
-    // ,
-    // {
-    //   path: 'sign_list',
-    //   name: 'sign_list',
-    //   component: () => import('@/views/sign_list/index'),
-    //   meta: { title: '签到情况', icon: 'dashboard' }
-    // }
-    ]
+    }]
   },
+
   // {
   //   path: '/example',
   //   component: Layout,
