@@ -5,7 +5,7 @@ export function task_list(Author) {
   return request({
     url: '/sys/task/list?page=1&limit=100',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
 
     headers: {
       'Authorization': Author
@@ -20,7 +20,7 @@ export function task_list_add(Author, name, detail, time) {
     url: '/sys/task/add?name=' + name + '&detail=' + detail + '&time=' + time,
     method: 'post',
 
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
 
     headers: {
       'Authorization': Author
@@ -34,7 +34,7 @@ export function task_list_del(Author, id) {
   return request({
     url: '/sys/task/delete?id=' + id,
     method: 'delete',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
     headers: {
       'Authorization': Author
     }
@@ -47,7 +47,7 @@ export function task_list_detail(Author) {
   return request({
     url: '/sys/task/list?page=1&limit=30',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
     headers: {
       'Authorization': Author
     }
@@ -61,7 +61,7 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
     url: '/sys/file/upload?filename=' + taskname + '&tid=' + tid + '&username=' + username,
     method: 'post',
     data: formData,
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
     headers: {
       'Authorization': Author,
       'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarypgnnfMj7vzrDwtRZ'
@@ -75,7 +75,7 @@ export function task_list_finished(Author) {
   return request({
     url: '/sys/task/finished?page=1&limit=100',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
     headers: {
       'Authorization': Author
     }
@@ -88,7 +88,7 @@ export function task_list_unfinished(Author) {
   return request({
     url: '/sys/task/unfinished',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://123.56.83.121:8081/',
     headers: {
       'Authorization': Author
     }

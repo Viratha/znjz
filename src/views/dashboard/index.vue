@@ -6,11 +6,9 @@
   <div>
     <section id="banner" class="banner">
       <div class="content">
-        <h3>华为“智能基座”-TASK
-        </h3>
+        <h3>华为“智能基座”-TASK</h3>
         <p>开源、互助、共同成长</p>
       </div>
-
     </section>
 
     <!-- banner section ends -->
@@ -19,48 +17,48 @@
 
     <section id="posts" class="container">
       <div class="sidebar">
-
         <div class="box">
           <!-- <h3 class="title">popular tags</h3> -->
           <div class="tags">
             <a href="#">华为云</a>
             <a href="#">昇腾</a>
             <a href="#">鸿蒙</a>
-
           </div>
         </div>
-
       </div>
       <el-button
         type="primary"
         plain
         icon="el-icon-plus"
         size="mini"
-        style="width:100px;height:50px"
+        style="width: 100px; height: 50px"
         @click="handleAdd"
-      >新增任务</el-button>
+        >新增任务</el-button
+      >
+      <!-- <div v-for="(item) in list" class="posts-container"> -->
       <div v-for="(item) in list" class="posts-container">
-
         <!-- <p v-for="(item) in list">{{ item }}</p> -->
         <div class="post">
           <div class="task_all">
             <div class="task_image">
-              <img src="./images/task2.jpg" alt="" class="image">
+              <img :src="item.avatar" alt="" class="image" />
             </div>
             <div class="task">
               <p class="title">{{ item.name }}</p>
               <p class="text">{{ item.detail }}</p>
               <p v-if="item.statu == 0" class="text">状态：已截止</p>
               <p v-if="item.statu == 1" class="text">状态：未截止</p>
-
-              <p class="text">deadline：{{ item.deadline }}</p>
+              <p class="text">deadline:{{ item.deadline }}</p>
             </div>
-
           </div>
           <div class="button_task">
             <!-- <el-button>详情</el-button> -->
             <el-button @click="handleup(item)">提交文件</el-button>
-            <el-button icon="el-icon-delete" circle @click="handleDelete(item)" />
+            <el-button
+              icon="el-icon-delete"
+              circle
+              @click="handleDelete(item)"
+            />
           </div>
 
           <div class="date">
@@ -72,9 +70,7 @@
             <span>by 牛掰娘</span>
           </a> -->
         </div>
-
       </div>
-
     </section>
 
     <!-- posts section ends -->
@@ -86,7 +82,6 @@
     <!-- footer section starts  -->
 
     <section class="footer">
-
       <div class="follow">
         <a href="#" class="fab fa-facebook-f" />
         <a href="#" class="fab fa-twitter" />
@@ -94,25 +89,45 @@
         <a href="#" class="fab fa-linkedin" />
       </div>
 
-      <div class="beian"><a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a></div>
-
+      <div class="beian">
+        <a href="https://beian.miit.gov.cn/" target="_blank"
+          >桂ICP备2021009535号</a
+        >
+      </div>
     </section>
 
     <!-- footer section ends -->
     <!-- 添加对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" height="500px" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="500px"
+      height="500px"
+      append-to-body
+    >
       <el-form ref="form" :model="adddata" label-width="80px">
-
         <el-form-item label="任务名字" prop="name">
-          <el-input v-model="adddata.name" type="text" placeholder="请输入任务名字" />
+          <el-input
+            v-model="adddata.name"
+            type="text"
+            placeholder="请输入任务名字"
+          />
         </el-form-item>
 
         <el-form-item label="任务详情" prop="detail">
-          <el-input v-model="adddata.detail" type="text" placeholder="请输入任务详情" />
+          <el-input
+            v-model="adddata.detail"
+            type="text"
+            placeholder="请输入任务详情"
+          />
         </el-form-item>
 
         <el-form-item label="任务持续时长" prop="time" label-width="100px">
-          <el-input v-model="adddata.time" type="text" placeholder="单位min（从此刻开始计算）" />
+          <el-input
+            v-model="adddata.time"
+            type="text"
+            placeholder="单位min（从此刻开始计算）"
+          />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -129,7 +144,13 @@ before-upload 上传之前的钩子，可以用来做一些校验
 on-success 上传成功之后的钩子，可以用来清除表单校验和文件列表
 on-error 上传失败之后的钩子
 auto-upload 选择文件之后是否立即上传 -->
-    <el-dialog :title="上传文件" :visible.sync="open2" width="400px" height="500px" append-to-body>
+    <el-dialog
+      :title="上传文件"
+      :visible.sync="open2"
+      width="400px"
+      height="500px"
+      append-to-body
+    >
       <!-- <el-upload
         ref="upload"
         class="upload-demo"
@@ -147,7 +168,6 @@ auto-upload 选择文件之后是否立即上传 -->
 
       -->
       <el-upload
-
         class="upload-demo"
         action="UploadUrl()"
         drag
@@ -168,11 +188,16 @@ auto-upload 选择文件之后是否立即上传 -->
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { task_list, task_list_add, task_list_del, task_list_upload } from '@/api/task/task_list'
+import { mapGetters } from "vuex";
+import {
+  task_list,
+  task_list_add,
+  task_list_del,
+  task_list_upload,
+} from "@/api/task/task_list";
 // , task_list_upload
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   data() {
     return {
       // status 0 登录 1注册
@@ -183,136 +208,134 @@ export default {
       // fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
       fileList: [],
       fileList3: [],
-      fileData: '',
+      fileData: "",
       open: false,
       adddata: {
         name: null,
         detail: null,
-        time: null
+        time: null,
       },
       registerForm: {
         username: null,
         password: null,
-        Email: null
+        Email: null,
       },
       list: [
         {
           id: 1,
-          created: '2021-10-21T17:01:28',
-          updated: '2021-10-05T18:08:53',
+          created: "2021-10-21T17:01:28",
+          updated: "2021-10-05T18:08:53",
           statu: 1,
-          name: '测试任务1',
-          detail: '任务描述',
+          name: "测试任务1",
+          detail: "任务描述",
           time: 2,
-          flag: '0',
-          deadline: '2021-10-05T18:10:53',
+          flag: "0",
+          deadline: "2021-10-05T18:10:53",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 2,
-          created: '2021-10-21T17:06:40',
-          updated: '2021-10-05T18:08:53',
+          created: "2021-10-21T17:06:40",
+          updated: "2021-10-05T18:08:53",
           statu: 1,
-          name: '测试任务2',
-          detail: '任务描述',
+          name: "测试任务2",
+          detail: "任务描述",
           time: 2,
-          flag: '0',
-          deadline: '2021-10-05T18:10:53',
+          flag: "0",
+          deadline: "2021-10-05T18:10:53",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
-          isFinished: null
+          isFinished: null,
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
-          isFinished: null
-        }
-
-      ]
-    }
+          isFinished: null,
+        },
+      ],
+    };
   },
   computed: {
-    ...mapGetters([
-      'name'
-    ])
+    ...mapGetters(["name"]),
   },
   created() {
-    var Author = localStorage.getItem('Authorization')
+    var Author = localStorage.getItem("Authorization");
     // console.log('Author' + Author)
-    this.Author = Author
-    task_list(Author).then(response => {
-      // console.log(response.result.list)
-      // this.list = response.data.items
-      this.list = response.result.list
-      // console.log(this.list)
-    }).catch((err) => {
-      console.log(err)
-    })
+    this.Author = Author;
+    task_list(Author)
+      .then((response) => {
+        console.log(response.result.records)
+        this.list = response.result.records;
+        // console.log(this.list)
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
   methods: {
     UploadUrl() {
       // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
-      return ''
+      return "";
     },
     // 上传前校验
     // beforeUploadFile(file) {
@@ -328,152 +351,168 @@ export default {
     // },
     // 上传文件
     uploadFile(e) {
-      var tid = this.tid
-      var taskname = this.taskname
-      console.log('tid:' + tid)
-      var Author = this.Author
-      var username = localStorage.getItem('username')
-      console.log('user:' + username)
+      var tid = this.tid;
+      var taskname = this.taskname;
+      console.log("tid:" + tid);
+      var Author = this.Author;
+      var username = localStorage.getItem("username");
+      console.log("user:" + username);
 
-      console.log('Author' + Author)
-      const { file } = e
+      console.log("Author" + Author);
+      const { file } = e;
       try {
-        const formData = new FormData()
-        formData.append('uploadFile', file)
-        console.log('---------上传文件---------')
-        console.log(formData)
+        const formData = new FormData();
+        formData.append("uploadFile", file);
+        console.log("---------上传文件---------");
+        console.log(formData);
         // 对应的ajax请求不做赘述
-        task_list_upload(Author, formData, tid, username, taskname).then(response => {
-          // console.log(response.result.list)
-          // this.list = response.data.items
-          // this.list = response.result.list
-          // console.log(response.message)
-          if (response.message === '成功!') { alert('上传成功') }
-        }).catch((err) => {
-          console.log(err)
-        })
-        console.log('-------------------------')
+        task_list_upload(Author, formData, tid, username, taskname)
+          .then((response) => {
+            // console.log(response.result.list)
+            // this.list = response.data.items
+            // this.list = response.result.list
+            // console.log(response.message)
+            if (response.message === "成功!") {
+              alert("上传成功");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        console.log("-------------------------");
       } catch {
-        this.$message.error(e.message)
+        this.$message.error(e.message);
       }
     },
     getList() {
-      var Author = this.Author
-      console.log('Author' + Author)
+      var Author = this.Author;
+      console.log("Author" + Author);
 
-      task_list(Author).then(response => {
-      // console.log(response.result.list)
-      // this.list = response.data.items
-        this.list = response.result.list
-        console.log(this.list)
-      }).catch((err) => {
-        console.log(err)
-      })
+      task_list(Author)
+        .then((response) => {
+          // console.log(response.result.list)
+          // this.list = response.data.items
+          this.list = response.result.list;
+          console.log(this.list);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     /** 上传按钮操作 */
     handleup(row) {
-      this.fileList = []
-      const ids = row.id || this.ids
-      this.tid = ids
-      this.taskname = row.name
+      this.fileList = [];
+      const ids = row.id || this.ids;
+      this.tid = ids;
+      this.taskname = row.name;
       // console.log('taskname:' + this.taskname)
       // console.log('tid ids:' + this.tid)
-      this.reset()
-      this.open2 = true
+      this.reset();
+      this.open2 = true;
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var Author = this.Author
+      var Author = this.Author;
       // console.log('Author' + Author)
-      const t = this
-      const ids = row.id || this.ids
-      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(function() {
-        return task_list_del(Author, ids)
-      }).then(() => {
-        t.$message({
-          message: '删除成功',
-          type: 'success'
+      const t = this;
+      const ids = row.id || this.ids;
+      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      })
+        .then(function () {
+          return task_list_del(Author, ids);
         })
-        t.getList()
-      }).catch(() => {})
+        .then(() => {
+          t.$message({
+            message: "删除成功",
+            type: "success",
+          });
+          t.getList();
+        })
+        .catch(() => {});
     },
     // 添加任务
     submitForm() {
-      const t = this
-      var Author = this.Author
-      console.log('Author' + Author)
+      const t = this;
+      var Author = this.Author;
+      console.log("Author" + Author);
 
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          task_list_add(Author, this.adddata.name, this.adddata.detail, this.adddata.time).then(response => {
-            // console.log(response.result.list)
-            // this.list = response.data.items
-            // this.list = response.result.list
-            t.$message({
-              message: '添加成功',
-              type: 'success'
+          task_list_add(
+            Author,
+            this.adddata.name,
+            this.adddata.detail,
+            this.adddata.time
+          )
+            .then((response) => {
+              // console.log(response.result.list)
+              // this.list = response.data.items
+              // this.list = response.result.list
+              t.$message({
+                message: "添加成功",
+                type: "success",
+              });
+              this.open = false;
+              t.getList();
+              console.log(response);
             })
-            this.open = false
-            t.getList()
-            console.log(response)
-          }).catch((err) => {
-            console.log(err)
-          })
+            .catch((err) => {
+              console.log(err);
+            });
         }
-      })
+      });
     },
     submitfile() {
-      this.$refs.form.validate(valid => {
+      this.$refs.form.validate((valid) => {
         if (valid) {
-          console.log('1')
+          console.log("1");
         }
-      })
+      });
     },
     // 表单重置
     reset() {
       this.adddata = {
         name: null,
         detail: null,
-        time: null
-      }
+        time: null,
+      };
       // this.resetForm('form')
     },
     // 取消按钮
     cancel() {
-      this.open = false
-      this.reset()
+      this.open = false;
+      this.reset();
     },
     cancel2() {
-      this.open2 = false
-      this.reset()
+      this.open2 = false;
+      this.reset();
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset()
-      this.open = true
-      this.title = '添加任务'
-    }
-  }
-}
+      this.reset();
+      this.open = true;
+      this.title = "添加任务";
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-.el-form-item{
-  margin:20px 0px 0px 0px
+.el-form-item {
+  margin: 20px 0px 0px 0px;
 }
-.button_task{
-  float:right;
+.button_task {
+  float: right;
 }
-.task_image{
-  float:left;
+.task_image {
+  float: left;
 }
-.task{
-  padding:0rem 0rem 0rem 9rem;
+.task {
+  padding: 0rem 0rem 0rem 9rem;
 }
 .dashboard {
   &-container {
@@ -484,340 +523,342 @@ export default {
     line-height: 46px;
   }
 }
-:root{
-    --orange:#e67e22;
-    --black:#333;
-    --light-color:#777;
-    --border:.1rem solid rgba(0,0,0,.2);
-    --box-shadow:0 .5rem 1rem rgba(0,0,0,.1);
+:root {
+  --orange: #e67e22;
+  --black: #333;
+  --light-color: #777;
+  --border: 0.1rem solid rgba(0, 0, 0, 0.2);
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-*{
-    margin:0; padding:0;
-    box-sizing: border-box;
-    outline: none; border:none;
-    text-decoration: none;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-weight: lighter;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: lighter;
 }
 
-section{
-    padding:2rem 7%;
+section {
+  padding: 2rem 7%;
 }
 
-.btn{
-    margin-top: 1rem;
-    display: inline-block;
-    background:var(--black);
-    color:#fff;
-    border-radius: .5rem;
-    padding:.9rem 3rem;
-    cursor: pointer;
-    font-size: 1.7rem;
+.btn {
+  margin-top: 1rem;
+  display: inline-block;
+  background: var(--black);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.9rem 3rem;
+  cursor: pointer;
+  font-size: 1.7rem;
 }
 
-.btn:hover{
-    background:var(--orange);
+.btn:hover {
+  background: var(--orange);
 }
 
-#menu-bars{
-    display: none;
+#menu-bars {
+  display: none;
 }
 
-.banner{
-    min-height: 60vh;
-    background:url(./images/pic1.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
-    display: grid;
-    place-items: center;
-    padding-top: 8rem;
+.banner {
+  min-height: 60vh;
+  background: url(./images/pic1.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  display: grid;
+  place-items: center;
+  padding-top: 8rem;
 }
 
-.banner .content{
-    text-align: center;
-    background:#fff;
-    border-radius: .5rem;
-    box-shadow: var(--box-shadow);
-    padding:3rem;
-    max-width: 50rem;
+.banner .content {
+  text-align: center;
+  background: #fff;
+  border-radius: 0.5rem;
+  box-shadow: var(--box-shadow);
+  padding: 3rem;
+  max-width: 50rem;
 }
 
-.banner .content h3{
-    font-size: 4rem;
-    color:var(--black);
-    text-transform: uppercase;
+.banner .content h3 {
+  font-size: 4rem;
+  color: var(--black);
+  text-transform: uppercase;
 }
 
-.banner .content p{
-    font-size: 1.7rem;
-    color:var(--light-color);
-    padding:1rem 0;
-    line-height: 1.5;
+.banner .content p {
+  font-size: 1.7rem;
+  color: var(--light-color);
+  padding: 1rem 0;
+  line-height: 1.5;
 }
 
-.container{
-    display: grid;
-    grid-template-columns: -0.5fr 1fr;
-    gap:1.5rem;
-    background:#eee;
+.container {
+  display: grid;
+  grid-template-columns: -0.5fr 1fr;
+  gap: 1.5rem;
+  background: #eee;
 }
 
-.container .posts-container .post{
-    width:100%;
-    padding:2rem;
-    background:#fff;
-    border:var(--border);
-    border-radius: .5rem;
-    margin-bottom: 1.5rem;
+.container .posts-container .post {
+  width: 100%;
+  padding: 2rem;
+  background: #fff;
+  border: var(--border);
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.container .posts-container .post .image{
-    // height: 40rem;
-    width:8rem;
-    height:8rem;
-    border-radius: .5rem;
-    object-fit: cover;
+.container .posts-container .post .image {
+  // height: 40rem;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
 }
 
-.container .posts-container .post .date{
-    padding-top: 2rem;
-    font-size: 1.5rem;
-    color:var(--orange);
+.container .posts-container .post .date {
+  padding-top: 2rem;
+  font-size: 1.5rem;
+  color: var(--orange);
 }
 
-.container .posts-container .post .title{
-    padding-top: 0rem;
+.container .posts-container .post .title {
+  padding-top: 0rem;
 
-    font-size: 2rem;
-    color:var(--black);
+  font-size: 2rem;
+  color: var(--black);
 }
 
-.container .posts-container .post .text{
-    color:var(--light-color);
-    font-size: 1.6rem;
-    line-height: 1.7;
-    padding:1rem 0;
+.container .posts-container .post .text {
+  color: var(--light-color);
+  font-size: 1.6rem;
+  line-height: 1.7;
+  padding: 1rem 0;
 }
 
-.container .posts-container .links{
-    border-top: var(--border);
-    margin-top: .5rem;
-    padding-top: 1.5rem;
-    display: flex;
-    align-items: center;
+.container .posts-container .links {
+  border-top: var(--border);
+  margin-top: 0.5rem;
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
 }
 
-.container .posts-container .links .user{
-    margin-right: auto;
+.container .posts-container .links .user {
+  margin-right: auto;
 }
 
-.container .posts-container .links .icon{
-    padding-right: 1rem;
+.container .posts-container .links .icon {
+  padding-right: 1rem;
 }
 
-.container .posts-container .links a{
-    font-size: 1.5rem;
-    color:var(--light-color);
+.container .posts-container .links a {
+  font-size: 1.5rem;
+  color: var(--light-color);
 }
 
-.container .posts-container .links a i{
-    padding-right: .2rem;
-    color:var(--black);
+.container .posts-container .links a i {
+  padding-right: 0.2rem;
+  color: var(--black);
 }
 
-.container .posts-container .links a:hover{
-    color:var(--orange);
+.container .posts-container .links a:hover {
+  color: var(--orange);
 }
 
-.container .posts-container .links a:hover i{
-    color:var(--orange);
+.container .posts-container .links a:hover i {
+  color: var(--orange);
 }
 
-.container .sidebar .box{
-    border:var(--border);
-    border-radius: .5rem;
-    overflow:hidden;
-    background:#fff;
-    margin-bottom: 1.5rem;
+.container .sidebar .box {
+  border: var(--border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+  margin-bottom: 1.5rem;
 }
 
-.container .sidebar .box .title{
-    padding:1.5rem;
-    font-size: 2rem;
-    color:#fff;
-    background:var(--black);
-    text-transform: capitalize;
+.container .sidebar .box .title {
+  padding: 1.5rem;
+  font-size: 2rem;
+  color: #fff;
+  background: var(--black);
+  text-transform: capitalize;
 }
 
-.container .sidebar .box .about{
-    text-align: center;
-    padding:1rem 1.5rem;
+.container .sidebar .box .about {
+  text-align: center;
+  padding: 1rem 1.5rem;
 }
 
-.container .sidebar .box .about img{
-    height: 15rem;
-    width: 15rem;
-    border-radius: 50%;
-    object-fit: cover;
-    margin:1rem 0;
+.container .sidebar .box .about img {
+  height: 15rem;
+  width: 15rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 1rem 0;
 }
 
-.container .sidebar .box .about h3{
-    color:var(--orange);
-    font-size: 2rem;
+.container .sidebar .box .about h3 {
+  color: var(--orange);
+  font-size: 2rem;
 }
 
-.container .sidebar .box .about p{
-    color:var(--light-color);
-    font-size: 1.5rem;
-    line-height: 1.5;
-    padding:1rem;
+.container .sidebar .box .about p {
+  color: var(--light-color);
+  font-size: 1.5rem;
+  line-height: 1.5;
+  padding: 1rem;
 }
 
-.container .sidebar .box .about .follow{
-    padding:1rem 0;
+.container .sidebar .box .about .follow {
+  padding: 1rem 0;
 }
 
-.container .sidebar .box .about .follow a{
-    height: 4rem;
-    line-height: 4rem;
-    width: 4rem;
-    border-radius: 50%;
-    background:var(--black);
-    color:#fff;
-    font-size: 1.7rem;
-    margin:0 .1rem;
+.container .sidebar .box .about .follow a {
+  height: 4rem;
+  line-height: 4rem;
+  width: 4rem;
+  border-radius: 50%;
+  background: var(--black);
+  color: #fff;
+  font-size: 1.7rem;
+  margin: 0 0.1rem;
 }
 
-.container .sidebar .box .about .follow a:hover{
-    background:var(--orange);
+.container .sidebar .box .about .follow a:hover {
+  background: var(--orange);
 }
 
-.container .sidebar .box .category{
-    padding:1rem 1.5rem;
+.container .sidebar .box .category {
+  padding: 1rem 1.5rem;
 }
 
-.container .sidebar .box .category a{
-    padding:.4rem 0;
-    font-size: 1.5rem;
-    color:var(--black);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.container .sidebar .box .category a {
+  padding: 0.4rem 0;
+  font-size: 1.5rem;
+  color: var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.container .sidebar .box .category a span{
-    background:var(--light-color);
-    color:#fff;
-    border-radius: .5rem;
-    padding:.5rem;
+.container .sidebar .box .category a span {
+  background: var(--light-color);
+  color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
 }
 
-.container .sidebar .box .category a:hover{
-    color:var(--orange);
+.container .sidebar .box .category a:hover {
+  color: var(--orange);
 }
 
-.container .sidebar .box .category a:hover span{
-    background-color:var(--orange);
+.container .sidebar .box .category a:hover span {
+  background-color: var(--orange);
 }
 
-.container .sidebar .box .p-post{
-    padding:1rem 2rem;
+.container .sidebar .box .p-post {
+  padding: 1rem 2rem;
 }
 
-.container .sidebar .box .p-post a{
-    padding:1rem 0;
-    display: block;
+.container .sidebar .box .p-post a {
+  padding: 1rem 0;
+  display: block;
 }
 
-.container .sidebar .box .p-post a h3{
-    color:var(--black);
-    font-size: 2rem;
-    padding-bottom: 1rem;
+.container .sidebar .box .p-post a h3 {
+  color: var(--black);
+  font-size: 2rem;
+  padding-bottom: 1rem;
 }
 
-.container .sidebar .box .p-post a span{
-    color:var(--light-color);
-    font-size: 1.5rem;
+.container .sidebar .box .p-post a span {
+  color: var(--light-color);
+  font-size: 1.5rem;
 }
 
-.container .sidebar .box .p-post a span i{
-    padding-right: .2rem;
+.container .sidebar .box .p-post a span i {
+  padding-right: 0.2rem;
 }
 
-.container .sidebar .box .p-post a:hover h3{
-    color:var(--orange);
+.container .sidebar .box .p-post a:hover h3 {
+  color: var(--orange);
 }
 
-.container .sidebar .box .tags{
-    padding:1rem;
+.container .sidebar .box .tags {
+  padding: 1rem;
 }
 
-.container .sidebar .box .tags a{
-    display: inline-block;
-    padding:1rem 1.5rem;
-    font-size: 1.5rem;
-    color:var(--black);
-    border-radius: .5rem;
-    border:var(--border);
-    margin:.5rem;
+.container .sidebar .box .tags a {
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  color: var(--black);
+  border-radius: 0.5rem;
+  border: var(--border);
+  margin: 0.5rem;
 }
 
-.container .sidebar .box .tags a:hover{
-    background:var(--black);
-    color:#fff;
+.container .sidebar .box .tags a:hover {
+  background: var(--black);
+  color: #fff;
 }
 
-.contact{
-    // background:url(../images/contact-bg.jpg) no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+.contact {
+  // background:url(../images/contact-bg.jpg) no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
-.contact form{
-    background:#fff;
-    box-shadow: var(--box-shadow);
-    border-radius: .5rem;
-    margin:2rem auto;
-    max-width: 70rem;
-    padding:2rem;
+.contact form {
+  background: #fff;
+  box-shadow: var(--box-shadow);
+  border-radius: 0.5rem;
+  margin: 2rem auto;
+  max-width: 70rem;
+  padding: 2rem;
 }
 
-.contact form h3{
-    color:var(--black);
-    text-align: center;
-    padding-bottom: 1.5rem;
-    font-size: 3rem;
-    text-transform: capitalize;
+.contact form h3 {
+  color: var(--black);
+  text-align: center;
+  padding-bottom: 1.5rem;
+  font-size: 3rem;
+  text-transform: capitalize;
 }
 
-.contact form .inputBox{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+.contact form .inputBox {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .contact form .inputBox input,
-.contact form textarea{
-    width:100%;
-    background:#eee;
-    padding:1rem;
-    margin:.7rem 0;
-    border-radius: .5rem;
-    color:var(--black);
-    font-size: 1.7rem;
+.contact form textarea {
+  width: 100%;
+  background: #eee;
+  padding: 1rem;
+  margin: 0.7rem 0;
+  border-radius: 0.5rem;
+  color: var(--black);
+  font-size: 1.7rem;
 }
 
-.contact form .inputBox input{
-    width:49%;
+.contact form .inputBox input {
+  width: 49%;
 }
 
-.footer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 // .footer .credit{
@@ -831,115 +872,113 @@ section{
 //     color:var(--orange);
 // }
 
-.footer .follow{
-    padding: 1rem 0;
+.footer .follow {
+  padding: 1rem 0;
 }
 
-.footer .follow a{
-    height:4.5rem;
-    line-height:4.5rem;
-    width:4.5rem;
-    border-radius: 50%;
-    font-size: 1.7rem;
-    background:var(--black);
-    color:#fff;
-    margin:0 .1rem;
-    text-align: center;
+.footer .follow a {
+  height: 4.5rem;
+  line-height: 4.5rem;
+  width: 4.5rem;
+  border-radius: 50%;
+  font-size: 1.7rem;
+  background: var(--black);
+  color: #fff;
+  margin: 0 0.1rem;
+  text-align: center;
 }
 
-.footer .beian a{
+.footer .beian a {
   float: right;
   font-size: 12px;
   text-decoration: none;
   color: #bbb;
 }
 
-.footer .follow a:hover{
-    background:var(--orange);
+.footer .follow a:hover {
+  background: var(--orange);
 }
 
 /* media queries  */
 
-@media (max-width:991px){
+@media (max-width: 991px) {
+  html {
+    font-size: 55%;
+  }
 
-    html{
-        font-size: 55%;
-    }
+  .header {
+    padding: 1.5rem;
+  }
 
-    .header{
-        padding:1.5rem;
-    }
+  section {
+    padding: 2rem;
+  }
 
-    section{
-        padding:2rem;
-    }
-
-    .container{
-        grid-template-columns: 2fr 1fr;
-    }
-
+  .container {
+    grid-template-columns: 2fr 1fr;
+  }
 }
 
-@media (max-width:768px){
+@media (max-width: 768px) {
+  #menu-bars {
+    display: inline-block;
+  }
 
-    #menu-bars{
-        display: inline-block;
-    }
+  .header .search-form {
+    top: 100%;
+    left: 0;
+    right: 0;
+    border-top: var(--border);
+    width: 100%;
+    border-radius: 0;
+  }
 
-    .header .search-form{
-        top:100%; left: 0; right: 0;
-        border-top: var(--border);
-        width: 100%;
-        border-radius: 0;
-    }
+  .header .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border-top: var(--border);
+    border-bottom: var(--border);
+    background: #fff;
+    display: none;
+  }
 
-    .header .navbar{
-        position: absolute;
-        top:100%; left: 0; right: 0;
-        border-top: var(--border);
-        border-bottom: var(--border);
-        background: #fff;
-        display: none;
-    }
+  .header .navbar.active {
+    display: block;
+  }
 
-    .header .navbar.active{
-        display: block;
-    }
+  .header .navbar a {
+    display: block;
+    background: #f7f7f7;
+    padding: 1.5rem;
+    margin: 1.5rem;
+    border-radius: 0.5rem;
+    border: var(--border);
+  }
 
-    .header .navbar a{
-        display: block;
-        background:#f7f7f7;
-        padding:1.5rem;
-        margin:1.5rem;
-        border-radius: .5rem;
-        border:var(--border);
-    }
+  .container {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 
-    .container{
-        grid-template-columns: 1fr;
-        gap:0;
-    }
+  .container .posts-container .post .image {
+    height: 30rem;
+  }
 
-    .container .posts-container .post .image{
-        height: 30rem;;
-    }
-
-    .footer{
-        flex-flow: column;
-        text-align: center;
-    }
-
+  .footer {
+    flex-flow: column;
+    text-align: center;
+  }
 }
 
-@media (max-width:450px){
+@media (max-width: 450px) {
+  html {
+    font-size: 50%;
+  }
 
-    html{
-        font-size: 50%;
-    }
-
-    .contact form .inputBox input{
-        width:100%;
-    }
-
+  .contact form .inputBox input {
+    width: 100%;
+  }
 }
 </style>
