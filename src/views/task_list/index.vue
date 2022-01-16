@@ -3,7 +3,7 @@
     <div class="dashboard-text">name: {{ name }}</div>
   </div> -->
   <div>
-    <section id="banner" class="banner" :style="{background:'url('+ home_bg + ')' }">
+    <section id="banner" class="banner">
       <div class="content">
         <h3>华为“智能基座”-TASK</h3>
         <p>开源、互助、共同成长</p>
@@ -20,27 +20,39 @@
           <p class="title">已完成</p>
 
           <el-table
-            :data="finishitableData"
+            :data="finishitableData.slice((currentnum - 1) * pagesize, pagenum*pagesize)"
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
             <el-table-column prop="id" label="任务id" width="180" />
-            <el-table-column prop="name" label="任务名称" width="180" />
+            <el-table-column prop="name" label="任务名称" width="300" />
             <!-- username -->
             <el-table-column prop="username" label="姓名" width="180" />
             <el-table-column prop="updated" label="完成日期" width="180" />
           </el-table>
+        <div class="block">
+           <span class="demonstration">完整功能</span>
+           <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pagenum"
+              :page-sizes="[20, 40, 80, 120]"
+              :page-size="20"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="this.finishitableData.length">
+          </el-pagination>
+        </div>
         </div>
 
         <div class="post">
           <p class="title">未完成</p>
           <el-table
-            :data="unfinishitableData"
+            :data="unfinishitableData.slice((currentnum - 1) * pagesize, pagenum*pagesize)"
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
             <el-table-column prop="id" label="任务id" width="180" />
-            <el-table-column prop="name" label="任务名称" width="180" />
+            <el-table-column prop="name" label="任务名称" width="300" />
             <!-- username -->
             <el-table-column prop="username" label="姓名" width="180" />
             <!-- <el-table-column
@@ -49,6 +61,18 @@
               width="180"
             /> -->
           </el-table>
+        </div>
+          <div class="block">
+           <span class="demonstration">完整功能</span>
+           <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page="pagenum1"
+              :page-sizes="[20, 40, 80, 120]"
+              :page-size="20"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="this.unfinishitableData.length">
+          </el-pagination>
         </div>
       </div>
 
@@ -93,14 +117,16 @@
 <script>
 import { mapGetters } from "vuex";
 import { task_list_finished, task_list_unfinished } from "@/api/task/task_list";
-import { home_bg } from "@/api/task/home";
 
 export default {
   name: "Dashboard",
   data() {
     return {
+      pagenum:1,
+      pagesize:20,
+      finishedList:null,
       Author: null,
-      home_bg:'',
+
       finishitableData: [],
       unfinishitableData: [],
       tableData: [
@@ -131,6 +157,8 @@ export default {
     ...mapGetters(["name"]),
   },
   created() {
+    this.getFinishedList();
+    this.getUnfinishedList();
     var Author = localStorage.getItem("Authorization");
     // var reg = new RegExp('"', 'g')
     // Author = Author.replace(reg, '')
@@ -157,26 +185,36 @@ export default {
       .catch((err) => {
         console.log(err);
       });
-      home_bg(Author)
-      .then((response) => {
-        console.log(response.result)
-        this.home_bg = response.result;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
-        return "warning-row";
+        return 'warning-row'
       } else if (rowIndex === 3) {
-        return "success-row";
+        return 'success-row'
       }
-      return "";
+      return ''
     },
-  },
-};
+    async getFinishedList() {
+      this.finishedList = this.finishitableData
+    },
+    async getUnfinishedList() {
+      this.unfinishedList = this.unfinishitableData
+    },
+    //重新获取数据
+    handleSizeChange(val) {
+        console.log('每页 ${val} 条');
+        this.pagesize = val
+        this.handleCurrentChange(1)
+        this.getFinishedList()
+      },
+    handleCurrentChange(val) {
+        console.log('当前页: ${val}');
+        this.pagenum = val
+        this.getFinishedList()
+      }
+}
+}
 </script>
 
 <style lang="scss" scoped>
