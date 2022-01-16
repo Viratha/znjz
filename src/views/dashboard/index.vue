@@ -4,7 +4,7 @@
     <div class="dashboard-text">name: {{ name }}</div>
   </div> -->
   <div>
-    <section id="banner" class="banner">
+    <section id="banner" class="banner" :style="{background:'url('+ home_bg + ')' }">
       <div class="content">
         <h3>华为“智能基座”-TASK</h3>
         <p>开源、互助、共同成长</p>
@@ -117,7 +117,7 @@
         <el-form-item label="任务详情" prop="detail">
           <el-input
             v-model="adddata.detail"
-            type="text"
+            type="textarea"
             placeholder="请输入任务详情"
           />
         </el-form-item>
@@ -196,11 +196,13 @@ import {
   task_list_upload,
 } from "@/api/task/task_list";
 // , task_list_upload
+import { home_bg } from "@/api/task/home"
 export default {
   name: "Dashboard",
   data() {
     return {
       // status 0 登录 1注册
+      home_bg:'',
       status: 0,
       Author: null,
       taskname: null,
@@ -324,13 +326,23 @@ export default {
     this.Author = Author;
     task_list(Author)
       .then((response) => {
-        console.log(response.result.records)
+        //console.log(response.result.records)
         this.list = response.result.records;
         // console.log(this.list)
       })
       .catch((err) => {
         console.log(err);
       });
+
+      home_bg(Author)
+      .then((response) => {
+        console.log(response.result)
+        this.home_bg = response.result;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      
   },
   methods: {
     UploadUrl() {

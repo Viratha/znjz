@@ -210,6 +210,19 @@ export default {
     }
   },
   created() {
+      // localStorage.setItem('countcount', 1)
+      // var countcount = localStorage.getItem('countcount')
+      // console.log('countcount：' + countcount)
+      const t = this
+      code().then(response => {
+      // console.log(response.result.token)
+        t.loginForm.token = response.result.token
+        var obj = document.getElementById('image')
+        obj.src = response.result.captchaImg
+      // this.list = response.data.items
+      // this.listLoading = false
+      })
+
     // const t = this
     // code().then(response => {
     //   // console.log(response.result.token)

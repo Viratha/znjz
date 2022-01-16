@@ -3,7 +3,7 @@
     <div class="dashboard-text">name: {{ name }}</div>
   </div> -->
   <div>
-    <section id="banner" class="banner">
+    <section id="banner" class="banner" :style="{background:'url('+ home_bg + ')' }">
       <div class="content">
         <h3>华为“智能基座”-TASK</h3>
         <p>开源、互助、共同成长</p>
@@ -93,12 +93,14 @@
 <script>
 import { mapGetters } from "vuex";
 import { task_list_finished, task_list_unfinished } from "@/api/task/task_list";
+import { home_bg } from "@/api/task/home";
 
 export default {
   name: "Dashboard",
   data() {
     return {
       Author: null,
+      home_bg:'',
       finishitableData: [],
       unfinishitableData: [],
       tableData: [
@@ -151,6 +153,14 @@ export default {
         // console.log(response.result.list)
         this.unfinishitableData = response.result.list;
         // this.list = response.data.items
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+      home_bg(Author)
+      .then((response) => {
+        console.log(response.result)
+        this.home_bg = response.result;
       })
       .catch((err) => {
         console.log(err);
