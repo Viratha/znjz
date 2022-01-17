@@ -71,9 +71,9 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
 }
 
 // 完成任务列表
-export function task_list_finished(Author) {
+export function task_list_finished(Author,username) {
   return request({
-    url: '/sys/task/finished?page=1&limit=100',
+    url: '/sys/task/getfinishedlistbyusername?page=1&limit=100&username=' + username,
     method: 'get',
     baseURL: 'http://123.56.83.121:8081/',
     headers: {
@@ -84,9 +84,9 @@ export function task_list_finished(Author) {
 }
 
 // 未完成任务列表
-export function task_list_unfinished(Author) {
+export function task_list_unfinished(Author,username) {
   return request({
-    url: '/sys/task/unfinished',
+    url: '/sys/task/getunfinishedlistbyusername?page=1&limit=100&username=' + username,
     method: 'get',
     baseURL: 'http://123.56.83.121:8081/',
     headers: {
