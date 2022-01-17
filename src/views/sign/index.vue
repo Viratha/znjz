@@ -9,8 +9,7 @@
               签到
             </el-button>
           </el-row>
-        </div></el-col
-      >
+        </div></el-col>
       <el-col :span="6">
         <div class="func">
           <el-button round icon="el-icon-no-smoking" @click="sign_out">
@@ -51,12 +50,14 @@
           >
             <template slot-scope="scope">
               <!-- scope.row 包含表格里当前行的所有数据 -->
-              <span style="color: green" v-if="scope.row.statu === 1"
-                >上班中</span
-              >
-              <span style="color: red" v-if="scope.row.statu === 0"
-                >下班辽</span
-              >
+              <span
+                v-if="scope.row.statu === 1"
+                style="color: green"
+              >上班中</span>
+              <span
+                v-if="scope.row.statu === 0"
+                style="color: red"
+              >下班辽</span>
             </template>
           </el-table-column>
         </el-table>
@@ -91,19 +92,22 @@
           >
             <template slot-scope="scope">
               <!-- scope.row 包含表格里当前行的所有数据 -->
-              <span style="color: green" v-if="scope.row.statu === 1"
-                >上班中</span
-              >
-              <span style="color: red" v-if="scope.row.statu === 0"
-                >下班辽</span
-              >
+              <span
+                v-if="scope.row.statu === 1"
+                style="color: green"
+              >上班中</span>
+              <span
+                v-if="scope.row.statu === 0"
+                style="color: red"
+              >下班辽</span>
             </template>
           </el-table-column>
           <el-table-column label="举报按钮" width="300px">
             <template slot-scope="scope">
-              <el-button type="text" @click="report_btn(scope.row.username)"
-                >举报</el-button
-              >
+              <el-button
+                type="text"
+                @click="report_btn(scope.row.username)"
+              >举报</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -113,139 +117,138 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { sign, signout } from "@/api/task/sign_list";
-import { sign_list, sign_list_myself } from "@/api/task/sign_list";
-import { report } from "@/api/task/report";
+import { mapGetters } from 'vuex'
+import { sign, signout } from '@/api/task/sign_list'
+import { sign_list, sign_list_myself } from '@/api/task/sign_list'
+import { report } from '@/api/task/report'
 
 export default {
-  name: "Sign",
+  name: 'Sign',
   data(Author, username) {
     return {
       Author: Author,
       username: username,
       signData: [],
-      signMyselfData:[],
-    };
+      signMyselfData: []
+    }
   },
   computed: {
-    ...mapGetters(["name"]),
+    ...mapGetters(['name'])
   },
   created() {
-    var Author = localStorage.getItem("Authorization");
-    this.Author = Author;
-    var username = localStorage.getItem("username");
-    this.username = username;
+    var Author = localStorage.getItem('Authorization')
+    this.Author = Author
+    var username = localStorage.getItem('username')
+    this.username = username
     sign_list_myself(Author, username)
       .then((response) => {
-        console.log("================");
-        console.log(response.result);
-        this.signMyselfData = response.result;
+        console.log('================')
+        console.log(response.result)
+        this.signMyselfData = response.result
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
 
     sign_list(Author)
       .then((response) => {
-        console.log(response.result);
-        this.signData = response.result;
+        console.log(response.result)
+        this.signData = response.result
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   },
   methods: {
     stateFormat(row, column) {
       if (row.state === 1) {
-        return "上班";
+        return '上班'
       } else {
-        return "下班";
+        return '下班'
       }
     },
     open2() {
       this.$message({
-        message: "操作成功！",
-        type: "success",
-      });
+        message: '操作成功！',
+        type: 'success'
+      })
     },
     open4() {
-      this.$message.error("别点了，成功了");
+      this.$message.error('别点了，成功了')
     },
     sign_in() {
-      var t = this;
-      var Author = localStorage.getItem("Authorization");
-      this.Author = Author;
-      var username = localStorage.getItem("username");
-      this.username = username;
+      var t = this
+      var Author = localStorage.getItem('Authorization')
+      this.Author = Author
+      var username = localStorage.getItem('username')
+      this.username = username
       sign(Author, username)
         .then((response) => {
-          console.log(response.result);
+          console.log(response.result)
           if (response.result === true) {
-            t.open2();
+            t.open2()
           } else {
-            t.open4();
+            t.open4()
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
 
     sign_out() {
-      var t = this;
-      var Author = localStorage.getItem("Authorization");
-      this.Author = Author;
-      var username = localStorage.getItem("username");
-      this.username = username;
+      var Author = localStorage.getItem('Authorization')
+      this.Author = Author
+      var username = localStorage.getItem('username')
+      this.username = username
       signout(Author, username)
         .then((response) => {
-          console.log(response.result);
+          console.log(response.result)
           //   this.unfinishitableData = response.result.list
           if (response.result === true) {
             this.$message({
-              message: "操作成功！",
-              type: "success",
-            });
+              message: '操作成功！',
+              type: 'success'
+            })
           } else {
-            this.$message.error("别点了，成功了");
+            this.$message.error('别点了，成功了')
           }
           // this.list = response.data.items
         })
         .catch((err) => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     report_btn(Username) {
-      var t = this;
-      var username = Username;
-      console.log(username);
-      var Author = localStorage.getItem("Authorization");
+      var t = this
+      var username = Username
+      console.log(username)
+      var Author = localStorage.getItem('Authorization')
       report(Author, username)
         .then((response) => {
-          console.log(response.result);
+          console.log(response.result)
           if (response.result === true) {
-            t.open2();
+            t.open2()
           } else {
-            t.open4();
+            t.open4()
           }
         })
         .catch((err) => {
-          console.log(err);
-          //this.$message.error("别点了，已经举报成功啦");
-        });
+          console.log(err)
+          // this.$message.error("别点了，已经举报成功啦");
+        })
     },
 
     tableRowClassName({ row, rowIndex }) {
       if (rowIndex === 1) {
-        return "warning-row";
+        return 'warning-row'
       } else if (rowIndex === 3) {
-        return "success-row";
+        return 'success-row'
       }
-      return "";
-    },
-  },
-};
+      return ''
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

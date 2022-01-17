@@ -30,18 +30,18 @@
             <el-table-column prop="username" label="姓名" width="180" />
             <el-table-column prop="updated" label="完成日期" width="180" />
           </el-table>
-        <div class="block">
-           <span class="demonstration">完整功能</span>
-           <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
+          <div class="block">
+            <span class="demonstration">完整功能</span>
+            <el-pagination
               :current-page="pagenum"
               :page-sizes="[20, 40, 80, 120]"
               :page-size="20"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="this.finishitableData.length">
-          </el-pagination>
-        </div>
+              :total="this.finishitableData.length"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+            />
+          </div>
         </div>
 
         <div class="post">
@@ -62,17 +62,17 @@
             /> -->
           </el-table>
         </div>
-          <div class="block">
-           <span class="demonstration">完整功能</span>
-           <el-pagination
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page="pagenum1"
-              :page-sizes="[20, 40, 80, 120]"
-              :page-size="20"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="this.unfinishitableData.length">
-          </el-pagination>
+        <div class="block">
+          <span class="demonstration">完整功能</span>
+          <el-pagination
+            :current-page="pagenum1"
+            :page-sizes="[20, 40, 80, 120]"
+            :page-size="20"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="this.unfinishitableData.length"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
         </div>
       </div>
 
@@ -104,9 +104,7 @@
         <a href="#" class="fab fa-linkedin" />
       </div>
       <div class="beian">
-        <a href="https://beian.miit.gov.cn/" target="_blank"
-          >桂ICP备2021009535号</a
-        >
+        <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
       </div>
     </section>
 
@@ -115,76 +113,76 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import { task_list_finished, task_list_unfinished } from "@/api/task/task_list";
+import { mapGetters } from 'vuex'
+import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
 
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   data() {
     return {
-      pagenum:1,
-      pagesize:20,
-      finishedList:null,
+      pagenum: 1,
+      pagesize: 20,
+      finishedList: null,
       Author: null,
 
       finishitableData: [],
       unfinishitableData: [],
       tableData: [
         {
-          date: "2016-05-02",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
         },
         {
-          date: "2016-05-04",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
         },
         {
-          date: "2016-05-01",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
         },
         {
-          date: "2016-05-03",
-          name: "王小虎",
-          address: "上海市普陀区金沙江路 1518 弄",
-        },
-      ],
-    };
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }
+      ]
+    }
   },
   computed: {
-    ...mapGetters(["name"]),
+    ...mapGetters(['name'])
   },
   created() {
-    this.getFinishedList();
-    this.getUnfinishedList();
-    var Author = localStorage.getItem("Authorization");
+    this.getFinishedList()
+    this.getUnfinishedList()
+    var Author = localStorage.getItem('Authorization')
     // var reg = new RegExp('"', 'g')
     // Author = Author.replace(reg, '')
     // console.log('Author' + Author)
-    this.Author = Author;
+    this.Author = Author
     // console.log('hehe' + Authorization)
     // const t = this
     task_list_finished(Author)
       .then((response) => {
         // console.log(response.result.list)
         // this.list = response.data.items
-        this.finishitableData = response.result.list;
+        this.finishitableData = response.result.list
         // console.log(this.finishitableData)
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
     task_list_unfinished(Author)
       .then((response) => {
         // console.log(response.result.list)
-        this.unfinishitableData = response.result.list;
+        this.unfinishitableData = response.result.list
         // this.list = response.data.items
       })
       .catch((err) => {
-        console.log(err);
-      });
+        console.log(err)
+      })
   },
   methods: {
     tableRowClassName({ row, rowIndex }) {
@@ -201,19 +199,19 @@ export default {
     async getUnfinishedList() {
       this.unfinishedList = this.unfinishitableData
     },
-    //重新获取数据
+    // 重新获取数据
     handleSizeChange(val) {
-        console.log('每页 ${val} 条');
-        this.pagesize = val
-        this.handleCurrentChange(1)
-        this.getFinishedList()
-      },
+      console.log('每页 ${val} 条')
+      this.pagesize = val
+      this.handleCurrentChange(1)
+      this.getFinishedList()
+    },
     handleCurrentChange(val) {
-        console.log('当前页: ${val}');
-        this.pagenum = val
-        this.getFinishedList()
-      }
-}
+      console.log('当前页: ${val}')
+      this.pagenum = val
+      this.getFinishedList()
+    }
+  }
 }
 </script>
 

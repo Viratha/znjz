@@ -210,18 +210,18 @@ export default {
     }
   },
   created() {
-      // localStorage.setItem('countcount', 1)
-      // var countcount = localStorage.getItem('countcount')
-      // console.log('countcount：' + countcount)
-      const t = this
-      code().then(response => {
+    // localStorage.setItem('countcount', 1)
+    // var countcount = localStorage.getItem('countcount')
+    // console.log('countcount：' + countcount)
+    const t = this
+    code().then(response => {
       // console.log(response.result.token)
-        t.loginForm.token = response.result.token
-        var obj = document.getElementById('image')
-        obj.src = response.result.captchaImg
+      t.loginForm.token = response.result.token
+      var obj = document.getElementById('image')
+      obj.src = response.result.captchaImg
       // this.list = response.data.items
       // this.listLoading = false
-      })
+    })
 
     // const t = this
     // code().then(response => {
@@ -434,7 +434,7 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
+/* 修复input 不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;

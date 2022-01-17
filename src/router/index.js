@@ -31,6 +31,7 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+
   {
     path: '/login',
     component: () => import('@/views/login/index'),
@@ -64,7 +65,21 @@ export const constantRoutes = [
       name: 'task_list',
       component: () => import('@/views/task_list/index'),
       meta: { title: '任务情况', icon: 'dashboard' }
-    }]
+    },
+    {
+      path: 'sign',
+      name: 'Sign',
+      component: () => import('@/views/sign/index'),
+      meta: { title: '签到', icon: 'dashboard' }
+    },
+
+    {
+      path: '/selfInfo',
+      name: 'selfInfoLink',
+      component: () => import('@/views/selfInfo/index'),
+      meta: { title: '个人信息', icon: 'dashboard' }
+    }
+    ]
   },
 
   {
@@ -78,6 +93,18 @@ export const constantRoutes = [
       meta: { title: '签到', icon: 'dashboard' }
     }]
   },
+
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/selfInfo',
+  //   children: [{
+  //     path: 'selfInfo',
+  //     name: 'selfInfo',
+  //     component: () => import('@/views/selfInfo/index'),
+  //     meta: { title: '个人信息', icon: 'dashboard' }
+  //   }]
+  // },
 
   // {
   //   path: '/example',
