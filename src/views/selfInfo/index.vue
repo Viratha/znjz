@@ -2,11 +2,11 @@
   <div class="main">
     <table>
       <th colspan="2">个人信息</th>
-      <tr><td> <span class="el-icon-user" /> 用户名：</td><td>{{ username }}</td></tr>
-      <tr><td><span class="el-icon-video-play" /> 创建时间：</td><td>{{ createdTime }}</td></tr>
-      <tr><td><span class="el-icon-s-opportunity" /> 方向：</td><td>{{ direction }}</td></tr>
-      <tr><td><span class="el-icon-message" /> 邮箱：</td><td>{{ email }}</td></tr>
-      <tr><td><span class="el-icon-bell" /> 剩余违规次数：</td><td>{{ deadcount }}</td></tr>
+      <tr><td> <span class="el-icon-user" /> 用户名：</td><td> {{ username }}</td></tr>
+      <tr><td><span class="el-icon-video-play" /> 创建时间：</td><td> {{ createdTime }}</td></tr>
+      <tr><td><span class="el-icon-s-opportunity" /> 方向：</td><td> {{ direction }}</td></tr>
+      <tr><td><span class="el-icon-message" /> 邮箱：</td><td> {{ email }}</td></tr>
+      <tr><td><span class="el-icon-bell" /> 剩余违规次数：</td><td> {{ deadcount }}</td></tr>
     </table>
 
   </div>
@@ -81,7 +81,7 @@ text-overflow: ellipsis;
 white-space: normal;
 word-break: break-all;
 line-height: 30px;
-padding-right: 10px;
+padding-left: 10px;
 color: #696c74;
 
 }

@@ -20,15 +20,92 @@
           <p class="title">已完成</p>
 
           <el-table
-            :data="finishitableData.slice((currentnum - 1) * pagesize, pagenum*pagesize)"
+            :data="
+              finishitableData.slice(
+                (currentnum - 1) * pagesize,
+                pagenum * pagesize
+              )
+            "
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
-            <el-table-column prop="id" label="任务id" width="180" />
-            <el-table-column prop="name" label="任务名称" width="300" />
+            <el-table-column prop="id" label="任务id" width="200" />
+            <el-table-column prop="name" label="任务名称" width="350" />
             <!-- username -->
-            <el-table-column prop="username" label="姓名" width="180" />
-            <el-table-column prop="updated" label="完成日期" width="180" />
+            <!-- <el-table-column prop="username" label="姓名" width="180" /> -->
+            <el-table-column prop="updated" label="完成日期" width="250" />
+            <el-table-column prop="statu" label="详情按钮">
+              <template slot-scope="scope">
+                <!-- scope.row 包含表格里当前行的所有数据 -->
+                <el-button
+                  v-if="!isAdmin"
+                  type="text"
+                  @click="task_detail_common(scope.row.detail)"
+                >任务详情</el-button>
+                <el-button
+                  v-if="isAdmin"
+                  type="text"
+                  @click="
+                    show_table();
+                    task_detail_admin(scope.row.id);
+                  "
+                >任务详情</el-button>
+                <el-drawer
+                  title="任务完成情况"
+                  :visible.sync="table"
+                  direction="rtl"
+                  size="50%"
+                >
+                  <h3>已完成</h3>
+                  <el-table :data="taskFinishForAdmin" max-height="300">
+                    <el-table-column
+                      property="id"
+                      label="任务id"
+                      width="200"
+                    />
+                    <el-table-column
+                      property="username"
+                      label="姓名"
+                      width="250"
+                    />
+                    <el-table-column
+                      property="warningcount"
+                      label="警告次数"
+                    />
+                  </el-table>
+                  <h3>未完成</h3>
+                  <el-table :data="taskUnfinishForAdmin" max-height="300">
+                    <el-table-column
+                      property="id"
+                      label="任务id"
+                      width="200"
+                    />
+                    <el-table-column
+                      property="username"
+                      label="姓名"
+                      width="250"
+                    />
+                    <el-table-column
+                      property="warningcount"
+                      label="警告次数"
+                    />
+                  </el-table>
+                </el-drawer>
+              </template>
+            </el-table-column>
+            <div class="block">
+              <!-- <span class="demonstration">完整功能</span> -->
+              <el-pagination
+                :hide-on-single-page="value"
+                :current-page="pagenum"
+                :page-sizes="[20, 40, 80, 120]"
+                :page-size="20"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="this.finishitableData.length"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+              />
+            </div>
           </el-table>
           <div class="block">
             <span class="demonstration">完整功能</span>
@@ -42,24 +119,102 @@
               @current-change="handleCurrentChange"
             />
           </div>
+
         </div>
 
         <div class="post">
           <p class="title">未完成</p>
           <el-table
-            :data="unfinishitableData.slice((currentnum - 1) * pagesize, pagenum*pagesize)"
+            :data="
+              unfinishitableData.slice(
+                (currentnum - 1) * pagesize,
+                pagenum * pagesize
+              )
+            "
             style="width: 100%"
             :row-class-name="tableRowClassName"
           >
-            <el-table-column prop="id" label="任务id" width="180" />
-            <el-table-column prop="name" label="任务名称" width="300" />
+            <el-table-column prop="id" label="任务id" width="200" />
+            <el-table-column prop="name" label="任务名称" width="350" />
             <!-- username -->
-            <el-table-column prop="username" label="姓名" width="180" />
+            <el-table-column prop="deadline" label="截止时间" width="250" />
+            <el-table-column prop="statu" label="详情按钮">
+              <template slot-scope="scope">
+                <!-- scope.row 包含表格里当前行的所有数据 -->
+                <el-button
+                  v-if="!isAdmin"
+                  type="text"
+                  @click="task_detail_common(scope.row.detail)"
+                >任务详情</el-button>
+                <el-button
+                  v-if="isAdmin"
+                  type="text"
+                  @click="
+                    show_table();
+                    task_detail_admin(scope.row.id);
+                  "
+                >任务详情</el-button>
+                <el-drawer
+                  title="任务完成情况"
+                  :visible.sync="table"
+                  direction="rtl"
+                  size="50%"
+                >
+                  <h3>已完成</h3>
+                  <el-table :data="taskFinishForAdmin" max-height="300">
+                    <el-table-column
+                      property="id"
+                      label="任务id"
+                      width="200"
+                    />
+                    <el-table-column
+                      property="username"
+                      label="姓名"
+                      width="250"
+                    />
+                    <el-table-column
+                      property="warningcount"
+                      label="警告次数"
+                    />
+                  </el-table>
+                  <h3>未完成</h3>
+                  <el-table :data="taskUnfinishForAdmin" max-height="300">
+                    <el-table-column
+                      property="id"
+                      label="任务id"
+                      width="200"
+                    />
+                    <el-table-column
+                      property="username"
+                      label="姓名"
+                      width="250"
+                    />
+                    <el-table-column
+                      property="warningcount"
+                      label="警告次数"
+                    />
+                  </el-table>
+                </el-drawer>
+              </template>
+            </el-table-column>
             <!-- <el-table-column
               prop="created"
               label="创建日期"
               width="180"
             /> -->
+            <div class="block">
+              <!-- <span class="demonstration">完整功能</span> -->
+              <el-pagination
+                :hide-on-single-page="value"
+                :current-page="pagenum1"
+                :page-sizes="[20, 40, 80, 120]"
+                :page-size="20"
+                layout="total, sizes, prev, pager, next, jumper"
+                :total="this.unfinishitableData.length"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+              />
+            </div>
           </el-table>
         </div>
         <div class="block">
@@ -74,6 +229,7 @@
             @current-change="handleCurrentChange"
           />
         </div>
+
       </div>
 
       <div class="sidebar">
@@ -115,11 +271,21 @@
 <script>
 import { mapGetters } from 'vuex'
 import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
+import {
+  is_admin,
+  task_unfinished_forAdmin,
+  task_finished_forAdmin
+} from '@/api/task/admin'
 
 export default {
   name: 'Dashboard',
   data() {
     return {
+      table: false,
+      isAdmin: 1,
+      value: false,
+      currentnum: '',
+      pagenum1: '',
       pagenum: 1,
       pagesize: 20,
       finishedList: null,
@@ -127,6 +293,8 @@ export default {
 
       finishitableData: [],
       unfinishitableData: [],
+      taskFinishForAdmin: [],
+      taskUnfinishForAdmin: [],
       tableData: [
         {
           date: '2016-05-02',
@@ -158,14 +326,17 @@ export default {
     this.getFinishedList()
     this.getUnfinishedList()
     var Author = localStorage.getItem('Authorization')
+    var Username = localStorage.getItem('username')
+    console.log(Username)
     // var reg = new RegExp('"', 'g')
     // Author = Author.replace(reg, '')
     // console.log('Author' + Author)
     this.Author = Author
     // console.log('hehe' + Authorization)
     // const t = this
-    task_list_finished(Author)
+    task_list_finished(Author, Username)
       .then((response) => {
+        // console.log('wancheng')
         // console.log(response.result.list)
         // this.list = response.data.items
         this.finishitableData = response.result.list
@@ -174,11 +345,19 @@ export default {
       .catch((err) => {
         console.log(err)
       })
-    task_list_unfinished(Author)
+    task_list_unfinished(Author, Username)
       .then((response) => {
-        // console.log(response.result.list)
         this.unfinishitableData = response.result.list
         // this.list = response.data.items
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    is_admin(Author)
+      .then((response) => {
+        console.log(response.result)
+        if (response.result[0] === 'ROLE_normal') this.isAdmin = 0
+        // console.log(this.isAdmin)
       })
       .catch((err) => {
         console.log(err)
@@ -198,6 +377,7 @@ export default {
     },
     async getUnfinishedList() {
       this.unfinishedList = this.unfinishitableData
+      console.log('hahahahah')
     },
     // 重新获取数据
     handleSizeChange(val) {
@@ -210,7 +390,45 @@ export default {
       console.log('当前页: ${val}')
       this.pagenum = val
       this.getFinishedList()
+    },
+
+    task_detail_common(value) {
+      this.$alert(value, '任务详情', {
+        confirmButtonText: '确定'
+        // callback: action => {
+        //   this.$message({
+        //     type: 'info',
+        //     message: `action: ${ action }`
+        //   });
+        // }
+      })
+    },
+    task_detail_admin(value) {
+      // console.log(value);
+      var Author = localStorage.getItem('Authorization')
+      console.log(Author)
+      task_finished_forAdmin(Author, value)
+        .then((response) => {
+          // console.log(value)
+          // console.log(response.result);
+          this.taskFinishForAdmin = response.result.list
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+      task_unfinished_forAdmin(Author, value)
+        .then((response) => {
+          console.log(response.result)
+          this.taskUnfinishForAdmin = response.result.list
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    show_table() {
+      this.table = true
     }
+    // console.log(this.unfinishitableData.detail)
   }
 }
 </script>
