@@ -1,5 +1,5 @@
 <template>
-  <div class="login-container">
+  <div v-if="login_bg" class="login-container" :style="{background:'url('+ login_bg + ')' }">
     <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
     <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
       <div v-if="status==0">
@@ -145,7 +145,7 @@
 import { validUsername } from '@/utils/validate'
 import { code } from '@/api/task/login'
 import { register } from '@/api/task/register'
-
+import { login_bg } from '@/api/task/home'
 export default {
   name: 'Login',
   data() {
@@ -164,6 +164,7 @@ export default {
       }
     }
     return {
+      login_bg: '',
       registerForm: {
         username: null,
         password: null,
@@ -222,6 +223,15 @@ export default {
       // this.list = response.data.items
       // this.listLoading = false
     })
+
+    login_bg()
+      .then((response) => {
+        console.log(response.result)
+        this.login_bg = response.result
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
     // const t = this
     // code().then(response => {
@@ -437,10 +447,9 @@ export default {
 /* 修复input 不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg:#283443;
+$bg:#5c5c5c;
 $light_gray:#fff;
 $cursor: #fff;
-
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
@@ -480,7 +489,7 @@ $cursor: #fff;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        // box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
@@ -496,22 +505,23 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg:#5c6674;
 $dark_gray:#889aa4;
 $light_gray:#eee;
-
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
 
   .login-form {
+    background-color: rgba(0, 0, 0, 0.3);
+
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 50px 35px 0;
     margin: 0 auto;
+    margin-top: 100px;
     overflow: hidden;
   }
 
@@ -556,5 +566,6 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
+
 }
 </style>

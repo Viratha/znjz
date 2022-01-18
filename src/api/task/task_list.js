@@ -70,8 +70,21 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
   })
 }
 
+// 下载文件接口
+export function task_list_download(Author, tid) {
+  return request({
+    url: '/sys/file/getZipFile?tid=' + tid,
+    method: 'get',
+    baseURL: 'http://123.56.83.121:8081/',
+    headers: {
+      'Authorization': Author
+    }
+    // params
+  })
+}
+
 // 完成任务列表
-export function task_list_finished(Author,username) {
+export function task_list_finished(Author, username) {
   return request({
     url: '/sys/task/getfinishedlistbyusername?page=1&limit=100&username=' + username,
     method: 'get',
@@ -84,7 +97,7 @@ export function task_list_finished(Author,username) {
 }
 
 // 未完成任务列表
-export function task_list_unfinished(Author,username) {
+export function task_list_unfinished(Author, username) {
   return request({
     url: '/sys/task/getunfinishedlistbyusername?page=1&limit=100&username=' + username,
     method: 'get',

@@ -2,7 +2,6 @@ import request from '@/utils/request'
 
 /* 签到 */
 export function sign(Author, username) {
-  console.log(Author)
   return request({
     url: '/sys/register/register?username=' + username,
     method: 'post',
@@ -16,7 +15,6 @@ export function sign(Author, username) {
 
 // 签退
 export function signout(Author, username) {
-  console.log(Author)
   return request({
     url: '/sys/register/finishregister?username=' + username,
     method: 'put',

@@ -23,7 +23,8 @@
     <!-- 签到信息 -->
     <div class="sign_list">
       <div>
-        <h3 class="title">我的签到信息</h3>
+        <h3 class="title">我的签到信息 <span class="el-icon-refresh-right" @click="refresh" /> </h3>
+
         <el-table
           :data="signMyselfData"
           :header-row-class-name="tableRowClassName"
@@ -48,17 +49,17 @@
             label="签到状态"
             :formatter="stateFormat"
           >
-            <template slot-scope="scope">
-              <!-- scope.row 包含表格里当前行的所有数据 -->
-              <span
-                v-if="scope.row.statu === 1"
-                style="color: green"
-              >上班中</span>
-              <span
-                v-if="scope.row.statu === 0"
-                style="color: red"
-              >下班辽</span>
-            </template>
+            <!-- <template slot-scope="scope"> -->
+            <!-- scope.row 包含表格里当前行的所有数据 -->
+            <span
+              v-if="this.statu === 1"
+              style="color: green"
+            >上班中</span>
+            <span
+              v-if="this.statu === 0"
+              style="color: red"
+            >下班辽</span>
+            <!-- </template> -->
           </el-table-column>
         </el-table>
       </div>
@@ -121,6 +122,7 @@ import { mapGetters } from 'vuex'
 import { sign, signout } from '@/api/task/sign_list'
 import { sign_list, sign_list_myself } from '@/api/task/sign_list'
 import { report } from '@/api/task/report'
+// import { selfInfo } from '@/api/task/selfInfo'
 
 export default {
   name: 'Sign',
@@ -128,6 +130,7 @@ export default {
     return {
       Author: Author,
       username: username,
+      statu: 3,
       signData: [],
       signMyselfData: []
     }
@@ -140,11 +143,14 @@ export default {
     this.Author = Author
     var username = localStorage.getItem('username')
     this.username = username
+    console.log(Author)
     sign_list_myself(Author, username)
       .then((response) => {
         console.log('================')
         console.log(response.result)
         this.signMyselfData = response.result
+        console.log(response.result[0].statu)
+        this.statu = response.result[0].statu
       })
       .catch((err) => {
         console.log(err)
@@ -158,10 +164,40 @@ export default {
       .catch((err) => {
         console.log(err)
       })
+
+    // selfInfo(Author).then((response) => {
+    //   this.statu = response.result.statu
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
   },
   methods: {
+    refresh() {
+      var Author = localStorage.getItem('Authorization')
+      this.Author = Author
+      var username = localStorage.getItem('username')
+      this.username = username
+      console.log(this.statu)
+      if (this.statu === 1) {
+        console.log('执行了')
+        signout(Author, username)
+          .then((response) => {
+            sign(Author, username)
+              .then((response) => {
+                console.log(response.result)
+                this.$forceUpdate()
+              })
+              .catch((err) => {
+                console.log(err)
+              })
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    },
     stateFormat(row, column) {
-      if (row.state === 1) {
+      if (row.statu === 1) {
         return '上班'
       } else {
         return '下班'
@@ -186,6 +222,9 @@ export default {
         .then((response) => {
           console.log(response.result)
           if (response.result === true) {
+            this.$set(this, 'statu', 1)
+            // this.statu = 1
+            // this.$forceUpdate()
             t.open2()
           } else {
             t.open4()
@@ -194,6 +233,7 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+      this.$forceUpdate()
     },
 
     sign_out() {
@@ -206,6 +246,8 @@ export default {
           console.log(response.result)
           //   this.unfinishitableData = response.result.list
           if (response.result === true) {
+            this.statu = 0
+            this.$forceUpdate()
             this.$message({
               message: '操作成功！',
               type: 'success'
@@ -218,6 +260,7 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+      this.$forceUpdate()
     },
     report_btn(Username) {
       var t = this

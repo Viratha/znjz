@@ -7,7 +7,12 @@
       <tr><td><span class="el-icon-s-opportunity" /> 方向：</td><td> {{ direction }}</td></tr>
       <tr><td><span class="el-icon-message" /> 邮箱：</td><td> {{ email }}</td></tr>
       <tr><td><span class="el-icon-bell" /> 剩余违规次数：</td><td> {{ deadcount }}</td></tr>
+
     </table>
+    <p class="attention title">注意事项：</p>
+    <p class="attention">
+      剩余违规次数，会在未完成任务，或者违反其它规定时候扣除，当次数扣完的时候，系统会自动发起警告，如果之后仍然还是出现违纪行为，就会被社团开除。
+      此项工作由系统自动完成，人工无法干预</p>
 
   </div>
 </template>
@@ -17,9 +22,9 @@ import { mapGetters } from 'vuex'
 import { selfInfo } from '@/api/task/selfInfo'
 export default {
   name: 'SelfInfo',
-  data(Author) {
+  data() {
     return {
-      Author: Author,
+      Author: '',
       username: null,
       createdTime: null,
       directionId: null,
@@ -64,6 +69,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+  font-size: 16px;
+}
+.attention{
+  font-size: 14px;
+  color: #696c74;
+  width: 80%;
+  margin: auto;
+  margin-top: 15px;
+}
     table {
       width: 70%;
       background: #ccc;

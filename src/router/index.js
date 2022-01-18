@@ -60,12 +60,12 @@ export const constantRoutes = [
       component: () => import('@/views/dashboard/index'),
       meta: { title: '任务发布', icon: 'dashboard' }
     },
-    {
-      path: 'task_list',
-      name: 'task_list',
-      component: () => import('@/views/task_list/index'),
-      meta: { title: '任务情况', icon: 'dashboard' }
-    },
+    // {
+    //   path: 'task_list',
+    //   name: 'task_list',
+    //   component: () => import('@/views/task_list/index'),
+    //   meta: { title: '任务情况', icon: 'dashboard' }
+    // },
     {
       path: 'sign',
       name: 'Sign',

@@ -52,11 +52,11 @@
                 >任务详情</el-button>
                 <el-drawer
                   title="任务完成情况"
-                  :visible.sync="table"
+                  :visible.sync="button"
                   direction="rtl"
                   size="50%"
                 >
-                  <h3>已完成</h3>
+                  <h3 class="formTitle">已完成</h3>
                   <el-table :data="taskFinishForAdmin" max-height="300">
                     <el-table-column
                       property="id"
@@ -73,7 +73,7 @@
                       label="警告次数"
                     />
                   </el-table>
-                  <h3>未完成</h3>
+                  <h3 class="formTitle">未完成</h3>
                   <el-table :data="taskUnfinishForAdmin" max-height="300">
                     <el-table-column
                       property="id"
@@ -108,7 +108,7 @@
             </div>
           </el-table>
           <div class="block">
-            <span class="demonstration">完整功能</span>
+            <!-- <span class="demonstration">完整功能</span> -->
             <el-pagination
               :current-page="pagenum"
               :page-sizes="[20, 40, 80, 120]"
@@ -160,8 +160,8 @@
                   direction="rtl"
                   size="50%"
                 >
-                  <h3>已完成</h3>
                   <el-table :data="taskFinishForAdmin" max-height="300">
+                    <h3 class="formTitle">已完成</h3>
                     <el-table-column
                       property="id"
                       label="任务id"
@@ -177,8 +177,8 @@
                       label="警告次数"
                     />
                   </el-table>
-                  <h3>未完成</h3>
                   <el-table :data="taskUnfinishForAdmin" max-height="300">
+                    <h3 class="formTitle">未完成</h3>
                     <el-table-column
                       property="id"
                       label="任务id"
@@ -218,7 +218,7 @@
           </el-table>
         </div>
         <div class="block">
-          <span class="demonstration">完整功能</span>
+          <!-- <span class="demonstration">完整功能</span> -->
           <el-pagination
             :current-page="pagenum1"
             :page-sizes="[20, 40, 80, 120]"
@@ -434,6 +434,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .formTitle {
+    font-size: 40px;
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+
 .el-table .warning-row {
   background: oldlace;
 }
@@ -902,6 +908,7 @@ section {
     flex-flow: column;
     text-align: center;
   }
+
 }
 
 @media (max-width: 450px) {
