@@ -7,7 +7,7 @@ var count = 0
 // create an axios instance
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: 'http://123.56.83.121:8081/', // url = base url + request url
+  baseURL: 'http://47.93.33.180:8081/', // url = base url + request url
 
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
@@ -15,7 +15,7 @@ const service = axios.create({
 
 // const service2 = axios.create({
 //   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-//   baseURL: 'http://123.56.83.121:8081/', // url = base url + request url
+//   baseURL: 'http://47.93.33.180:8081/', // url = base url + request url
 
 //   // withCredentials: true, // send cookies when cross-domain requests
 //   timeout: 5000 // request timeout
@@ -24,7 +24,7 @@ const service = axios.create({
 // service2.interceptors.request.use(
 //   config => {
 //     // do something before request is sent
-//     console.log('正在拦截http://123.56.83.121:8081/')
+//     console.log('正在拦截http://47.93.33.180:8081/')
 //     console.log(config.headers.Authorization)
 //     localStorage.setItem('Authorization', config.headers.Authorization)
 //     // localStorage.setItem('Authorization', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTYzNTY2NTg2MiwiZXhwIjoxNjM2MjcwNjYyfQ.-0kGRpxxbDZp-qkjttP-xLFeGkRAu-DOtwn18uLGClPQkkT7WqlUaxxsGqgSCVQNPecENGdFWje7dseTkLUtvA')

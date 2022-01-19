@@ -4,7 +4,7 @@ export function login(data) {
   return request({
     // url: '/vue-admin-template/user/login',
 
-    baseURL: 'http://123.56.83.121:8081/login',
+    baseURL: 'http://47.93.33.180:8081/login',
 
     method: 'post',
     data
@@ -31,7 +31,7 @@ export function logout() {
     // url: '/vue-admin-template/user/logout',
     url: '/logout',
     method: 'post',
-    baseURL: 'http://123.56.83.121:8081/'
+    baseURL: 'http://47.93.33.180:8081/'
 
   })
 }
@@ -42,7 +42,7 @@ export function avatar_upload(Author, formData) {
     url:'/sys/user/upload',
     method: 'post',
     data: formData,
-    baseURL: 'http://123.56.83.121:8081/',
+    baseURL: 'http://47.93.33.180:8081/',
     headers: {
       'Authorization': Author,
       'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarypgnnfMj7vzrDwtRZ'
@@ -56,7 +56,7 @@ export function user_avatar(Author) {
   return request({
     url: '/sys/user/current',
     method: 'get',
-    baseURL: 'http://123.56.83.121:8081/',
+    baseURL: 'http://47.93.33.180:8081/',
     headers: {
       'Authorization': Author
     }

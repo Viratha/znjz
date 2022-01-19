@@ -5,7 +5,7 @@ export function register(username, password, Email) {
   return request({
     url: '/sys/user/register',
     method: 'post',
-    baseURL: 'http://123.56.83.121:8081/',
+    baseURL: 'http://47.93.33.180:8081/',
 
     data: ({ // 这里是发送给后台的数据
       username: username,

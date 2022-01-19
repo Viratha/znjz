@@ -4,7 +4,7 @@ export function home_bg(Author) {
   return request({
     url: '/sys/file/homebg',
     method: 'get',
-    baseURL: 'http://123.56.83.121:8081/',
+    baseURL: 'http://47.93.33.180:8081/',
 
     headers: {
       'Authorization': Author
@@ -16,7 +16,7 @@ export function login_bg() {
   return request({
     url: '/sys/file/loginbg',
     method: 'get',
-    baseURL: 'http://123.56.83.121:8081/'
+    baseURL: 'http://47.93.33.180:8081/'
 
     // params
   })
