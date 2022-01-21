@@ -23,7 +23,7 @@
     <!-- 签到信息 -->
     <div class="sign_list">
       <div>
-        <h3 class="title">我的签到信息 <span class="el-icon-refresh-right" @click="refresh" /> </h3>
+        <h3 class="title">我的签到信息 </h3>
 
         <el-table
           :data="signMyselfData"
@@ -185,7 +185,7 @@ export default {
             sign(Author, username)
               .then((response) => {
                 console.log(response.result)
-                this.$forceUpdate()
+                location.reload(true)
               })
               .catch((err) => {
                 console.log(err)
@@ -223,8 +223,7 @@ export default {
           console.log(response.result)
           if (response.result === true) {
             this.$set(this, 'statu', 1)
-            // this.statu = 1
-            // this.$forceUpdate()
+            location.reload(true)
             t.open2()
           } else {
             t.open4()
@@ -246,8 +245,10 @@ export default {
           console.log(response.result)
           //   this.unfinishitableData = response.result.list
           if (response.result === true) {
-            this.statu = 0
-            this.$forceUpdate()
+            // this.statu = 0
+            this.$set(this, 'statu', 0)
+            location.reload(true)
+            // this.$forceUpdate()
             this.$message({
               message: '操作成功！',
               type: 'success'
@@ -303,6 +304,7 @@ export default {
 }
 
 .title {
+  display: block;
   margin-top: 30px;
   margin-left: 30px;
   color: #909399;

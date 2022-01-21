@@ -489,9 +489,27 @@ $cursor: #fff;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        // box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 10px 10px 5px transparent inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
+
+  //   input:-webkit-autofill , textarea:-webkit-autofill, select:-webkit-autofill {
+  //     box-shadow: 10px 10px 5px transparent inset !important;
+  //     -webkit-text-fill-color: $cursor !important;
+	//     -webkit-text-fill-color: #ededed !important;
+  //   	-webkit-box-shadow: 0 0 0px 1000px transparent  inset !important;
+  //     background-color:transparent;
+  //     background-image: none;
+  //     transition: background-color 50000s ease-in-out 0s; //背景色透明  生效时长  过渡效果  启用时延迟的时间
+  //     }
+  //   input {
+	//  background-color:transparent;
+  //   }
+
+.login-input input:-webkit-autofill {
+    -webkit-animation-name: autofill;
+    -webkit-animation-fill-mode: both;
+}
     }
   }
 
@@ -501,6 +519,17 @@ $cursor: #fff;
     border-radius: 5px;
     color: #454545;
   }
+
+  input:-webkit-autofill {
+    -webkit-text-fill-color: #acfff2 !important;/*记住密码的字的颜色*/
+    transition: background-color 5000s ease-in-out 0s;/*延时渲染背景色来去除背景色*/
+    caret-color: #acfff2;/*光标颜色*/
+}
+
+input:focus {  /*外边框线去除*/
+ outline: none;
+}
+
 }
 </style>
 
@@ -558,7 +587,7 @@ $light_gray:#eee;
   }
 
   .show-pwd {
-    position: absolute;
+    position: relative;
     right: 10px;
     top: 7px;
     font-size: 16px;

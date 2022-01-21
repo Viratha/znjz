@@ -108,7 +108,7 @@ export function task_list_unfinished(Author, username) {
   })
 }
 is_finish
-//是否已完成任务
+// 是否已完成任务
 export function is_finish(Author, id) {
   return request({
     url: '/sys/task/isfinish?id=' + id,
