@@ -222,6 +222,7 @@ export default {
         .then((response) => {
           console.log(response.result)
           if (response.result === true) {
+            console.log('签到成功，用户名是' + this.username)
             this.$set(this, 'statu', 1)
             location.reload(true)
             t.open2()

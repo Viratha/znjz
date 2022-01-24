@@ -111,15 +111,12 @@
               width="50%"
               height="40%"
               :before-close="handleClose"
+              :v-on="task_detail_common(item.id)"
             >
               <span>{{ item.detail }}</span>
               <h3>截止日期：{{ item.deadline }}</h3>
-              <h3 v-if="!task_detail_common(item.id)" style="color: red" class="text">
-                未完成
-              </h3>
-              <h3 v-if="task_detail_common(item.id)" style="color: green" class="text">
-                已完成
-              </h3>
+              <h3 v-if="flag === '未完成'" style="color:red;" class="text"> {{ flag }} </h3>
+              <h3 v-if="flag === '已完成'" style="color:green;" class="text"> {{ flag }} </h3>
               <!-- <span>{{item.deadline}}</span>
               <span>{{isFinish}}</span> -->
               <span slot="footer" class="dialog-footer">
@@ -309,6 +306,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      flag: '',
       dialogIndex: '',
       drawerIndex: '',
       dialogVisible: false,
@@ -654,12 +652,15 @@ export default {
     },
     task_detail_common(id) {
       this.Author = localStorage.getItem('Authorization')
+      console.log(this.Author)
       is_finish(this.Author, id)
         .then((response) => {
-          if (response.result === false) {
-            return false
+          if (response.result === true) {
+            console.log(id + ' 已完成')
+            this.flag = '已完成'
           } else {
-            return true
+            console.log(id + ' 未完成')
+            this.flag = '未完成'
           }
         })
         .catch((err) => {

@@ -3,7 +3,7 @@ import request from '@/utils/request'
 /* 签到 */
 export function sign(Author, username) {
   return request({
-    url: '/sys/register/register?username=' + username,
+    url: '/sys/register/register?username=' + encodeURIComponent(username),
     method: 'post',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
@@ -16,7 +16,7 @@ export function sign(Author, username) {
 // 签退
 export function signout(Author, username) {
   return request({
-    url: '/sys/register/finishregister?username=' + username,
+    url: '/sys/register/finishregister?username=' + encodeURIComponent(username),
     method: 'put',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
@@ -41,7 +41,7 @@ export function sign_list(Author) {
 
 export function sign_list_myself(Author, username) {
   return request({
-    url: '/sys/register/list?username=' + username,
+    url: '/sys/register/list?username=' + encodeURIComponent(username),
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {
