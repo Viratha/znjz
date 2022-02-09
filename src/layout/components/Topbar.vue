@@ -220,6 +220,7 @@ export default {
     },
     async logout() {
       await this.$store.dispatch('user/logout')
+      localStorage.setItem('Author', '')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     },
     // 用户头像更改

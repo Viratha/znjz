@@ -133,7 +133,6 @@
       <div class="tips">
         <!-- <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span> -->
-        <span> 多喝热水</span>
         <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
       </div>
 
@@ -175,8 +174,8 @@ export default {
       loginForm: {
         // username: 'admin',
         // password: '111111',
-        username: null,
-        password: null,
+        username: localStorage.username,
+        password: localStorage.password,
         code: null,
         token: null
       },
@@ -211,6 +210,13 @@ export default {
     }
   },
   created() {
+      if(localStorage.getItem('Author') !== null) {
+        localStorage.setItem('Authorization' , localStorage.getItem('Author'))
+        this.status = 0
+        this.$router.push({ path: '/dashboard' })
+        // console.log('跳转');
+        // console.log(this.$router)
+    }
     // localStorage.setItem('countcount', 1)
     // var countcount = localStorage.getItem('countcount')
     // console.log('countcount：' + countcount)
@@ -297,7 +303,6 @@ export default {
           // }).catch(() => {
           //   this.loading = false
           // })
-
           this.loading = true
           // console.log('this form' + JSON.stringify(this.loginForm))
           this.$store.dispatch('user/login_new', this.loginForm).then(response => {
@@ -305,7 +310,9 @@ export default {
             // if (response.code === 200) {
             // this.$message.success(response.message)
             localStorage.setItem('username', this.loginForm.username)
-            this.$router.push({ path: this.redirect || '/' })
+            localStorage.setItem('Author' , localStorage.getItem('Authorization'))
+            localStorage.setItem('password', this.loginForm.password)
+            this.$router.push({ path: '/' })
             this.loading = false
             // }
           }).catch(() => {
