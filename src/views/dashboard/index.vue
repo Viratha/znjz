@@ -159,7 +159,7 @@
               <el-table-column property="username" label="姓名" width="250" />
               <el-table-column property="warningcount" label="警告次数" />
             </el-table>
-            <p class="tableTitle">未完成</p>
+            <p class="tableTitle">未完成(bug)</p>
             <el-table :data="taskUnfinishForAdmin" max-height="200">
               <el-table-column property="id" label="学员id" width="200" />
               <el-table-column property="username" label="姓名" width="250" />
@@ -461,8 +461,9 @@ export default {
       })
     is_admin(Author)
       .then((response) => {
-        // console.log(response.result);
-        if (response.result[0] === 'ROLE_normal') this.isAdmin = 0
+        console.log(response.result)
+        if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
+        else this.isAdmin = 0
         // console.log(this.isAdmin)
       })
       .catch((err) => {

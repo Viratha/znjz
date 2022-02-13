@@ -97,9 +97,10 @@ export function task_list_finished(Author, username) {
 }
 
 // 未完成任务列表
+
 export function task_list_unfinished(Author, username) {
   return request({
-    url: '/sys/task/getunfinishedlistbyusername?page=1&limit=100&username=' + username,
+    url: '/sys/task/unfinished?page=1&limit=100&username=' + username,
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
     headers: {

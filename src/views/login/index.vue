@@ -210,12 +210,12 @@ export default {
     }
   },
   created() {
-      if(localStorage.getItem('Author') !== null) {
-        localStorage.setItem('Authorization' , localStorage.getItem('Author'))
-        this.status = 0
-        this.$router.push({ path: '/dashboard' })
-        // console.log('跳转');
-        // console.log(this.$router)
+    if (localStorage.getItem('Author') !== null) {
+      localStorage.setItem('Authorization', localStorage.getItem('Author'))
+      this.status = 0
+      this.$router.push({ path: '/dashboard' })
+      // console.log('跳转');
+      // console.log(this.$router)
     }
     // localStorage.setItem('countcount', 1)
     // var countcount = localStorage.getItem('countcount')
@@ -307,10 +307,11 @@ export default {
           // console.log('this form' + JSON.stringify(this.loginForm))
           this.$store.dispatch('user/login_new', this.loginForm).then(response => {
             // alert('response code' + response.code)
-            // if (response.code === 200) {
+            // if (response.code === '200') {
             // this.$message.success(response.message)
+            console.log(response)
             localStorage.setItem('username', this.loginForm.username)
-            localStorage.setItem('Author' , localStorage.getItem('Authorization'))
+            localStorage.setItem('Author', localStorage.getItem('Authorization'))
             localStorage.setItem('password', this.loginForm.password)
             this.$router.push({ path: '/' })
             this.loading = false

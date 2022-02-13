@@ -282,7 +282,7 @@ export default {
   data() {
     return {
       table: false,
-      isAdmin: 1,
+      isAdmin: 0,
       value: false,
       currentnum: '',
       pagenum1: '',
@@ -356,7 +356,8 @@ export default {
     is_admin(Author)
       .then((response) => {
         console.log(response.result)
-        if (response.result[0] === 'ROLE_normal') this.isAdmin = 0
+        if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
+        else this.isAdmin = 0
         // console.log(this.isAdmin)
       })
       .catch((err) => {
