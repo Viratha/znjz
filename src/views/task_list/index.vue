@@ -270,7 +270,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
+import { task_list_finished, task_list_unfinished, task_list_download } from '@/api/task/task_list'
 import {
   is_admin,
   task_unfinished_forAdmin,
@@ -429,7 +429,7 @@ export default {
     show_table() {
       this.table = true
     }
-    // console.log(this.unfinishitableData.detail)
+
   }
 }
 </script>

@@ -71,11 +71,12 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
 }
 
 // 下载文件接口
-export function task_list_download(Author, tid) {
+export function task_download(Author, tid) {
   return request({
     url: '/sys/file/getZipFile?tid=' + tid,
     method: 'get',
     baseURL: 'http://47.93.33.180:8081/',
+    responseType: 'blob',
     headers: {
       'Authorization': Author
     }

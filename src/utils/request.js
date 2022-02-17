@@ -10,7 +10,7 @@ const service = axios.create({
   baseURL: 'http://47.93.33.180:8081/', // url = base url + request url
 
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  timeout: 5000000 // request timeout
 })
 
 // const service2 = axios.create({
@@ -124,6 +124,8 @@ service.interceptors.response.use(
 
       // console.log('count响应++:' + count)
     }
+
+    if (res.type === 'text/xml') return res
 
     if (res.code === '-1') {
       Message({

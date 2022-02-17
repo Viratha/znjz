@@ -85,8 +85,8 @@
             >任务详情</el-button>
             <el-button
               v-if="isAdmin"
-              @click="downloadZipFile(item.id)"
-            >下载学员任务（未实现qwq）</el-button>
+              @click="task_file_download(item.id), openFullScreen"
+            >下载学员任务</el-button>
 
             <!-- <el-button
               v-if="!isAdmin"
@@ -293,19 +293,19 @@ import {
   task_list_del,
   task_list_upload
 } from '@/api/task/task_list'
-// , task_list_upload
 import { home_bg } from '@/api/task/home'
-// import { task_list_download } from '@/api/task/task_list'
 import {
   is_admin,
   task_unfinished_forAdmin,
   task_finished_forAdmin
 } from '@/api/task/admin'
-import { is_finish } from '@/api/task/task_list'
+import { is_finish, task_download } from '@/api/task/task_list'
+
 export default {
   name: 'Dashboard',
   data() {
     return {
+      fullscreenLoading: false,
       flag: '',
       dialogIndex: '',
       drawerIndex: '',
@@ -461,7 +461,7 @@ export default {
       })
     is_admin(Author)
       .then((response) => {
-        console.log(response.result)
+        // console.log(response.result)
         if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
         else this.isAdmin = 0
         // console.log(this.isAdmin)
@@ -471,6 +471,42 @@ export default {
       })
   },
   methods: {
+    download(filename, link) {
+      const DownloadLink = document.createElement('a')
+      DownloadLink.style = 'display: none' // 创建一个隐藏的a标签
+      DownloadLink.download = filename
+      DownloadLink.href = link
+      document.body.appendChild(DownloadLink)
+      DownloadLink.click() // 触发a标签的click事件
+      document.body.removeChild(DownloadLink)
+    },
+    openFullScreen() {
+      this.loading = this.$loading({
+        lock: false,
+        text: '莫急 加载中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+    },
+    task_file_download(tid) {
+      console.log(tid)
+      console.log('调用下载任务')
+      var Author = localStorage.getItem('Authorization')
+      this.openFullScreen()
+      task_download(Author, tid).then((response) => {
+        console.log('发请求了')
+        console.log(response)
+        const blob = new Blob([response], { type: 'application/zip' })
+        this.loading.close()
+        const url = window.URL.createObjectURL(blob)
+        console.log(url)
+        this.fullscreenLoading = false
+        this.download('任务文件.zip', url)
+      }).catch(e => {
+        console.log(e)
+        this.$message.error('下载文件出错')
+      })
+    },
     UploadUrl() {
       // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
       return ''
@@ -682,7 +718,6 @@ export default {
         })
       task_unfinished_forAdmin(Author, value)
         .then((response) => {
-          console.log(response.result)
           this.taskUnfinishForAdmin = response.result.list
         })
         .catch((err) => {

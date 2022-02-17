@@ -46,6 +46,7 @@ export default {
           case 3 : this.direction = '鸿蒙/软件'; break
           case 4 : this.direction = '鸿蒙/硬件'; break
           case 5 : this.direction = '昇腾'; break
+          case 6 : this.direction = '考研内卷组'; break
           default :this.direction = 'null'
         }
       }
