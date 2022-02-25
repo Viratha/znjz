@@ -471,6 +471,29 @@ export default {
       })
   },
   methods: {
+    open1() {
+      this.$message({
+        showClose: true,
+        message: '恭喜你，这是一条成功消息',
+        type: 'success'
+      })
+    },
+
+    open3() {
+      this.$message({
+        showClose: true,
+        message: '警告哦，这是一条警告消息',
+        type: 'warning'
+      })
+    },
+
+    open4() {
+      this.$message({
+        showClose: true,
+        message: '错了哦，这是一条错误消息',
+        type: 'error'
+      })
+    },
     download(filename, link) {
       const DownloadLink = document.createElement('a')
       DownloadLink.style = 'display: none' // 创建一个隐藏的a标签
@@ -554,6 +577,7 @@ export default {
       try {
         const formData = new FormData()
         formData.append('uploadFile', file)
+        this.openFullScreen()
         // 对应的ajax请求不做赘述
         task_list_upload(Author, formData, tid, username, taskname)
           .then((response) => {
@@ -562,7 +586,12 @@ export default {
             // this.list = response.result.list
             // console.log(response.message)
             if (response.message === '成功!') {
-              alert('上传成功')
+              this.loading.close()
+              this.$message({
+                showClose: true,
+                message: '上传成功',
+                type: 'success'
+              })
             }
           })
           .catch((err) => {

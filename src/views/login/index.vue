@@ -1,5 +1,5 @@
 <template>
-  <div v-if="login_bg" class="login-container" :style="{background:'url('+ login_bg + ')' }">
+  <div v-if="login_bg" class="login-container" :style="{background:'url('+ login_bg + ')' ,'background-size':'cover' }">
     <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
     <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
       <div v-if="status==0">
