@@ -1,143 +1,147 @@
 <template>
-  <div v-if="login_bg" class="login-container" :style="{background:'url('+ login_bg + ')' ,'background-size':'cover' }">
-    <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
-    <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
-      <div v-if="status==0">
-        <div class="title-container">
-          <h3 class="title">登录</h3>
-        </div>
-
-        <el-form-item prop="username">
-          <span class="svg-container">
-            <svg-icon icon-class="user" />
-          </span>
-          <el-input
-            ref="username"
-            v-model="loginForm.username"
-            placeholder="Username"
-            name="username"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-          />
-        </el-form-item>
-
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="loginForm.password"
-            :type="passwordType"
-            placeholder="Password"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-            @keyup.enter.native="handleLogin"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
-        <div class="code">
-          <div class="codema">
-            <el-form-item prop="code">
-              <el-input
-                ref="username"
-                v-model="loginForm.code"
-                placeholder="验证码"
-                name="code"
-                type="text"
-                tabindex="1"
-                auto-complete="on"
-              />
-            </el-form-item>
+  <div v-if="login_bg" class="background" :style="{background:'url('+ login_bg + ')' ,'background-size':'cover' }">
+    <div class="login-container">
+      <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
+      <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
+        <div v-if="status==0">
+          <div class="title-container">
+            <h3 class="title">登录</h3>
           </div>
 
-          <p class="pic">
-            <img id="image" src="./code.jpg" height="45" width="150" style="cursor:pointer" @click="imgclick()">
+          <el-form-item prop="username">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="username"
+              v-model="loginForm.username"
+              placeholder="Username"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
 
-          </p>
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              placeholder="Password"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-form-item>
+          <div class="code">
+            <div class="codema">
+              <el-form-item prop="code">
+                <el-input
+                  ref="username"
+                  v-model="loginForm.code"
+                  placeholder="验证码"
+                  name="code"
+                  type="text"
+                  tabindex="1"
+                  auto-complete="on"
+                />
+              </el-form-item>
+            </div>
 
-          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
-          <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button>
+            <p class="pic">
+              <img id="image" src="./code.jpg" height="45" width="150" style="cursor:pointer" @click="imgclick()">
+
+            </p>
+
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+            <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button>
+
+          </div>
 
         </div>
 
-      </div>
+        <div v-if="status==1">
+          <div class="title-container">
+            <h3 class="title">注册</h3>
+          </div>
 
-      <div v-if="status==1">
-        <div class="title-container">
-          <h3 class="title">注册</h3>
+          <el-form-item prop="username">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="username"
+              v-model="registerForm.username"
+              placeholder="账号"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="registerForm.password"
+              :type="passwordType"
+              placeholder="密码"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleregister"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+            </span>
+          </el-form-item>
+
+          <el-form-item prop="Email">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="Email"
+              v-model="registerForm.Email"
+              placeholder="邮箱"
+              name="Email"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+
+          <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button>
+          <el-button style="margin-bottom:30px;float:right" @click="Loginchange">登录</el-button>
+
         </div>
 
-        <el-form-item prop="username">
-          <span class="svg-container">
-            <svg-icon icon-class="user" />
-          </span>
-          <el-input
-            ref="username"
-            v-model="registerForm.username"
-            placeholder="账号"
-            name="username"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-          />
-        </el-form-item>
+        <!-- <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button> -->
 
-        <el-form-item prop="password">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input
-            :key="passwordType"
-            ref="password"
-            v-model="registerForm.password"
-            :type="passwordType"
-            placeholder="密码"
-            name="password"
-            tabindex="2"
-            auto-complete="on"
-            @keyup.enter.native="handleregister"
-          />
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </el-form-item>
-
-        <el-form-item prop="Email">
-          <span class="svg-container">
-            <svg-icon icon-class="user" />
-          </span>
-          <el-input
-            ref="Email"
-            v-model="registerForm.Email"
-            placeholder="邮箱"
-            name="Email"
-            type="text"
-            tabindex="1"
-            auto-complete="on"
-          />
-        </el-form-item>
-
-        <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button>
-        <el-button style="margin-bottom:30px;float:right" @click="Loginchange">登录</el-button>
-
-      </div>
-
-      <!-- <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click="handleregister">注册</el-button> -->
-
-      <div class="tips">
-        <!-- <span style="margin-right:20px;">username: admin</span>
+        <div class="tips">
+          <!-- <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span> -->
-        <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
-      </div>
+          <a href="https://beian.miit.gov.cn/" target="_blank">桂ICP备2021009535号</a>
+        </div>
 
-    </el-form>
+      </el-form>
+    </div>
+
   </div>
+
 </template>
 
 <script>
@@ -458,6 +462,10 @@ export default {
 $bg:#5c5c5c;
 $light_gray:#fff;
 $cursor: #fff;
+html,body{
+      margin:0;
+      padding:0;
+}
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
@@ -552,13 +560,11 @@ $light_gray:#eee;
 
   .login-form {
     background-color: rgba(0, 0, 0, 0.3);
-
     position: relative;
     width: 520px;
     max-width: 100%;
     padding: 50px 35px 0;
-    margin: 0 auto;
-    margin-top: 100px;
+    margin: 10% auto;
     overflow: hidden;
   }
 

@@ -1,26 +1,28 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <topbar />
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar v-if="!sidebar.hide" class="sidebar-container" />
-    <div :class="{sidebarHide: sidebar.hide}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-      </div>
-      <app-main />
+    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
+    <sidebar v-if="!sidebar.hide" class="sidebar-container" /> -->
+
+    <!-- <div :class="{sidebarHide: sidebar.hide}" class="main-container"> -->
+    <div :class="{'fixed-header':fixedHeader}">
+      <navbar />
     </div>
+    <app-main />
+    <!-- </div> -->
+
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain, Topbar } from './components'
+import { Navbar, AppMain, Topbar } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
   components: {
     Navbar,
-    Sidebar,
+    // Sidebar,
     AppMain,
     Topbar
   },

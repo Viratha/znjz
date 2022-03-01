@@ -7,7 +7,7 @@
     <section
       id="banner"
       class="banner"
-      :style="{ background: 'url(' + home_bg + ')' }"
+      :style="{ background: 'url(' + home_bg + ')' ,'background-size':'cover'}"
     >
       <div class="content">
         <h3>华为“智能基座”-TASK</h3>
@@ -127,10 +127,9 @@
                 >确 定</el-button>
               </span>
             </el-dialog>
-            <el-button @click="handleup(item)">提交文件</el-button>
+            <el-button @click="handleup(item)">提交任务</el-button>
             <el-button
               icon="el-icon-delete"
-              circle
               @click="handleDelete(item)"
             />
           </div>
@@ -846,11 +845,12 @@ section {
 .banner {
   min-height: 60vh;
   background: url(./images/pic1.jpg) no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   display: grid;
   place-items: center;
   padding-top: 8rem;
+  position: center;
 }
 
 .banner .content {
