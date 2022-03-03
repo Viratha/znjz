@@ -2,16 +2,17 @@
   <!-- 签到签退按钮 -->
   <div class="sign">
     <el-row :gutter="20">
-      <el-col :span="6">
-        <div class="func">
+      <el-col :span="12">
+        <div class="func" style="text-align:center;">
           <el-row>
             <el-button round icon="el-icon-smoking" @click="sign_in">
               签到
             </el-button>
           </el-row>
-        </div></el-col>
-      <el-col :span="6">
-        <div class="func">
+        </div>
+      </el-col>
+      <el-col :span="12">
+        <div class="func" style="text-align:center;">
           <el-button round icon="el-icon-no-smoking" @click="sign_out">
             签退
           </el-button>
@@ -30,9 +31,10 @@
           :header-row-class-name="tableRowClassName"
           border
           stripe
-          height="150px"
+          height="100px"
           style="width: 100%"
           :row-class-name="tableRowClassName"
+          max-height="300"
         >
           <el-table-column
             header-align="center"
@@ -68,10 +70,12 @@
         <h3 class="title">签到排行</h3>
 
         <el-table
-          :data="signData"
+          :data="
+            tableData
+          "
           border
           stripe
-          height="1300px"
+          height="500px"
           style="width: 100%"
           :row-class-name="tableRowClassName"
         >
@@ -80,6 +84,7 @@
             width="100px"
             align="center"
             type="index"
+
             label="序号"
           />
           <el-table-column prop="username" label="姓名" width="300px" />
@@ -103,15 +108,29 @@
               >下班辽</span>
             </template>
           </el-table-column>
-          <el-table-column label="举报按钮" width="300px">
+          <el-table-column label="举报按钮">
             <template slot-scope="scope">
               <el-button
                 type="text"
-                @click="report_btn(scope.row.username)"
+                @click="jubao(scope.row.username)"
               >举报</el-button>
             </template>
+
           </el-table-column>
+          <div class="block" />
         </el-table>
+        <div class="block">
+          <el-pagination
+            :current-page="currentPage"
+            :page-size="this.pageNum"
+            :page-sizes="this.pagesizes"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="this.signData.length"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+
+        </div>
       </div>
     </div>
   </div>
@@ -123,16 +142,20 @@ import { sign, signout } from '@/api/task/sign_list'
 import { sign_list, sign_list_myself } from '@/api/task/sign_list'
 import { report } from '@/api/task/report'
 // import { selfInfo } from '@/api/task/selfInfo'
-
+var pageNum
 export default {
   name: 'Sign',
-  data(Author, username) {
+  data() {
     return {
-      Author: Author,
-      username: username,
+      currentPage: 1,
+      total: 0,
+      pagesize: 20,
+      pagesizes: [20, 40, 50],
       statu: 3,
       signData: [],
-      signMyselfData: []
+      signMyselfData: [],
+      signList: null
+
     }
   },
   computed: {
@@ -146,10 +169,7 @@ export default {
     console.log(Author)
     sign_list_myself(Author, username)
       .then((response) => {
-        console.log('================')
-        console.log(response.result)
         this.signMyselfData = response.result
-        console.log(response.result[0].statu)
         this.statu = response.result[0].statu
       })
       .catch((err) => {
@@ -160,18 +180,47 @@ export default {
       .then((response) => {
         console.log(response.result)
         this.signData = response.result
+        this.getSignList()
       })
       .catch((err) => {
         console.log(err)
       })
-
-    // selfInfo(Author).then((response) => {
-    //   this.statu = response.result.statu
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
   },
+
   methods: {
+    async getSignList() {
+      pageNum = Math.ceil(this.total / this.pagesize || 1)
+      for (let i = 0; i < pageNum; i++) {
+        this.tableData = this.signData.slice(this.pagesize * (this.currentPage - 1), this.pagesize * this.currentPage)
+      }
+    },
+    // 重新获取数据
+    handleSizeChange(val) {
+      console.log('每页 ${val} 条')
+      this.pagesize = val
+      this.currentPage = 1
+    },
+    handleCurrentChange(val) {
+      console.log('当前页: ${val}')
+      this.currentPage = val
+      this.getSignList()
+    },
+    jubao(username) {
+      this.$confirm('举报成功后举报立刻生效，举报信息会加入数据库，等待管理员核查。', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if (this.report_btn(username)) {
+          this.open2('举报成功')
+        }
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '取消举报'
+        })
+      })
+    },
     refresh() {
       var Author = localStorage.getItem('Authorization')
       this.Author = Author
@@ -203,14 +252,14 @@ export default {
         return '下班'
       }
     },
-    open2() {
+    open2(mes) {
       this.$message({
-        message: '操作成功！',
+        message: mes,
         type: 'success'
       })
     },
-    open4() {
-      this.$message.error('别点了，成功了')
+    open4(mes) {
+      this.$message.error(mes)
     },
     sign_in() {
       var t = this
@@ -220,9 +269,7 @@ export default {
       this.username = username
       sign(Author, username)
         .then((response) => {
-          console.log(response.result)
           if (response.result === true) {
-            console.log('签到成功，用户名是' + this.username)
             this.$set(this, 'statu', 1)
             location.reload(true)
             t.open2()
@@ -243,7 +290,6 @@ export default {
       this.username = username
       signout(Author, username)
         .then((response) => {
-          console.log(response.result)
           //   this.unfinishitableData = response.result.list
           if (response.result === true) {
             // this.statu = 0
@@ -264,23 +310,22 @@ export default {
         })
       this.$forceUpdate()
     },
-    report_btn(Username) {
+    report_btn(reportUsername) {
       var t = this
-      var username = Username
+      var username = reportUsername
       console.log(username)
       var Author = localStorage.getItem('Authorization')
       report(Author, username)
         .then((response) => {
           console.log(response.result)
           if (response.result === true) {
-            t.open2()
-          } else {
-            t.open4()
+            t.open2('举报成功')
+          } else if (response.result === null) {
+            t.open4('该用户已经签退，请签到之后重试')
           }
         })
         .catch((err) => {
           console.log(err)
-          // this.$message.error("别点了，已经举报成功啦");
         })
     },
 
@@ -298,6 +343,10 @@ export default {
 
 <style lang="scss" scoped>
 .sign {
+  max-width: 80%;
+  max-height: 1200px;
+  margin: 0 auto;
+  margin-bottom: 100px
 }
 .func {
   margin-top: 30px;

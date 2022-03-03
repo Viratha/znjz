@@ -93,19 +93,6 @@
                 </el-drawer>
               </template>
             </el-table-column>
-            <div class="block">
-              <!-- <span class="demonstration">完整功能</span> -->
-              <el-pagination
-                :hide-on-single-page="value"
-                :current-page="pagenum"
-                :page-sizes="[20, 40, 80, 120]"
-                :page-size="20"
-                layout="total, sizes, prev, pager, next, jumper"
-                :total="this.finishitableData.length"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-              />
-            </div>
           </el-table>
           <div class="block">
             <!-- <span class="demonstration">完整功能</span> -->
@@ -270,7 +257,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { task_list_finished, task_list_unfinished, task_list_download } from '@/api/task/task_list'
+import { task_list_finished, task_list_unfinished } from '@/api/task/task_list'
 import {
   is_admin,
   task_unfinished_forAdmin,
