@@ -31,6 +31,7 @@
         </div>
       </div>
       <el-button
+        v-show="isAdmin"
         type="primary"
         plain
         icon="el-icon-plus"
@@ -129,6 +130,7 @@
             </el-dialog>
             <el-button @click="handleup(item)">提交任务</el-button>
             <el-button
+              v-show="isAdmin"
               icon="el-icon-delete"
               @click="handleDelete(item)"
             />
@@ -242,28 +244,14 @@ on-success 上传成功之后的钩子，可以用来清除表单校验和文件
 on-error 上传失败之后的钩子
 auto-upload 选择文件之后是否立即上传 -->
     <el-dialog
+      class="uploadDialog"
       :title="上传文件"
       :visible.sync="open2"
       width="400px"
       height="500px"
       append-to-body
+      @close="cancel2()"
     >
-      <!-- <el-upload
-        ref="upload"
-        class="upload-demo"
-        :action="UploadUrl()"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
-        :file-list="fileList"
-        :auto-upload="false"
-      >
-        <el-button slot="trigger" style="margin-left: 10px;width:90px;height:25px" size="small" type="primary" width="40px">选取文件</el-button>
-        <el-button style="margin-left: 10px;width:90px;height:25px" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-      </el-upload> -->
-      <!-- :before-upload="beforeUploadFile"
-              accept=".xls,.xlsx"
-
-      -->
       <el-upload
         class="upload-demo"
         action="UploadUrl()"
@@ -278,7 +266,7 @@ auto-upload 选择文件之后是否立即上传 -->
 
       <div slot="footer" class="dialog-footer">
         <!-- <el-button @click="submitForm">确 定</el-button> -->
-        <el-button @click="cancel2">取 消</el-button>
+        <!-- <el-button @click="cancel2">取 消</el-button> -->
       </div>
     </el-dialog>
   </div>

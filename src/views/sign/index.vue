@@ -84,7 +84,7 @@
             width="100px"
             align="center"
             type="index"
-
+            :index="xuhao"
             label="序号"
           />
           <el-table-column prop="username" label="姓名" width="300px" />
@@ -112,6 +112,7 @@
             <template slot-scope="scope">
               <el-button
                 type="text"
+                width="50%"
                 @click="jubao(scope.row.username)"
               >举报</el-button>
             </template>
@@ -122,7 +123,7 @@
         <div class="block">
           <el-pagination
             :current-page="currentPage"
-            :page-size="this.pageNum"
+            :page-size="this.pagesize"
             :page-sizes="this.pagesizes"
             layout="total, sizes, prev, pager, next, jumper"
             :total="this.signData.length"
@@ -142,7 +143,6 @@ import { sign, signout } from '@/api/task/sign_list'
 import { sign_list, sign_list_myself } from '@/api/task/sign_list'
 import { report } from '@/api/task/report'
 // import { selfInfo } from '@/api/task/selfInfo'
-var pageNum
 export default {
   name: 'Sign',
   data() {
@@ -155,7 +155,6 @@ export default {
       signData: [],
       signMyselfData: [],
       signList: null
-
     }
   },
   computed: {
@@ -180,6 +179,7 @@ export default {
       .then((response) => {
         console.log(response.result)
         this.signData = response.result
+        this.total = this.signData.length
         this.getSignList()
       })
       .catch((err) => {
@@ -188,20 +188,22 @@ export default {
   },
 
   methods: {
+    xuhao(index) {
+      // 当前页数 - 1 * 每页数据条数 + 1
+      const xuhao = (this.currentPage - 1) * this.pagesize + 1 + index
+      return xuhao
+    },
     async getSignList() {
-      pageNum = Math.ceil(this.total / this.pagesize || 1)
-      for (let i = 0; i < pageNum; i++) {
+      for (let i = 0; i < this.pagesize; i++) {
         this.tableData = this.signData.slice(this.pagesize * (this.currentPage - 1), this.pagesize * this.currentPage)
       }
     },
     // 重新获取数据
     handleSizeChange(val) {
-      console.log('每页 ${val} 条')
       this.pagesize = val
       this.currentPage = 1
     },
     handleCurrentChange(val) {
-      console.log('当前页: ${val}')
       this.currentPage = val
       this.getSignList()
     },

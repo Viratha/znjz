@@ -1,6 +1,6 @@
 <template>
   <div v-if="login_bg" class="background" :style="{background:'url('+ login_bg + ')' ,'background-size':'cover' }">
-    <div class="login-container">
+    <div class="login-container" @click.native.prevent="handleLogin">
       <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
       <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
         <div v-if="status==0">
@@ -53,6 +53,7 @@
                   type="text"
                   tabindex="1"
                   auto-complete="on"
+                  @keyup.enter.native="handleLogin"
                 />
               </el-form-item>
             </div>
@@ -62,7 +63,7 @@
 
             </p>
 
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;">登录</el-button>
             <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button>
 
           </div>
@@ -216,7 +217,6 @@ export default {
   created() {
     if (localStorage.getItem('Author') !== null) {
       localStorage.setItem('Authorization', localStorage.getItem('Author'))
-      this.status = 0
       this.$router.push({ path: '/dashboard' })
       // console.log('跳转');
       // console.log(this.$router)
