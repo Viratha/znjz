@@ -30,15 +30,27 @@
           </div>
         </div>
       </div>
-      <el-button
-        v-show="isAdmin"
-        type="primary"
-        plain
-        icon="el-icon-plus"
-        size="mini"
-        style="width: 100px; height: 50px"
-        @click="handleAdd"
-      >新增任务</el-button>
+      <div class="barBtn">
+        <el-button
+          v-show="isAdmin"
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          style="width: 100px; height: 50px;"
+          @click="handleAdd"
+        >新增任务</el-button>
+        <el-button
+          v-show="isAdmin"
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          style="width: 100px; height: 50px;"
+          @click="register"
+        >新增账号</el-button>
+      </div>
+
       <!-- <div v-for="(item) in list" class="posts-container"> -->
       <div v-for="(item, index) in list" class="posts-container">
         <!-- <p v-for="(item) in list">{{ item }}</p> -->
@@ -458,6 +470,11 @@ export default {
       })
   },
   methods: {
+    register() {
+      this.$router.push({
+        path: 'register'
+      })
+    },
     open1() {
       this.$message({
         showClose: true,
@@ -757,6 +774,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.barBtn{
+  display: inline-block;
+}
 .formTitle {
   font-size: 40px;
   margin-top: 20px;

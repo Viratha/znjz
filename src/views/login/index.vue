@@ -64,7 +64,7 @@
             </p>
 
             <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;">登录</el-button>
-            <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button>
+            <!-- <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button> -->
 
           </div>
 
