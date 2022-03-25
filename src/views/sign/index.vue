@@ -177,7 +177,6 @@ export default {
 
     sign_list(Author)
       .then((response) => {
-        console.log(response.result)
         this.signData = response.result
         this.total = this.signData.length
         this.getSignList()

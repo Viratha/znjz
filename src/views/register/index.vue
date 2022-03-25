@@ -136,6 +136,8 @@ export default {
       this.$refs.registerForm.validate(valid => {
         if (valid) {
           this.loading = true
+          var Authorization = localStorage.getItem('Authorization')
+          console.log(Authorization)
           register(t.registerForm.username, t.registerForm.password, t.registerForm.Email).then(response => {
             // console.log(response.message)
             if (response.message === '成功!') {
@@ -143,8 +145,8 @@ export default {
                 message: '注册成功',
                 type: 'success'
               })
-              t.$router.push({ path: '/login' })
-
+              localStorage.setItem('Authorization', Authorization)
+              history.back()
               this.loading = false
             } else {
               this.$message.error(response.message)

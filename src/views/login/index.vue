@@ -1,5 +1,5 @@
 <template>
-  <div v-if="login_bg" class="background" :style="{background:'url('+ login_bg + ')' ,'background-size':'cover' }">
+  <div v-if="login_bg" class="background" :style="{background:'url('+ login_bg + ')' , 'background-size':'cover' }">
     <div class="login-container" @click.native.prevent="handleLogin">
       <!-- <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left"> -->
       <el-form ref="loginForm" :model="loginForm" class="login-form" auto-complete="on" label-position="left">
@@ -63,7 +63,7 @@
 
             </p>
 
-            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;">登录</el-button>
+            <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登录</el-button>
             <!-- <el-button style="margin-bottom:30px;float:right" @click.native.prevent="handleregisterchange">我要注册</el-button> -->
 
           </div>
@@ -215,15 +215,15 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('Author') !== null) {
-      localStorage.setItem('Authorization', localStorage.getItem('Author'))
-      this.$router.push({ path: '/dashboard' })
-      // console.log('跳转');
-      // console.log(this.$router)
-    }
-    // localStorage.setItem('countcount', 1)
-    // var countcount = localStorage.getItem('countcount')
-    // console.log('countcount：' + countcount)
+    // if (localStorage.getItem('Author') !== null) {
+    //   localStorage.setItem('Authorization', localStorage.getItem('Author'))
+    //   this.$router.push({ path: '/dashboard' })
+    //   // console.log('跳转');
+    //   // console.log(this.$router)
+    // }
+    localStorage.setItem('countcount', 1)
+    var countcount = localStorage.getItem('countcount')
+    console.log('countcount：' + countcount)
     const t = this
     code().then(response => {
       // console.log(response.result.token)
@@ -238,6 +238,7 @@ export default {
       .then((response) => {
         console.log(response.result)
         this.login_bg = response.result
+        sessionStorage.setItem('bg', this.login_bg)
       })
       .catch((err) => {
         console.log(err)
@@ -315,7 +316,7 @@ export default {
             // this.$message.success(response.message)
             console.log(response)
             localStorage.setItem('username', this.loginForm.username)
-            localStorage.setItem('Author', localStorage.getItem('Authorization'))
+            // localStorage.setItem('Author', localStorage.getItem('Authorization'))
             localStorage.setItem('password', this.loginForm.password)
             this.$router.push({ path: '/' })
             this.loading = false

@@ -2,6 +2,7 @@ import request from '@/utils/request'
 
 // 注册用
 export function register(username, password, Email) {
+  console.log(localStorage.getItem('Authorization'))
   return request({
     url: '/sys/user/register',
     method: 'post',
