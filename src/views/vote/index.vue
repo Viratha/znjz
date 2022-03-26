@@ -2,9 +2,8 @@
   <div class="vote" :style="{background:bg}">
     <div class="vote_wrap">
       <voteBox title="我要竞选" @click.native="dialog1Visible = true" />
-      <voteBox title="我要投票" @click.native="dialog2Visible = true" />
-      <voteBox title="查看竞选情况" @click.native="dialog3Visible = true" />
-      <voteBox title="搜索竞选人" @click.native="dialog4Visible = true" />
+      <voteBox title="我要投票" @click.native="dialog3Visible = true , findList()" />
+      <!-- <voteBox title="搜索竞选人" @click.native="dialog4Visible = true" /> -->
     </div>
     <el-dialog
       title="提示"
@@ -12,6 +11,7 @@
       width="30%"
       :before-close="handleClose"
       :append-to-body="true"
+      :lock-scroll="false"
     >
       <span>{{ username }},您确定参与竞选？</span>
 
@@ -20,33 +20,25 @@
         <el-button type="primary" @click="addvoter(username)">确 定</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-      title="提示"
-      :visible.sync="dialog2Visible"
-      width="30%"
-      :before-close="handleClose"
-      :append-to-body="true"
-    >
-      <el-input v-model="inputValue" placeholder="请输入您要投票的竞选者" />
-
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialog2Visible = false">取 消</el-button>
-        <el-button type="primary" @click="dialog2Visible = false; vote(inputValue)">确 定</el-button>
-      </span>
-    </el-dialog>
-    <el-dialog title="竞选名单" :visible.sync="dialog3Visible">
-      <el-table :data="gridData">
-        <el-table-column property="id" label="id" width="150" />
-        <el-table-column property="vname" label="姓名" width="200" />
+    <el-dialog title="竞选名单" :visible.sync="dialog3Visible" width="600px" :lock-scroll="false">
+      <el-table :data="gridData" style="width: 100%; justify-content: center;">
+        <el-table-column property="id" label="id" width="150px" />
+        <el-table-column property="vname" label="姓名" width="200px" />
         <el-table-column property="vnums" label="投票数" />
+        <el-table-column label="投票" width="150px">
+          <template slot-scope="scope">
+            <el-button type="plain" icon="el-icon-thumb" @click="vote(scope.row.vname)">投票</el-button>
+          </template>
+        </el-table-column>
       </el-table>
     </el-dialog>
-    <el-dialog
+    <!-- <el-dialog
       title="提示"
       :visible.sync="dialog4Visible"
       width="30%"
       :before-close="handleClose"
       :append-to-body="true"
+      :lock-scroll="false"
     >
       <el-input v-model="searchInput" placeholder="请输入您要搜索的竞选人" />
 
@@ -54,21 +46,23 @@
         <el-button @click="dialog4Visible = false">取 消</el-button>
         <el-button type="primary" @click="dialog4Visible = false; count(searchInput)">确 定</el-button>
       </span>
-    </el-dialog>
-    <el-dialog title="竞选者信息" :visible.sync="dialog5Visible">
-      <el-table :data="voterData">
-        <el-table-column property="id" label="id" width="150" />
-        <el-table-column property="vname" label="姓名" width="200" />
-        <el-table-column property="vnums" label="投票数" />
+    </el-dialog> -->
+
+    <el-dialog title="竞选名单" :visible.sync="dialog5Visible" width="600px" :lock-scroll="false">
+      <el-table :data="voterData" style="width: 100%">
+        <el-table-column property="id" label="id" width="150px" />
+        <el-table-column property="vname" label="姓名" width="200px" />
+        <el-table-column label="投票数" width="150px"> {{ nums == null ? 0 : nums }} </el-table-column>
       </el-table>
     </el-dialog>
+
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import voteBox from '../../components/voteBox'
-import { findList, vote, voter } from '@/api/task/vote'
+import { findList, vote, voter, count } from '@/api/task/vote'
 export default {
   components: { voteBox },
   data() {
@@ -102,6 +96,11 @@ export default {
     this.findList()
   },
   methods: {
+    getURL(picture) {
+      if (picture == null) picture = 'http://47.93.33.180:9000/taskmanagement/avatar/2100720205蒋锋.jpeg'
+      console.log(picture)
+      return window.URL.createObjectURL(picture)
+    },
     change() {
       console.log('出发了')
     },
@@ -118,24 +117,13 @@ export default {
         })
         return
       }
-      // console.log('即将查找')
-      // const index = this.gridData.findIndex(item => {
-      //   console.log(item.vname)
-      //   alternativeName === item.vname
-      // })
-      // if (index === -1) {
-      //   this.$message({
-      //     message: '此竞选者不在竞选列表里,请重新确认',
-      //     type: 'error'
-      //   })
-      //   console.log(index)
-      //   return
-      // }
       vote(Author, alternativeName, username).then((response) => {
         this.$message({
           message: '投票成功',
           type: 'success'
         })
+        this.count(alternativeName)
+        this.findList()
         console.log(response)
       })
         .catch((err) => {
@@ -166,14 +154,18 @@ export default {
         })
     },
     count(alternativeName) {
-      this.voterData = this.gridData.filter((item) => {
-        return item.vname === alternativeName
+      var Author = localStorage.getItem('Author')
+      count(Author, alternativeName).then((response) => {
+        console.log(response.result)
+        localStorage.setItem('Authorization', Author)
+        this.voterData = response.result
       })
-      console.log(this.voterData)
-      this.dialog5Visible = true
+        .catch((err) => {
+          console.log(err)
+        })
     },
     findList() {
-      var Author = localStorage.getItem('Authorization')
+      var Author = localStorage.getItem('Author')
       findList(Author).then((response) => {
         console.log(response.result)
         localStorage.setItem('Authorization', Author)
@@ -193,18 +185,25 @@ export default {
     margin:0;
     padding:0;
   }
+
   .vote{
-	width:100vw;
+	// width:100vw;
 	height:100vh;
+  overflow: hidden;
     .vote_wrap{
-      .vote_input{
-        tab-size: 16px;
-        line-height: 16px;
+      height: 100px;
+      width: 100%;
+      min-width: 200px;
+      min-height: 100px;
+      margin:100px 0;
+      tab-size: 16px;
+      line-height: 16px;
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-start;
+      overflow: hidden;
       }
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-    overflow: hidden;
+
     }
-  }
+
 </style>

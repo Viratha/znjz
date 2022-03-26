@@ -241,7 +241,7 @@ export default {
     },
     // 头像图片显示
     imagesUrl(event) {
-      // console.log(event);
+      console.log(event)
       this.imageUrl = window.URL.createObjectURL(event.raw)
     },
     // 上传头像文件
@@ -254,7 +254,6 @@ export default {
         console.log('---------上传文件---------')
         avatar_upload(Author, formData)
           .then((response) => {
-            console.log(response)
             if (response.message === '成功!') {
               alert('上传成功')
               // location.reload();
@@ -276,6 +275,7 @@ export default {
       user_avatar(Author).then(response => {
         // console.log(response.result.avatar)
         if (response.result.avatar) {
+          console.log(response)
           this.imageUrl = response.result.avatar
         } else {
           this.imageUrl = 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif?imageView2/1/w/80/h/80'
