@@ -30,10 +30,9 @@
           </div>
         </div>
       </div>
-      <div class="barBtn">
+      <div v-cloak v-if="isAdmin" class="barBtn">
         <el-button
-          v-show="isAdmin"
-          type="primary"
+          type="plain"
           plain
           icon="el-icon-plus"
           size="mini"
@@ -41,8 +40,7 @@
           @click="handleAdd"
         >新增任务</el-button>
         <el-button
-          v-show="isAdmin"
-          type="primary"
+          type="plain"
           plain
           icon="el-icon-plus"
           size="mini"
@@ -216,7 +214,7 @@
       height="500px"
       append-to-body
     >
-      <el-form ref="form" :model="adddata" label-width="80px">
+      <el-form ref="form" :model="adddata" label-width="100px">
         <el-form-item label="任务名字" prop="name">
           <el-input
             v-model="adddata.name"
@@ -239,6 +237,13 @@
             type="text"
             placeholder="单位min（从此刻开始计算）"
           />
+        </el-form-item>
+
+        <el-form-item label="发布全方向" prop="isAll" label-width="100px">
+          <template>
+            <el-radio v-model="isAll" :label="1">是</el-radio>
+            <el-radio v-model="isAll" :label="0">否</el-radio>
+          </template>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -304,6 +309,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      isAll: 0,
       fullscreenLoading: false,
       flag: '',
       dialogIndex: '',
@@ -461,6 +467,7 @@ export default {
     is_admin(Author)
       .then((response) => {
         // console.log(response.result)
+        console.log(response)
         if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
         else this.isAdmin = 0
         // console.log(this.isAdmin)
@@ -660,14 +667,16 @@ export default {
 
       this.$refs.form.validate((valid) => {
         if (valid) {
+          console.log(this.adddata.isAll)
           task_list_add(
             Author,
-            this.adddata.name,
             this.adddata.detail,
-            this.adddata.time
+            this.isAll,
+            this.adddata.name,
+            this.adddata.time,
           )
             .then((response) => {
-              // console.log(response.result.list)
+              console.log(response.result)
               // this.list = response.data.items
               // this.list = response.result.list
               t.$message({
@@ -1272,6 +1281,9 @@ section {
   }
 }
 
+[v-cloak] {
+  display: none !important;
+}
 @media (max-width: 450px) {
   html {
     font-size: 50%;

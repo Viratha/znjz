@@ -15,13 +15,11 @@ export function task_list(Author) {
 }
 
 // 增加任务 body/params 名字 详情 持续时间：单位为min
-export function task_list_add(Author, name, detail, time) {
+export function task_list_add(Author, detail, isAll, name, time) {
   return request({
-    url: '/sys/task/add?name=' + name + '&detail=' + detail + '&time=' + time,
+    url: '/sys/task/add?detail=' + detail + '&isAll=' + isAll + '&name=' + name + '&time=' + time,
     method: 'post',
-
     baseURL: 'http://47.93.33.180:8081/',
-
     headers: {
       'Authorization': Author
     }
