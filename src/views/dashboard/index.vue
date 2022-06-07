@@ -47,6 +47,42 @@
           style="width: 100px; height: 50px;"
           @click="register"
         >新增账号</el-button>
+        <el-button
+          type="plain"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          style="width: 100px; height: 50px;"
+          @click="getUsername(Author),usernameTable = true"
+        >注销账号</el-button>
+        <el-drawer
+          title="选择要注销的账号"
+          :visible.sync="usernameTable"
+          direction="rtl"
+          size="50%"
+        >
+          <el-table
+            ref="multipleTable"
+            :visible.sync="usernameTable"
+            :data="usernameData"
+            tooltip-effect="dark"
+            style="width: 100%"
+            @selection-change="handleSelectionChange"
+          >
+            <el-table-column
+              type="selection"
+              width="55"
+            />
+            <el-table-column
+              label="用户名"
+              width="100%"
+              prop="username"
+              show-overflow-tooltip
+            >
+              <template slot-scope="scope">{{ scope.row.username }}</template>
+            </el-table-column>
+          </el-table>
+        </el-drawer>
       </div>
 
       <!-- <div v-for="(item) in list" class="posts-container"> -->
@@ -304,11 +340,16 @@ import {
   task_finished_forAdmin
 } from '@/api/task/admin'
 import { is_finish, task_download } from '@/api/task/task_list'
+import {
+  logoff, getOnlyUsername
+} from '@/api/user'
 
 export default {
   name: 'Dashboard',
   data() {
     return {
+      multipleSelection: [],
+      usernameData: [],
       isAll: 0,
       fullscreenLoading: false,
       flag: '',
@@ -467,7 +508,7 @@ export default {
     is_admin(Author)
       .then((response) => {
         // console.log(response.result)
-        console.log(response)
+        // console.log(response)
         if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
         else this.isAdmin = 0
         // console.log(this.isAdmin)
@@ -477,9 +518,25 @@ export default {
       })
   },
   methods: {
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+    },
     register() {
       this.$router.push({
         path: 'register'
+      })
+    },
+    logoff(Author, username) {
+      logoff(Author, username).then((res) => {
+        console.log(res)
+      })
+    },
+    getUsername(Author) {
+      console.log('获取用户名')
+      getOnlyUsername(Author).then((res) => {
+        console.log(res.result)
+        this.usernameData = res.result
+        console.log(this.usernameData)
       })
     },
     open1() {

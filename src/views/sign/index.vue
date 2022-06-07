@@ -170,6 +170,7 @@ export default {
       .then((response) => {
         this.signMyselfData = response.result
         this.statu = response.result[0].statu
+        console.log(this.signMyselfData)
       })
       .catch((err) => {
         console.log(err)

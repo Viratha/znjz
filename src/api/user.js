@@ -28,7 +28,6 @@ export function getInfo(username, password, code, token) {
 
 export function logout() {
   return request({
-    // url: '/vue-admin-template/user/logout',
     url: '/logout',
     method: 'post',
     baseURL: 'http://47.93.33.180:8081/'
@@ -36,10 +35,33 @@ export function logout() {
   })
 }
 
+export function getOnlyUsername(Authorization) {
+  return request({
+    url: '/sys/user/list',
+    method: 'GET',
+    baseURL: 'http://47.93.33.180:8081/',
+    headers: {
+      'Authorization': Authorization
+    }
+  })
+}
+
+export function logoff(username, Authorization) {
+  return request({
+    url: '/sys/user/logout',
+    method: 'POST',
+    baseURL: 'http://47.93.33.180:8081/',
+    data: username,
+    headers: {
+      'Authorization': Authorization
+    }
+  })
+}
+
 // 上传头像文件接口 参数 文件
 export function avatar_upload(Author, formData) {
   return request({
-    url:'/sys/user/upload',
+    url: '/sys/user/upload',
     method: 'post',
     data: formData,
     baseURL: 'http://47.93.33.180:8081/',
@@ -51,7 +73,7 @@ export function avatar_upload(Author, formData) {
   })
 }
 
-//获取用户头像接口
+// 获取用户头像接口
 export function user_avatar(Author) {
   return request({
     url: '/sys/user/current',
