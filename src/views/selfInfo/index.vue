@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <table>
+    <!-- <table>
       <th colspan="2">个人信息</th>
       <tr><td> <span class="el-icon-user" /> 用户名：</td><td> {{ username }}</td></tr>
       <tr><td><span class="el-icon-video-play" /> 创建时间：</td><td> {{ createdTime }}</td></tr>
@@ -8,7 +8,49 @@
       <tr><td><span class="el-icon-message" /> 邮箱：</td><td> {{ email }}</td></tr>
       <tr><td><span class="el-icon-bell" /> 剩余违规次数：</td><td> {{ deadcount }}</td></tr>
 
-    </table>
+    </table> -->
+    <el-descriptions class="margin-top" title="带边框列表" :column="3" :size="size" border>
+      <!-- <template slot="extra">
+        <el-button type="primary" size="small">操作</el-button>
+      </template> -->
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-user" />
+          用户名
+        </template>
+        {{ username }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-mobile-phone" />
+          创建时间
+        </template>
+        {{ createdTime }}
+      </el-descriptions-item>
+
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-location-outline" />
+          邮箱
+        </template>
+        {{ email }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-location-outline" />
+          剩余违规次数
+        </template>
+        {{ deadcount }}
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template slot="label">
+          <i class="el-icon-tickets" />
+          方向
+        </template>
+        <el-tag size="small">{{ direction }}</el-tag>
+      </el-descriptions-item>
+
+    </el-descriptions>
     <p class="attention title">注意事项：</p>
     <p class="attention">
       剩余违规次数，会在未完成任务，或者违反其它规定时候扣除，当次数扣完的时候，系统会自动发起警告，如果之后仍然还是出现违纪行为，就会被社团开除。
@@ -70,6 +112,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.main{
+  margin: 100px;
+}
 .title {
   font-size: 16px;
 }
