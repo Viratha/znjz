@@ -5,7 +5,7 @@ export function findList(Author) {
   return request({
     url: '/vote/find',
     method: 'post',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -17,7 +17,7 @@ export function vote(Author, alternativeName, username) {
   return request({
     url: '/vote/cheakvote',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     },
@@ -32,7 +32,7 @@ export function voter(Author, alternativeName) {
   return request({
     url: '/vote/addvote',
     method: 'post',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     },
@@ -47,7 +47,7 @@ export function count(Author, alternativeName) {
   return request({
     url: '/vote/addnums',
     method: 'post',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     },

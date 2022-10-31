@@ -5,7 +5,7 @@ export function task_list(Author) {
   return request({
     url: '/sys/task/list?page=1&limit=100',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
 
     headers: {
       'Authorization': Author
@@ -19,7 +19,7 @@ export function task_list_add(Author, detail, isAll, name, time) {
   return request({
     url: '/sys/task/add?detail=' + detail + '&isAll=' + isAll + '&name=' + name + '&time=' + time,
     method: 'post',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -32,7 +32,7 @@ export function task_list_del(Author, id) {
   return request({
     url: '/sys/task/delete?id=' + id,
     method: 'delete',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -45,7 +45,7 @@ export function task_list_detail(Author) {
   return request({
     url: '/sys/task/list?page=1&limit=30',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -59,7 +59,7 @@ export function task_list_upload(Author, formData, tid, username, taskname) {
     url: '/sys/file/upload?filename=' + taskname + ' ' + username + '&tid=' + tid + '&username=' + username,
     method: 'post',
     data: formData,
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author,
       'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundarypgnnfMj7vzrDwtRZ'
@@ -73,7 +73,7 @@ export function task_download(Author, tid) {
   return request({
     url: '/sys/file/getZipFile?tid=' + tid,
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     responseType: 'blob',
     headers: {
       'Authorization': Author
@@ -87,7 +87,7 @@ export function task_list_finished(Author, username) {
   return request({
     url: '/sys/task/getfinishedlistbyusername?page=1&limit=100&username=' + username,
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -101,7 +101,7 @@ export function task_list_unfinished(Author, username) {
   return request({
     url: '/sys/task/unfinished?page=1&limit=100&username=' + username,
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }
@@ -113,7 +113,7 @@ export function is_finish(Author, id) {
   return request({
     url: '/sys/task/isfinish?id=' + id,
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }

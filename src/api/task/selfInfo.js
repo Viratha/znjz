@@ -6,7 +6,7 @@ export function selfInfo(Author) {
   return request({
     url: '/sys/user/current',
     method: 'get',
-    baseURL: 'http://47.93.33.180:8081/',
+    baseURL: 'http://47.106.183.36:8081/',
     headers: {
       'Authorization': Author
     }

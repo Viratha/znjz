@@ -155,7 +155,7 @@ export default {
             // this.list = response.data.items
           }).catch((err) => {
             console.log(err)
-            this.$message.error('注册失败，已存在用户名')
+            this.$message.error(err)
             this.loading = false
           })
 
