@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 /* 签到 */
-export function sign(Author, username) {
+export function sign(Author, username,ip) {
   return request({
-    url: '/sys/register/register?username=' + encodeURIComponent(username),
+    url: '/sys/register/register?username=' + encodeURIComponent(username) +'&ip='+ip,
     method: 'post',
     baseURL: 'http://47.106.183.36:8081/',
     headers: {

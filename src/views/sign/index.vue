@@ -269,7 +269,9 @@ export default {
       this.Author = Author
       var username = localStorage.getItem('username')
       this.username = username
-      sign(Author, username)
+      var ip = process.env.VUE_APP_IP;
+      this.ip=ip
+      sign(Author, username,ip)
         .then((response) => {
           if (response.result === true) {
             this.$set(this, 'statu', 1)

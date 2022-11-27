@@ -9,7 +9,7 @@
       <tr><td><span class="el-icon-bell" /> 剩余违规次数：</td><td> {{ deadcount }}</td></tr>
 
     </table> -->
-    <el-descriptions class="margin-top" title="带边框列表" :column="3" :size="size" border>
+    <el-descriptions class="margin-top" title="个人信息" :column="3" :size="size" border>
       <!-- <template slot="extra">
         <el-button type="primary" size="small">操作</el-button>
       </template> -->
@@ -51,7 +51,7 @@
       </el-descriptions-item>
 
     </el-descriptions>
-    <p class="attention title">注意事项：</p>
+    <p class="warm">注意事项：</p>
     <p class="attention">
       剩余违规次数，会在未完成任务，或者违反其它规定时候扣除，当次数扣完的时候，系统会自动发起警告，如果之后仍然还是出现违纪行为，就会被社团开除。
       此项工作由系统自动完成，人工无法干预</p>
@@ -118,6 +118,9 @@ export default {
 }
 .title {
   font-size: 16px;
+}
+.warm {
+  color: red;
 }
 .attention{
   font-size: 14px;

@@ -7,6 +7,24 @@ function resolve(dir) {
 }
 
 const name = defaultSettings.title || 'vue Admin Template' // page title
+const os=require("os");
+var ip=''
+var mac = ''
+var networkInterfaces=os.networkInterfaces();
+for(var i in networkInterfaces){
+    for(var j in networkInterfaces[i]){
+        if(networkInterfaces[i][j]["family"]==="IPv4" && networkInterfaces[i][j]["mac"]!=="00:00:00:00:00:00" && networkInterfaces[i][j]["address"]!=="127.0.0.1"){
+            mac = networkInterfaces[i][j]["mac"]
+            ip = networkInterfaces[i][j]["address"]
+        }else{
+          ip=="127.0.0.1"
+        }
+    }
+  }
+
+  // 自定义环境变量全局使用
+process.env.VUE_APP_MAC=mac
+process.env.VUE_APP_IP=ip
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
