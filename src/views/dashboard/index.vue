@@ -4,16 +4,18 @@
     <div class="dashboard-text">name: {{ name }}</div>
   </div> -->
   <div>
-    <section
-      id="banner"
+    <div
       class="banner"
-      :style="{ background: 'url(' + home_bg + ')' ,'background-size':'cover'}"
+      :style="{
+        backgroundImage: 'url(' + home_bg + ')',
+        'background-size': 'cover'
+      }"
     >
       <div class="content">
         <h3>华为“智能基座”-TASK</h3>
         <p>开源、互助、共同成长</p>
       </div>
-    </section>
+    </div>
 
     <!-- banner section ends -->
 
@@ -38,7 +40,8 @@
           size="mini"
           style="width: 100px; height: 50px;"
           @click="handleAdd"
-        >新增任务</el-button>
+          >新增任务</el-button
+        >
         <el-button
           type="plain"
           plain
@@ -46,15 +49,17 @@
           size="mini"
           style="width: 100px; height: 50px;"
           @click="register"
-        >新增账号</el-button>
+          >新增账号</el-button
+        >
         <el-button
           type="plain"
           plain
           icon="el-icon-plus"
           size="mini"
           style="width: 100px; height: 50px;"
-          @click="getUsername(Author),usernameTable = true"
-        >注销账号</el-button>
+          @click="getUsername(Author), (usernameTable = true)"
+          >注销账号</el-button
+        >
         <el-drawer
           title="选择要注销的账号"
           :visible.sync="usernameTable"
@@ -69,10 +74,7 @@
             style="width: 100%"
             @selection-change="handleSelectionChange"
           >
-            <el-table-column
-              type="selection"
-              width="55"
-            />
+            <el-table-column type="selection" width="55" />
             <el-table-column
               label="用户名"
               width="100%"
@@ -91,7 +93,7 @@
         <div class="post">
           <div class="task_all">
             <div class="task_image">
-              <img :src="item.avatar" alt="" class="image">
+              <img :src="item.avatar" alt="" class="image" />
             </div>
             <div class="task">
               <!-- <p>{{ item }}</p> -->
@@ -129,11 +131,13 @@
                 show_drawer(index);
                 task_detail_admin(item.id);
               "
-            >任务详情</el-button>
+              >任务详情</el-button
+            >
             <el-button
               v-if="isAdmin"
               @click="task_file_download(item.id), openFullScreen"
-            >下载学员任务</el-button>
+              >下载学员任务</el-button
+            >
 
             <!-- <el-button
               v-if="!isAdmin"
@@ -144,13 +148,9 @@
               "
               >任务详情</el-button
             > -->
-            <el-button
-              v-if="!isAdmin"
-              type="text"
-              @click="
-                show_dialog(index);
-              "
-            >任务详情</el-button>
+            <el-button v-if="!isAdmin" type="text" @click="show_dialog(index)"
+              >任务详情</el-button
+            >
             <el-dialog
               v-if="dialogIndex === index"
               title="任务详情"
@@ -162,16 +162,19 @@
             >
               <span>{{ item.detail }}</span>
               <h3>截止日期：{{ item.deadline }}</h3>
-              <h3 v-if="flag === '未完成'" style="color:red;" class="text"> {{ flag }} </h3>
-              <h3 v-if="flag === '已完成'" style="color:green;" class="text"> {{ flag }} </h3>
+              <h3 v-if="flag === '未完成'" style="color:red;" class="text">
+                {{ flag }}
+              </h3>
+              <h3 v-if="flag === '已完成'" style="color:green;" class="text">
+                {{ flag }}
+              </h3>
               <!-- <span>{{item.deadline}}</span>
               <span>{{isFinish}}</span> -->
               <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button
-                  type="primary"
-                  @click="resetdialog()"
-                >确 定</el-button>
+                <el-button type="primary" @click="resetdialog()"
+                  >确 定</el-button
+                >
               </span>
             </el-dialog>
             <el-button @click="handleup(item)">提交任务</el-button>
@@ -234,10 +237,9 @@
       </div>
 
       <div class="beian">
-        <a
-          href="https://beian.miit.gov.cn/"
-          target="_blank"
-        >桂ICP备2021009535号</a>
+        <a href="https://beian.miit.gov.cn/" target="_blank"
+          >桂ICP备2021009535号</a
+        >
       </div>
     </section>
 
@@ -326,55 +328,53 @@ auto-upload 选择文件之后是否立即上传 -->
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 import {
   task_list,
   task_list_add,
   task_list_del,
   task_list_upload
-} from '@/api/task/task_list'
-import { home_bg } from '@/api/task/home'
+} from "@/api/task/task_list";
+import { home_bg } from "@/api/task/home";
 import {
   is_admin,
   task_unfinished_forAdmin,
   task_finished_forAdmin
-} from '@/api/task/admin'
-import { is_finish, task_download } from '@/api/task/task_list'
-import {
-  logoff, getOnlyUsername
-} from '@/api/user'
+} from "@/api/task/admin";
+import { is_finish, task_download } from "@/api/task/task_list";
+import { logoff, getOnlyUsername } from "@/api/user";
 
 export default {
-  name: 'Dashboard',
+  name: "Dashboard",
   data() {
     return {
       multipleSelection: [],
       usernameData: [],
       isAll: 0,
       fullscreenLoading: false,
-      flag: '',
-      dialogIndex: '',
-      drawerIndex: '',
+      flag: "",
+      dialogIndex: "",
+      drawerIndex: "",
       dialogVisible: false,
       drawerVisible: false,
-      taskUnfinishForAdmin: '',
-      taskFinishForAdmin: '',
+      taskUnfinishForAdmin: "",
+      taskFinishForAdmin: "",
       id: 0,
-      detail: '',
+      detail: "",
       table: false,
-      isFinish: '',
+      isFinish: "",
       isAdmin: 1,
       value: false,
       // status 0 登录 1注册
-      home_bg: '',
+      home_bg: "",
       status: 0,
-      Author: '',
+      Author: "",
       taskname: null,
       tid: null,
       // fileList: [{ name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }, { name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100' }],
       fileList: [],
       fileList3: [],
-      fileData: '',
+      fileData: "",
       open: false,
       adddata: {
         name: null,
@@ -389,218 +389,224 @@ export default {
       list: [
         {
           id: 1,
-          created: '2021-10-21T17:01:28',
-          updated: '2021-10-05T18:08:53',
+          created: "2021-10-21T17:01:28",
+          updated: "2021-10-05T18:08:53",
           statu: 1,
-          name: '测试任务1',
-          detail: '任务描述',
+          name: "测试任务1",
+          detail: "任务描述",
           time: 2,
-          flag: '0',
-          deadline: '2021-10-05T18:10:53',
+          flag: "0",
+          deadline: "2021-10-05T18:10:53",
           deleted: false,
           isFinished: null
         },
         {
           id: 2,
-          created: '2021-10-21T17:06:40',
-          updated: '2021-10-05T18:08:53',
+          created: "2021-10-21T17:06:40",
+          updated: "2021-10-05T18:08:53",
           statu: 1,
-          name: '测试任务2',
-          detail: '任务描述',
+          name: "测试任务2",
+          detail: "任务描述",
           time: 2,
-          flag: '0',
-          deadline: '2021-10-05T18:10:53',
+          flag: "0",
+          deadline: "2021-10-05T18:10:53",
           deleted: false,
           isFinished: null
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
           isFinished: null
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
           isFinished: null
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
           isFinished: null
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
           isFinished: null
         },
         {
           id: 34,
-          created: '2021-10-30T13:52:07',
-          updated: '2021-10-30T13:52:07',
+          created: "2021-10-30T13:52:07",
+          updated: "2021-10-30T13:52:07",
           statu: 0,
-          name: '测试任务1044',
-          detail: '任务描述',
+          name: "测试任务1044",
+          detail: "任务描述",
           time: 1,
-          flag: '0',
-          deadline: '2021-10-30T13:53:07',
+          flag: "0",
+          deadline: "2021-10-30T13:53:07",
           deleted: false,
           isFinished: null
         }
       ]
-    }
+    };
   },
   computed: {
-    ...mapGetters(['name'])
+    ...mapGetters(["name"])
   },
   created() {
-    var Author = localStorage.getItem('Authorization')
+    var Author = localStorage.getItem("Authorization");
     // console.log('Author' + Author)
-    this.Author = Author
+    this.Author = Author;
     task_list(Author)
-      .then((response) => {
+      .then(response => {
         // console.log(response.result.records)
-        this.list = response.result.records
+        this.list = response.result.records;
         // console.log(this.list)
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(err => {
+        console.log(err);
+      });
 
     home_bg(Author)
-      .then((response) => {
-        this.home_bg = response.result
+      .then(response => {
+        this.home_bg = response.result;
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(err => {
+        console.log(err);
+      });
     is_admin(Author)
-      .then((response) => {
+      .then(response => {
         // console.log(response.result)
         // console.log(response)
-        if (response.result[0] === 'ROLE_admin' || response.result[1] === 'ROLE_admin') this.isAdmin = 1
-        else this.isAdmin = 0
+        if (
+          response.result[0] === "ROLE_admin" ||
+          response.result[1] === "ROLE_admin"
+        ) {
+          this.isAdmin = 1;
+        } else this.isAdmin = 0;
         // console.log(this.isAdmin)
       })
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     handleSelectionChange(val) {
-      this.multipleSelection = val
+      this.multipleSelection = val;
     },
     register() {
       this.$router.push({
-        path: 'register'
-      })
+        path: "register"
+      });
     },
     logoff(Author, username) {
-      logoff(Author, username).then((res) => {
-        console.log(res)
-      })
+      logoff(Author, username).then(res => {
+        console.log(res);
+      });
     },
     getUsername(Author) {
-      console.log('获取用户名')
-      getOnlyUsername(Author).then((res) => {
-        console.log(res.result)
-        this.usernameData = res.result
-        console.log(this.usernameData)
-      })
+      console.log("获取用户名");
+      getOnlyUsername(Author).then(res => {
+        console.log(res.result);
+        this.usernameData = res.result;
+        console.log(this.usernameData);
+      });
     },
     open1() {
       this.$message({
         showClose: true,
-        message: '恭喜你，这是一条成功消息',
-        type: 'success'
-      })
+        message: "恭喜你，这是一条成功消息",
+        type: "success"
+      });
     },
 
     open3() {
       this.$message({
         showClose: true,
-        message: '警告哦，这是一条警告消息',
-        type: 'warning'
-      })
+        message: "警告哦，这是一条警告消息",
+        type: "warning"
+      });
     },
 
     open4() {
       this.$message({
         showClose: true,
-        message: '错了哦，这是一条错误消息',
-        type: 'error'
-      })
+        message: "错了哦，这是一条错误消息",
+        type: "error"
+      });
     },
     download(filename, link) {
-      const DownloadLink = document.createElement('a')
-      DownloadLink.style = 'display: none' // 创建一个隐藏的a标签
-      DownloadLink.download = filename
-      DownloadLink.href = link
-      document.body.appendChild(DownloadLink)
-      DownloadLink.click() // 触发a标签的click事件
-      document.body.removeChild(DownloadLink)
+      const DownloadLink = document.createElement("a");
+      DownloadLink.style = "display: none"; // 创建一个隐藏的a标签
+      DownloadLink.download = filename;
+      DownloadLink.href = link;
+      document.body.appendChild(DownloadLink);
+      DownloadLink.click(); // 触发a标签的click事件
+      document.body.removeChild(DownloadLink);
     },
     openFullScreen() {
       this.loading = this.$loading({
         lock: false,
-        text: '莫急 加载中...',
-        spinner: 'el-icon-loading',
-        background: 'rgba(0, 0, 0, 0.7)'
-      })
+        text: "莫急 加载中...",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
     },
     task_file_download(tid) {
-      console.log(tid)
-      console.log('调用下载任务')
-      var Author = localStorage.getItem('Authorization')
-      this.openFullScreen()
-      task_download(Author, tid).then((response) => {
-        console.log('发请求了')
-        console.log(response)
-        const blob = new Blob([response], { type: 'application/zip' })
-        this.loading.close()
-        const url = window.URL.createObjectURL(blob)
-        console.log(url)
-        this.fullscreenLoading = false
-        this.download('任务文件.zip', url)
-      }).catch(e => {
-        console.log(e)
-        this.$message.error('下载文件出错')
-      })
+      console.log(tid);
+      console.log("调用下载任务");
+      var Author = localStorage.getItem("Authorization");
+      this.openFullScreen();
+      task_download(Author, tid)
+        .then(response => {
+          console.log("发请求了");
+          console.log(response);
+          const blob = new Blob([response], { type: "application/zip" });
+          this.loading.close();
+          const url = window.URL.createObjectURL(blob);
+          console.log(url);
+          this.fullscreenLoading = false;
+          this.download("任务文件.zip", url);
+        })
+        .catch(e => {
+          console.log(e);
+          this.$message.error("下载文件出错");
+        });
     },
     UploadUrl() {
       // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
-      return ''
+      return "";
     },
 
     // 下载文件
@@ -636,125 +642,125 @@ export default {
     // },
     // 上传文件
     uploadFile(e) {
-      var tid = this.tid
-      var taskname = this.taskname
-      console.log('tid:' + tid)
-      var Author = this.Author
-      var username = localStorage.getItem('username')
-      const { file } = e
+      var tid = this.tid;
+      var taskname = this.taskname;
+      console.log("tid:" + tid);
+      var Author = this.Author;
+      var username = localStorage.getItem("username");
+      const { file } = e;
       try {
-        const formData = new FormData()
-        formData.append('uploadFile', file)
-        this.openFullScreen()
+        const formData = new FormData();
+        formData.append("uploadFile", file);
+        this.openFullScreen();
         // 对应的ajax请求不做赘述
         task_list_upload(Author, formData, tid, username, taskname)
-          .then((response) => {
+          .then(response => {
             // console.log(response.result.list)
             // this.list = response.data.items
             // this.list = response.result.list
             // console.log(response.message)
-            if (response.message === '成功!') {
-              this.loading.close()
+            if (response.message === "成功!") {
+              this.loading.close();
               this.$message({
                 showClose: true,
-                message: '上传成功',
-                type: 'success'
-              })
+                message: "上传成功",
+                type: "success"
+              });
             }
           })
-          .catch((err) => {
-            console.log(err)
-          })
+          .catch(err => {
+            console.log(err);
+          });
       } catch {
-        this.$message.error(e.message)
+        this.$message.error(e.message);
       }
     },
     getList() {
-      var Author = this.Author
+      var Author = this.Author;
 
       task_list(Author)
-        .then((response) => {
+        .then(response => {
           // console.log(response.result.list)
           // this.list = response.data.items
-          this.list = response.result.list
+          this.list = response.result.list;
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
 
     /** 上传按钮操作 */
     handleup(row) {
-      this.fileList = []
-      const ids = row.id || this.ids
-      this.tid = ids
-      this.taskname = row.name
+      this.fileList = [];
+      const ids = row.id || this.ids;
+      this.tid = ids;
+      this.taskname = row.name;
       // console.log('taskname:' + this.taskname)
       // console.log('tid ids:' + this.tid)
-      this.reset()
-      this.open2 = true
+      this.reset();
+      this.open2 = true;
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      var Author = this.Author
+      var Author = this.Author;
       // console.log('Author' + Author)
-      const t = this
-      const ids = row.id || this.ids
-      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', '警告', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      const t = this;
+      const ids = row.id || this.ids;
+      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
       })
         .then(function() {
-          return task_list_del(Author, ids)
+          return task_list_del(Author, ids);
         })
         .then(() => {
           t.$message({
-            message: '删除成功',
-            type: 'success'
-          })
-          t.getList()
+            message: "删除成功",
+            type: "success"
+          });
+          t.getList();
         })
-        .catch(() => {})
+        .catch(() => {});
     },
     // 添加任务
     submitForm() {
-      const t = this
-      var Author = this.Author
+      const t = this;
+      var Author = this.Author;
 
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          console.log(this.adddata.isAll)
+          console.log(this.adddata.isAll);
           task_list_add(
             Author,
             this.adddata.detail,
             this.isAll,
             this.adddata.name,
-            this.adddata.time,
+            this.adddata.time
           )
-            .then((response) => {
-              console.log(response.result)
+            .then(response => {
+              console.log(response.result);
               // this.list = response.data.items
               // this.list = response.result.list
               t.$message({
-                message: '添加成功',
-                type: 'success'
-              })
-              this.open = false
-              t.getList()
+                message: "添加成功",
+                type: "success"
+              });
+              this.open = false;
+              t.getList();
             })
-            .catch((err) => {
-              console.log(err)
-            })
+            .catch(err => {
+              console.log(err);
+            });
         }
-      })
+      });
     },
     submitfile() {
-      this.$refs.form.validate((valid) => {
+      this.$refs.form.validate(valid => {
         if (valid) {
-          console.log('1')
+          console.log("1");
         }
-      })
+      });
     },
     // 表单重置
     reset() {
@@ -762,85 +768,85 @@ export default {
         name: null,
         detail: null,
         time: null
-      }
+      };
       // this.resetForm('form')
     },
     // 取消按钮
     cancel() {
-      this.open = false
-      this.reset()
+      this.open = false;
+      this.reset();
     },
     cancel2() {
-      this.open2 = false
-      this.reset()
+      this.open2 = false;
+      this.reset();
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset()
-      this.open = true
-      this.title = '添加任务'
+      this.reset();
+      this.open = true;
+      this.title = "添加任务";
     },
     async getFinishedList() {
-      this.finishedList = this.finishitableData
+      this.finishedList = this.finishitableData;
     },
     async getUnfinishedList() {
-      this.unfinishedList = this.unfinishitableData
+      this.unfinishedList = this.unfinishitableData;
     },
     task_detail_common(id) {
-      this.Author = localStorage.getItem('Authorization')
-      console.log(this.Author)
+      this.Author = localStorage.getItem("Authorization");
+      console.log(this.Author);
       is_finish(this.Author, id)
-        .then((response) => {
+        .then(response => {
           if (response.result === true) {
-            console.log(id + ' 已完成')
-            this.flag = '已完成'
+            console.log(id + " 已完成");
+            this.flag = "已完成";
           } else {
-            console.log(id + ' 未完成')
-            this.flag = '未完成'
+            console.log(id + " 未完成");
+            this.flag = "未完成";
           }
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     task_detail_admin(value) {
       // console.log(value);
-      var Author = localStorage.getItem('Authorization')
+      var Author = localStorage.getItem("Authorization");
       task_finished_forAdmin(Author, value)
-        .then((response) => {
+        .then(response => {
           // console.log(value)
           // console.log(response.result);
-          this.taskFinishForAdmin = response.result.list
+          this.taskFinishForAdmin = response.result.list;
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
       task_unfinished_forAdmin(Author, value)
-        .then((response) => {
-          this.taskUnfinishForAdmin = response.result.list
+        .then(response => {
+          this.taskUnfinishForAdmin = response.result.list;
         })
-        .catch((err) => {
-          console.log(err)
-        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     show_drawer(index) {
-      this.drawerIndex = index
-      this.drawerVisible = true
+      this.drawerIndex = index;
+      this.drawerVisible = true;
     },
     show_dialog(index) {
-      this.dialogIndex = index
-      this.dialogVisible = true
+      this.dialogIndex = index;
+      this.dialogVisible = true;
     },
     resetdialog() {
-      this.isFinish = ''
-      this.dialogVisible = false
+      this.isFinish = "";
+      this.dialogVisible = false;
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-.barBtn{
+.barBtn {
   display: inline-block;
 }
 .formTitle {
@@ -917,13 +923,10 @@ section {
 }
 
 .banner {
-  min-height: 60vh;
-  background: url(./images/pic1.jpg) no-repeat;
-  background-size: contain;
-  background-position: center;
+  min-height: 80vh;
   display: grid;
   place-items: center;
-  padding-top: 8rem;
+  padding-top: 6rem;
   position: center;
 }
 
